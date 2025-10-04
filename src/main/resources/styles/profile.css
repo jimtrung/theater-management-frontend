@@ -1,0 +1,102 @@
+.root {
+    -fx-background-color: #f5f7fa;
+}
+
+.main {
+    -fx-padding: 48 36;
+    -fx-spacing: 20;
+}
+
+.title {
+    -fx-font-size: 34px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 0 0 8 0;
+}
+
+.card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-padding: 22;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0, 0, 4);
+    -fx-alignment: center;
+    -fx-max-width: 480;
+}
+
+.form-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: 600;
+}
+
+.form-input {
+    -fx-pref-width: 340;
+    -fx-font-size: 14px;
+    -fx-padding: 8 10;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e3e8ef;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-text-fill: #2c3e50;
+}
+
+/* Focus effect */
+.form-input:focused {
+    -fx-border-color: #0056d2;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,86,210,0.12), 6, 0, 0, 0);
+}
+
+.form-input:disabled, .form-input:readonly {
+    -fx-background-color: #f5f7fa;
+    -fx-text-fill: #6c7a89;
+    -fx-border-color: #dce3eb;
+}
+
+.verified-true {
+    -fx-text-fill: #28a745;
+    -fx-font-weight: 700;
+}
+.verified-false {
+    -fx-text-fill: #dc3545;
+    -fx-font-weight: 700;
+}
+
+.button {
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+    -fx-padding: 8 20;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 6, 0, 0, 2);
+}
+
+.button.primary {
+    -fx-background-color: #007bff;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: transparent;
+}
+.button.primary:hover {
+    -fx-background-color: #0056d2;
+}
+.button.primary:pressed {
+    -fx-background-color: #0041a8;
+}
+
+.button.secondary {
+    -fx-background-color: #efefef;
+    -fx-text-fill: #2c3e50;
+    -fx-border-color: #e0e0e0;
+}
+.button.secondary:hover {
+    -fx-background-color: #e3e3e3;
+}
+.button.secondary:pressed {
+    -fx-background-color: #d7d7d7;
+}
+
+.button-group {
+    -fx-padding: 6 0 0 0;
+}
