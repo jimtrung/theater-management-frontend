@@ -73,13 +73,13 @@ public class SignInController {
   }
 
   @FXML
-  public void handleGithubSignInButton() {
+  public void handleGoogleSignInButton() {
     try {
-      String backendAuthUrl = "http://localhost:8080/oauth2/authorization/github";
+      String backendAuthUrl = "http://localhost:8080/oauth2/authorization/google";
 
       if (Desktop.isDesktopSupported()) {
         Desktop.getDesktop().browse(new URI(backendAuthUrl));
-        System.out.println("Browser opened → please login with GitHub...");
+        System.out.println("Browser opened → please login with Google...");
       }
     } catch (Exception e) {
       e.printStackTrace();
