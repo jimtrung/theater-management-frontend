@@ -2,25 +2,53 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
 
-<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="com.github.jimtrung.theater.view.HomeController"
   stylesheets="@../styles/home.css"
   styleClass="root">
 
-  <VBox alignment="CENTER" spacing="40" styleClass="main">
-    <Label text="Theater Management" fx:id="titleLabel" styleClass="title"/>
+  <top>
+    <HBox spacing="12" alignment="CENTER_LEFT" styleClass="header">
+      <ImageView fitHeight="36" fitWidth="36">
+        <image>
+          <Image url="@../images/cat.jpg"/>
+        </image>
+      </ImageView>
 
-    <HBox alignment="CENTER" spacing="25" styleClass="button-group">
-      <Button text="Sign Up" fx:id="signUpButton" onAction="#handleSignUpButton" styleClass="button" />
-      <Button text="Sign In" fx:id="signInButton" onAction="#handleSignInButton" styleClass="button" />
-      <Button text="Settings" fx:id="settingsButton" styleClass="button" />
+      <Label text="Theater Management" styleClass="title"/>
+
+      <Region HBox.hgrow="ALWAYS"/>
+
+      <HBox spacing="8">
+        <Button text="Movies" styleClass="header-item"/>
+        <Button text="Messages" styleClass="header-item"/>
+        <Button text="Notifications" styleClass="header-item"/>
+      </HBox>
+
+      <MenuButton fx:id="avatarMenu" styleClass="avatar-menu">
+        <graphic>
+          <ImageView fitHeight="36" fitWidth="36" styleClass="avatar">
+            <image>
+              <Image url="@../images/cat.jpg"/>
+            </image>
+          </ImageView>
+        </graphic>
+        <items>
+          <MenuItem text="Sign In" fx:id="signInItem" onAction="#handleSignInButton"/>
+          <MenuItem text="Sign Up" fx:id="signUpItem" onAction="#handleSignUpButton"/>
+          <MenuItem text="Settings" fx:id="settingsItem"/>
+        </items>
+      </MenuButton>
     </HBox>
-  </VBox>
+  </top>
 
-<!--  <VBox>-->
-<!--    <Button text="X" styleClass="popUpExit"/>-->
-<!--    <Label styleClass="popUpMessage"/>-->
-<!--    <Button text="OK" styleClass="popUpOK"/>-->
-<!--  </VBox>-->
-</StackPane>
+  <center>
+    <VBox alignment="CENTER" spacing="35" styleClass="main">
+<!--      Nội dung (các phim...)-->
+    </VBox>
+  </center>
+
+</BorderPane>
