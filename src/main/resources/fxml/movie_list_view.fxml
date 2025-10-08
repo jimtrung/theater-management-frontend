@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane styleClass="root" stylesheets="@../styles/movie_list_view.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.jimtrung.theater.view.MovieListController">
+
+    <VBox alignment="CENTER" spacing="25" styleClass="main">
+
+        <HBox alignment="CENTER_RIGHT">
+            <Button fx:id="closeBtn" styleClass="closeBtn" text="❌" onAction="#handleCloseBtn"/>
+        </HBox>
+
+        <VBox alignment="CENTER">
+            <TableView fx:id="movieTable" prefHeight="600" prefWidth="520">
+                <columns>
+                    <TableColumn fx:id="nameColumn" prefWidth="200" text="Tên phim" />
+                    <TableColumn fx:id="authorColumn" prefWidth="140" text="Tác giả" />
+                    <TableColumn fx:id="genreColumn" prefWidth="120" text="Thể loại" />
+                    <TableColumn fx:id="ageLimit" prefWidth="60" text="Độ tuổi" />
+                </columns>
+            </TableView>
+        </VBox>
+
+        <HBox alignment="CENTER_RIGHT" spacing="10">
+            <Button fx:id="deleteAllBtn" styleClass="button primary" text="Delete all" onAction="#handleDeleteAllMovie"/>
+            <Button fx:id="addMovieBtn" styleClass="button primary" text="Add Movie" onAction="#handleAddMovie"/>
+        </HBox>
+    </VBox>
+</StackPane>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.github.jimtrung.theater.view.AddMovieController"
+            stylesheets="@../styles/add_movie_dialog.css"
+            styleClass="root">
+    <VBox alignment="CENTER" spacing="20" styleClass="main">
+        <Label text="Add movie" fx:id="titleLabel" styleClass="title"/>
+
+        <VBox spacing="18" alignment="CENTER" styleClass="card">
+            <VBox spacing="6" alignment="CENTER_LEFT">
+                <Label text="Enter movie name" styleClass="form-label"/>
+                <TextField fx:id="movieNameField" styleClass="form-input" prefWidth="340"/>
+            </VBox>
+
+            <VBox spacing="6" alignment="CENTER_LEFT">
+                <Label text="Enter movie author" styleClass="form-label"/>
+                <TextField fx:id="movieAuthorField" styleClass="form-input" prefWidth="340"/>
+            </VBox>
+
+            <VBox spacing="6" alignment="CENTER_LEFT">
+                <Label text="Enter movie genres" styleClass="form-label"/>
+                <TextField fx:id="movieGenresField" styleClass="form-input" prefWidth="340"/>
+            </VBox>
+
+            <VBox spacing="6" alignment="CENTER_LEFT">
+                <Label text="Enter movie description" styleClass="form-label"/>
+                <TextField fx:id="movieDescriptionField" styleClass="form-input" prefWidth="340" prefHeight="110"/>
+            </VBox>
+
+            <HBox spacing="30">
+                <VBox spacing="6" alignment="CENTER_LEFT">
+                    <Label text="Enter age limit" styleClass="form-label"/>
+                    <TextField fx:id="ageLimitField" styleClass="form-input" maxWidth="50"/>
+                </VBox>
+
+                <VBox spacing="6" alignment="CENTER_LEFT">
+                    <Label text="Enter movie duration" styleClass="form-label"/>
+                    <TextField fx:id="movieDurationField" styleClass="form-input" maxWidth="50"/>
+                </VBox>
+
+            </HBox>
+
+            <HBox alignment="CENTER_RIGHT" spacing="14" styleClass="button-group">
+                <Button text="Back" fx:id="backButton" styleClass="button secondary" onAction="#handleCloseButton"/>
+                <Button text="Add movie" fx:id="addMovieButton" styleClass="button primary" onAction="#handleAddMovieButtonClick"/>
+            </HBox>
+        </VBox>
+    </VBox>
+
+</StackPane>

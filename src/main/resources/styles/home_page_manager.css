@@ -1,0 +1,45 @@
+.root {
+    -fx-background-color: #f5f7fa;
+}
+
+.main {
+    -fx-padding: 10;
+}
+
+.button {
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+    -fx-padding: 8 20;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 6, 0, 0, 2);
+}
+
+.button.primary {
+    -fx-background-color: #007bff;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: transparent;
+}
+.button.primary:hover {
+    -fx-background-color: #0056d2;
+}
+.button.primary:pressed {
+    -fx-background-color: #0041a8;
+}
+
+.button.secondary {
+    -fx-background-color: #efefef;
+    -fx-text-fill: #2c3e50;
+    -fx-border-color: #e0e0e0;
+}
+.button.secondary:hover {
+    -fx-background-color: #e3e3e3;
+}
+.button.secondary:pressed {
+    -fx-background-color: #d7d7d7;
+}
+
+.button-group {
+    -fx-padding: 6 0 0 0;
+}

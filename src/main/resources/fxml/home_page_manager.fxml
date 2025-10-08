@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.github.jimtrung.theater.view.HomePageManagerController"
+            stylesheets="@../styles/home_page_manager.css"
+            styleClass="root">
+
+    <VBox spacing="15" styleClass="main" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <HBox spacing="25" styleClass="button-group">
+            <Button text="Movie" fx:id="MovieButton" layoutX="10.0" layoutY="10.0" styleClass="button primary"/>
+            <Button text="Profile" fx:id="profileButton" layoutX="10.0" layoutY="10.0" styleClass="button primary" onAction="#handleProfileButtonClick"/>
+        </HBox>
+
+        <Separator maxWidth="Infinity" />
+    </VBox>
+
+</AnchorPane>

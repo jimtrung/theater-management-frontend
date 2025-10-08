@@ -69,7 +69,7 @@ public class SignInController {
       throw new RuntimeException("Failed to sign in");
     }
 
-    screenController.activate("profile");
+    screenController.activate("homePageManager");
   }
 
   @FXML

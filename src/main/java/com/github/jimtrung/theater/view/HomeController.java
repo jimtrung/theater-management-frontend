@@ -24,7 +24,7 @@ public class HomeController {
     try {
       user = authService.getUser();
     } catch (Exception e) {}
-    if (user != null) screenController.activate("profile");
+    if (user != null) screenController.activate("homePageManager");
   }
 
   @FXML
