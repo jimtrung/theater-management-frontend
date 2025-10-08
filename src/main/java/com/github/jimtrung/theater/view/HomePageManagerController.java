@@ -2,6 +2,7 @@ package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
@@ -40,5 +41,13 @@ public class HomePageManagerController {
     @FXML
     public void handleProfileButton() {
         screenController.activate("profile");
+    }
+
+    @FXML
+    public void handleLogOutButton(ActionEvent event) {
+        authTokenUtil.clearRefreshToken();
+        authTokenUtil.clearAccessToken();
+
+        screenController.activate("home");
     }
 }

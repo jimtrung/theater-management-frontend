@@ -1,6 +1,7 @@
 package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.model.User;
+import com.github.jimtrung.theater.model.UserRole;
 import com.github.jimtrung.theater.service.AuthService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,7 +26,10 @@ public class HomeController {
             user = authService.getUser();
         } catch (Exception e) {}
 
-        if (user != null) screenController.activate("profile");
+        if (user != null) {
+            if (user.getRole() == UserRole.USER) screenController.activate("homePageUser");
+            if (user.getRole() == UserRole.ADMINISTRATOR) screenController.activate("homePageManager");
+        }
     }
 
     @FXML

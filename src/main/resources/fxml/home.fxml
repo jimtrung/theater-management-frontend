@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.*?>
 
 <StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.github.jimtrung.theater.view.HomeController"
-           stylesheets="@../styles/home.css"
-           styleClass="root">
+   fx:controller="com.github.jimtrung.theater.view.HomeController"
+   stylesheets="@../styles/home.css"
+   styleClass="root">
 
   <VBox alignment="CENTER" spacing="40" styleClass="main">
     <Label text="Theater Management" fx:id="titleLabel" styleClass="title"/>

@@ -5,77 +5,85 @@ import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class ProfileController {
-  private ScreenController screenController;
-  private AuthTokenUtil authTokenUtil;
-  private AuthService authService;
+    private ScreenController screenController;
+    private AuthTokenUtil authTokenUtil;
+    private AuthService authService;
 
-  public void setScreenController(ScreenController screenController) {
-    this.screenController = screenController;
-  }
-
-  public void setAuthService(AuthService authService) {
-    this.authService = authService;
-  }
-
-  public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
-    this.authTokenUtil = authTokenUtil;
-  }
-
-  public void handleOnOpen() {
-    User userInfo = null;
-    try {
-      userInfo = authService.getUser();
-    } catch (Exception e) {
-      e.printStackTrace();
+    public void setScreenController(ScreenController screenController) {
+        this.screenController = screenController;
     }
 
-    if (userInfo != null) {
-      usernameLabel.setText(userInfo.getUsername());
-      emailLabel.setText(userInfo.getEmail());
-      phoneNumberLabel.setText(userInfo.getPhoneNumber());
-      passwordLabel.setText(userInfo.getPassword());
-      verifiedLabel.setText(userInfo.getVerified().toString());
-      createdAtLabel.setText(userInfo.getCreatedAt().toString());
-    } else {
-      screenController.activate("home");
+    public void setAuthService(AuthService authService) {
+        this.authService = authService;
     }
-  }
 
-  @FXML
-  private TextField usernameLabel;
+    public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
+        this.authTokenUtil = authTokenUtil;
+    }
 
-  @FXML
-  private TextField emailLabel;
+    public void handleOnOpen() {
+        User userInfo = null;
+        try {
+            userInfo = authService.getUser();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Fetch error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to fetch user");
+            alert.showAndWait();
+            e.printStackTrace();
+            return;
+        }
 
-  @FXML
-  private TextField phoneNumberLabel;
+        if (userInfo != null) {
+            usernameLabel.setText(userInfo.getUsername());
+            emailLabel.setText(userInfo.getEmail());
+            phoneNumberLabel.setText(userInfo.getPhoneNumber());
+            passwordLabel.setText(userInfo.getPassword());
+            verifiedLabel.setText(userInfo.getVerified().toString());
+            createdAtLabel.setText(userInfo.getCreatedAt().toString());
+        } else {
+            screenController.activate("home");
+        }
+    }
 
-  @FXML
-  private PasswordField passwordLabel;
+    @FXML
+    private TextField usernameLabel;
 
-  @FXML
-  private TextField verifiedLabel;
+    @FXML
+    private TextField emailLabel;
 
-  @FXML
-  private TextField createdAtLabel;
+    @FXML
+    private TextField phoneNumberLabel;
 
-  @FXML
-  public void handleBackButton(ActionEvent event) {
-    screenController.activate("home");
-  }
+    @FXML
+    private PasswordField passwordLabel;
 
-  @FXML
-  public void handleEditButton(ActionEvent event) {}
+    @FXML
+    private TextField verifiedLabel;
 
-  @FXML
-  public void handleLogOutButton(ActionEvent event) {
-    authTokenUtil.clearRefreshToken();
-    authTokenUtil.clearAccessToken();
+    @FXML
+    private TextField createdAtLabel;
 
-    screenController.activate("home");
-  }
+    @FXML
+    public void handleBackButton(ActionEvent event) {
+        screenController.activate("home");
+    }
+
+    @FXML
+    public void handleEditButton(ActionEvent event) {
+    }
+
+    @FXML
+    public void handleLogOutButton(ActionEvent event) {
+        authTokenUtil.clearRefreshToken();
+        authTokenUtil.clearAccessToken();
+
+        screenController.activate("home");
+    }
 }

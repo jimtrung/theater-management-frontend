@@ -39,12 +39,18 @@ public class AuthService {
         String requestBody = mapper.writeValueAsString(bodyMap);
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/auth/signup"))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                .build();
+            .uri(URI.create("http://localhost:8080/auth/signup"))
+            .header("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+            .build();
+
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 500 || response.statusCode() == 400) {
+            throw new Exception("Signup failed: " + response);
+        }
+
         return response.body();
     }
 
@@ -57,10 +63,10 @@ public class AuthService {
         String requestBody = mapper.writeValueAsString(bodyMap);
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/auth/signin"))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                .build();
+            .uri(URI.create("http://localhost:8080/auth/signin"))
+            .header("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+            .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
@@ -69,11 +75,11 @@ public class AuthService {
 
     public User getUser() throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/user/"))
-                .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer " + authTokenUtil.loadAccessToken())
-                .GET()
-                .build();
+            .uri(URI.create("http://localhost:8080/user/"))
+            .header("Content-Type", "application/json")
+            .header("Authorization", "Bearer " + authTokenUtil.loadAccessToken())
+            .GET()
+            .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 

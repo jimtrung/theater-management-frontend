@@ -1,9 +1,11 @@
 package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.model.User;
+import com.github.jimtrung.theater.model.UserRole;
 import com.github.jimtrung.theater.service.AuthService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -25,7 +27,10 @@ public class SignUpController {
             user = authService.getUser();
         } catch (Exception e) {
         }
-        if (user != null) screenController.activate("profile");
+        if (user != null) {
+            if (user.getRole() == UserRole.USER) screenController.activate("homePageUser");
+            if (user.getRole() == UserRole.ADMINISTRATOR) screenController.activate("homePageManager");
+        }
     }
 
     @FXML
@@ -53,11 +58,17 @@ public class SignUpController {
         user.setPhoneNumber(phoneNumberField.getText());
         user.setPassword(passwordField.getText());
 
-        String response;
+        String response = null;
         try {
             response = authService.signUp(user);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to sign up");
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Sign up error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to sign up\n");
+            alert.showAndWait();
+            return;
         }
 
         System.out.println(response);

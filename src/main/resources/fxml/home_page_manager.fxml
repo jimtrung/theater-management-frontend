@@ -16,6 +16,7 @@
         <HBox spacing="25" styleClass="button-group">
             <Button text="Movie" fx:id="movieButton" onAction="#handleMovieButton" layoutX="10.0" layoutY="10.0" styleClass="button primary"/>
             <Button text="Profile" fx:id="profileButton" onAction="#handleProfileButton" layoutX="10.0" layoutY="10.0" styleClass="button primary"/>
+            <Button text="Log Out" fx:id="logOutButton" onAction="#handleLogOutButton" styleClass="button primary"/>
         </HBox>
 
         <Separator maxWidth="Infinity" />

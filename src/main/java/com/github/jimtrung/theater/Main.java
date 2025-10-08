@@ -24,8 +24,6 @@ public class Main extends Application {
         try {
             String accessToken = authService.refresh();
             authTokenUtil.saveAccessToken(accessToken);
-            System.out.println("Access token: " + accessToken);
-            System.out.println("Refresh token: " + authTokenUtil.loadRefreshToken());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,6 +72,7 @@ public class Main extends Application {
         HomePageUserController homePageUserController = homePageUserLoader.getController();
         homePageUserController.setScreenController(screenController);
         homePageUserController.setAuthService(authService);
+        homePageUserController.setAuthTokenUtil(authTokenUtil);
 
         // MovieList
         FXMLLoader movieListLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/movie_list_view.fxml")));

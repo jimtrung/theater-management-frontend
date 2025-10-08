@@ -2,10 +2,12 @@ package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.dto.TokenPair;
 import com.github.jimtrung.theater.model.User;
+import com.github.jimtrung.theater.model.UserRole;
 import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -34,9 +36,11 @@ public class SignInController {
         User user = null;
         try {
             user = authService.getUser();
-        } catch (Exception e) {
+        } catch (Exception e) {}
+        if (user != null) {
+            if (user.getRole() == UserRole.USER) screenController.activate("homePageUser");
+            if (user.getRole() == UserRole.ADMINISTRATOR) screenController.activate("homePageManager");
         }
-        if (user != null) screenController.activate("profile");
     }
 
     @FXML
@@ -64,10 +68,15 @@ public class SignInController {
             authTokenUtil.saveAccessToken(tokenPair.accessToken());
             authTokenUtil.saveRefreshToken(tokenPair.refreshToken());
         } catch (Exception e) {
-            // NOTE: Need a way to display the error on the desktop app
             e.printStackTrace();
-            throw new RuntimeException("Failed to sign in");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Sign in error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to sign in\n");
+            alert.showAndWait();
+            return;
         }
+        screenController.activate("home");
     }
 
     @FXML
@@ -81,6 +90,12 @@ public class SignInController {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Sign in error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to sign in with Google\n");
+            alert.showAndWait();
+            return;
         }
     }
 }

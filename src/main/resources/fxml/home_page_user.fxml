@@ -37,8 +37,7 @@
           </ImageView>
         </graphic>
         <items>
-          <MenuItem text="Sign In" fx:id="signInItem" onAction="#handleSignInButton"/>
-          <MenuItem text="Sign Up" fx:id="signUpItem" onAction="#handleSignUpButton"/>
+          <MenuItem text="Log Out" fx:id="logOutButton" onAction="#handleLogOutButton"/>
           <MenuItem text="Settings" fx:id="settingsItem"/>
         </items>
       </MenuButton>
