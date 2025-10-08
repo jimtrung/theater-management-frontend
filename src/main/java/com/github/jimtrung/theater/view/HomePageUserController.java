@@ -7,7 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-public class HomeController {
+public class HomePageUserController {
     private ScreenController screenController;
     private AuthService authService;
 
@@ -23,9 +23,9 @@ public class HomeController {
         User user = null;
         try {
             user = authService.getUser();
-        } catch (Exception e) {}
-
-        if (user != null) screenController.activate("profile");
+        } catch (Exception e) {
+        }
+        if (user != null) screenController.activate("home");
     }
 
     @FXML

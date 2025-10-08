@@ -2,6 +2,6 @@ package com.github.jimtrung.theater.model;
 
 public enum UserRole {
   MODERATOR,
-  ADMINSTRATOR,
+  ADMINISTRATOR,
   USER,
 }

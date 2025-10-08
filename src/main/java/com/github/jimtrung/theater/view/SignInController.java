@@ -14,75 +14,73 @@ import java.awt.*;
 import java.net.URI;
 
 public class SignInController {
-  private ScreenController screenController;
-  private AuthTokenUtil authTokenUtil;
-  private AuthService authService;
+    private ScreenController screenController;
+    private AuthTokenUtil authTokenUtil;
+    private AuthService authService;
 
-  public void setScreenController(ScreenController screenController) {
-    this.screenController = screenController;
-  }
-
-  public void setAuthService(AuthService authService) {
-    this.authService = authService;
-  }
-
-  public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
-    this.authTokenUtil = authTokenUtil;
-  }
-
-  public void handleOnOpen() {
-    User user = null;
-    try {
-      user = authService.getUser();
-    } catch (Exception e) {
-    }
-    if (user != null) screenController.activate("profile");
-  }
-
-  @FXML
-  private TextField usernameField;
-
-  @FXML
-  private PasswordField passwordField;
-
-  @FXML
-  private Button githubSignInButton;
-
-  @FXML
-  public void handleBackButton(ActionEvent event) {
-    screenController.activate("home");
-  }
-
-  @FXML
-  public void handleSignInButton(ActionEvent event) {
-    User user = new User();
-    user.setUsername(usernameField.getText());
-    user.setPassword(passwordField.getText());
-
-    try {
-      TokenPair tokenPair = authService.signIn(user);
-      authTokenUtil.saveAccessToken(tokenPair.accessToken());
-      authTokenUtil.saveRefreshToken(tokenPair.refreshToken());
-    } catch (Exception e) {
-      // NOTE: Need a way to display the error on the desktop app
-      e.printStackTrace();
-      throw new RuntimeException("Failed to sign in");
+    public void setScreenController(ScreenController screenController) {
+        this.screenController = screenController;
     }
 
-    screenController.activate("homePageManager");
-  }
-
-  @FXML
-  public void handleGoogleSignInButton() {
-    try {
-      String backendAuthUrl = "http://localhost:8080/oauth2/authorization/google";
-
-      if (Desktop.isDesktopSupported()) {
-        Desktop.getDesktop().browse(new URI(backendAuthUrl));
-        System.out.println("Browser opened → please login with Google...");
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
+    public void setAuthService(AuthService authService) {
+        this.authService = authService;
     }
-  }
+
+    public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
+        this.authTokenUtil = authTokenUtil;
+    }
+
+    public void handleOnOpen() {
+        User user = null;
+        try {
+            user = authService.getUser();
+        } catch (Exception e) {
+        }
+        if (user != null) screenController.activate("profile");
+    }
+
+    @FXML
+    private TextField usernameField;
+
+    @FXML
+    private PasswordField passwordField;
+
+    @FXML
+    private Button githubSignInButton;
+
+    @FXML
+    public void handleBackButton(ActionEvent event) {
+        screenController.activate("home");
+    }
+
+    @FXML
+    public void handleSignInButton(ActionEvent event) {
+        User user = new User();
+        user.setUsername(usernameField.getText());
+        user.setPassword(passwordField.getText());
+
+        try {
+            TokenPair tokenPair = authService.signIn(user);
+            authTokenUtil.saveAccessToken(tokenPair.accessToken());
+            authTokenUtil.saveRefreshToken(tokenPair.refreshToken());
+        } catch (Exception e) {
+            // NOTE: Need a way to display the error on the desktop app
+            e.printStackTrace();
+            throw new RuntimeException("Failed to sign in");
+        }
+    }
+
+    @FXML
+    public void handleGoogleSignInButton() {
+        try {
+            String backendAuthUrl = "http://localhost:8080/oauth2/authorization/google";
+
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().browse(new URI(backendAuthUrl));
+                System.out.println("Browser opened → please login with Google...");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

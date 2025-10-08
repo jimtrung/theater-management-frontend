@@ -32,13 +32,13 @@ public class HomePageManagerController {
     @FXML
     private Button profileButton;
 
-    public void initialize() {
-        MovieButton.setOnAction(actionEvent -> {
-            screenController.activate("movieList");
-        });
+    @FXML
+    public void handleMovieButton() {
+        screenController.activate("movieList");
     }
 
-    public void handleProfileButtonClick() {
+    @FXML
+    public void handleProfileButton() {
         screenController.activate("profile");
     }
 }

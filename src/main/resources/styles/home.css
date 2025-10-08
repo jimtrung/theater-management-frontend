@@ -1,66 +1,43 @@
 .root {
     -fx-background-color: #ffffff;
-}
-
-.header {
-    -fx-background-color: #111111;
-    -fx-padding: 10 25;
-    -fx-alignment: CENTER_LEFT;
-}
-
-.title {
-    -fx-font-size: 20px;
-    -fx-font-weight: 800;
-    -fx-text-fill: white;
-}
-
-.header-item {
-    -fx-background-color: transparent;
-    -fx-text-fill: white;
-    -fx-font-weight: 600;
-    -fx-font-size: 15px;
-    -fx-padding: 12 24;
-    -fx-cursor: hand;
-    -fx-background-radius: 0;
-    -fx-min-height: 40;
-    -fx-min-width: 120;
-}
-
-.header-item:hover {
-    -fx-background-color: rgba(255,255,255,0.15);
-}
-
-.avatar-menu {
-    -fx-background-color: transparent;
+    -fx-alignment: center;
     -fx-padding: 0;
-    -fx-cursor: hand;
-}
-
-.avatar {
-    -fx-border-radius: 50%;
-    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.2), 4, 0, 0, 0);
 }
 
 .main {
-    -fx-padding: 80;
+    -fx-alignment: center;
     -fx-spacing: 40;
+    -fx-padding: 80 0;
 }
 
-.context-menu {
-    -fx-background-color: #1a1a1a;
-    -fx-border-color: #2a2a2a;
-    -fx-border-width: 1;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 8, 0, 0, 2);
+.title {
+    -fx-font-size: 36px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #111111;
 }
 
-.menu-item {
-    -fx-text-fill: #ffffff;
-    -fx-font-size: 14px;
-    -fx-padding: 10 24;
-    -fx-background-color: transparent;
+.button-group {
+    -fx-alignment: center;
+    -fx-spacing: 25;
+}
+
+.button {
+    -fx-background-color: #111111;
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+    -fx-font-size: 16px;
+    -fx-padding: 12 28;
+    -fx-background-radius: 6;
     -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 6, 0, 0, 2);
+    -fx-transition: all 0.2s ease-in-out;
 }
 
-.menu-item:hover {
+.button:hover {
     -fx-background-color: #333333;
+}
+
+.button:pressed {
+    -fx-background-color: #000000;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 8, 0, 0, 3);
 }

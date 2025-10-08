@@ -11,10 +11,10 @@ public class Movie {
     private int ageLimit;
     private String description;
     private Integer duration;
-//    private OffsetDateTime createdAt;
-//    private OffsetDateTime updatedAt;
+    private OffsetDateTime createdAt;
+    private OffsetDateTime updatedAt;
 
-    public Movie() {};
+    public Movie() {}
 
     public Movie(UUID id, String name, String author, String genres, int ageLimit, String description, Integer duration) {
         this.id = id;
@@ -80,5 +80,21 @@ public class Movie {
 
     public void setDuration(Integer duration) {
         this.duration = duration;
+    }
+
+    public OffsetDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(OffsetDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public OffsetDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

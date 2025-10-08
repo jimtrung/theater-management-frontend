@@ -68,6 +68,13 @@ public class Main extends Application {
         homePageManagerController.setAuthService(authService);
         homePageManagerController.setAuthTokenUtil(authTokenUtil);
 
+        // Home
+        FXMLLoader homePageUserLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/home_page_user.fxml")));
+        screenController.addScreen("homePageUser", homePageUserLoader);
+        HomePageUserController homePageUserController = homePageUserLoader.getController();
+        homePageUserController.setScreenController(screenController);
+        homePageUserController.setAuthService(authService);
+
         // MovieList
         FXMLLoader movieListLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/movie_list_view.fxml")));
         screenController.addScreen("movieList", movieListLoader);

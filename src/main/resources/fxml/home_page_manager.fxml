@@ -14,8 +14,8 @@
 
     <VBox spacing="15" styleClass="main" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <HBox spacing="25" styleClass="button-group">
-            <Button text="Movie" fx:id="MovieButton" layoutX="10.0" layoutY="10.0" styleClass="button primary"/>
-            <Button text="Profile" fx:id="profileButton" layoutX="10.0" layoutY="10.0" styleClass="button primary" onAction="#handleProfileButtonClick"/>
+            <Button text="Movie" fx:id="movieButton" onAction="#handleMovieButton" layoutX="10.0" layoutY="10.0" styleClass="button primary"/>
+            <Button text="Profile" fx:id="profileButton" onAction="#handleProfileButton" layoutX="10.0" layoutY="10.0" styleClass="button primary"/>
         </HBox>
 
         <Separator maxWidth="Infinity" />

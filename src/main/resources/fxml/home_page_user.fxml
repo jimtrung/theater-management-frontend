@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="com.github.jimtrung.theater.view.HomePageUserController"
+  stylesheets="@../styles/home_page_user.css"
+  styleClass="root">
+
+  <top>
+    <HBox spacing="12" alignment="CENTER_LEFT" styleClass="header">
+      <ImageView fitHeight="36" fitWidth="36">
+        <image>
+          <Image url="@../images/cat.jpg"/>
+        </image>
+      </ImageView>
+
+      <Label text="Theater Management" styleClass="title"/>
+
+      <Region HBox.hgrow="ALWAYS"/>
+
+      <HBox spacing="8">
+        <Button text="Movies" styleClass="header-item"/>
+        <Button text="Messages" styleClass="header-item"/>
+        <Button text="Notifications" styleClass="header-item"/>
+      </HBox>
+
+      <MenuButton fx:id="avatarMenu" styleClass="avatar-menu">
+        <graphic>
+          <ImageView fitHeight="36" fitWidth="36" styleClass="avatar">
+            <image>
+              <Image url="@../images/cat.jpg"/>
+            </image>
+          </ImageView>
+        </graphic>
+        <items>
+          <MenuItem text="Sign In" fx:id="signInItem" onAction="#handleSignInButton"/>
+          <MenuItem text="Sign Up" fx:id="signUpItem" onAction="#handleSignUpButton"/>
+          <MenuItem text="Settings" fx:id="settingsItem"/>
+        </items>
+      </MenuButton>
+    </HBox>
+  </top>
+
+  <center>
+    <VBox alignment="CENTER" spacing="35" styleClass="main">
+<!--      Nội dung (các phim...)-->
+    </VBox>
+  </center>
+
+</BorderPane>
