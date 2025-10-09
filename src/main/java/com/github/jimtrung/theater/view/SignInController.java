@@ -64,7 +64,7 @@ public class SignInController {
         user.setPassword(passwordField.getText());
 
         try {
-            TokenPair tokenPair = authService.signIn(user);
+            TokenPair tokenPair = (TokenPair) authService.signIn(user);
             authTokenUtil.saveAccessToken(tokenPair.accessToken());
             authTokenUtil.saveRefreshToken(tokenPair.refreshToken());
         } catch (Exception e) {

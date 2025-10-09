@@ -60,7 +60,7 @@ public class SignUpController {
 
         String response = null;
         try {
-            response = authService.signUp(user);
+            response = (String) authService.signUp(user);
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);

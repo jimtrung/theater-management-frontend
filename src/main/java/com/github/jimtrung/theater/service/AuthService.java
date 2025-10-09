@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.github.jimtrung.theater.dto.ErrorResponse;
 import com.github.jimtrung.theater.dto.TokenPair;
 import com.github.jimtrung.theater.model.Movie;
 import com.github.jimtrung.theater.model.User;
@@ -28,7 +29,7 @@ public class AuthService {
         this.authTokenUtil = authTokenUtil;
     }
 
-    public String signUp(User user) throws Exception {
+    public Object signUp(User user) throws Exception {
         Map<String, String> bodyMap = new HashMap<>();
         bodyMap.put("username", user.getUsername());
         bodyMap.put("email", user.getEmail());
@@ -46,15 +47,16 @@ public class AuthService {
 
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
 
-        if (response.statusCode() == 500 || response.statusCode() == 400) {
-            throw new Exception("Signup failed: " + response);
+        if (response.statusCode() != 201) {
+            return mapper.readValue(response.body(), ErrorResponse.class);
         }
 
         return response.body();
     }
 
-    public TokenPair signIn(User user) throws Exception {
+    public Object signIn(User user) throws Exception {
         Map<String, String> bodyMap = new HashMap<>();
         bodyMap.put("username", user.getUsername());
         bodyMap.put("password", user.getPassword());
@@ -70,6 +72,10 @@ public class AuthService {
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+        if (response.statusCode() != 200) {
+            return mapper.readValue(response.body(), ErrorResponse.class);
+        }
+
         return mapper.readValue(response.body(), TokenPair.class);
     }
 
