@@ -1,5 +1,6 @@
 package com.github.jimtrung.theater.view;
 
+import com.github.jimtrung.theater.dto.ErrorResponse;
 import com.github.jimtrung.theater.model.User;
 import com.github.jimtrung.theater.model.UserRole;
 import com.github.jimtrung.theater.service.AuthService;
@@ -23,10 +24,8 @@ public class SignUpController {
 
     public void handleOnOpen() {
         User user = null;
-        try {
-            user = authService.getUser();
-        } catch (Exception e) {
-        }
+        try { user = (User) authService.getUser(); } catch (Exception _) {}
+
         if (user != null) {
             if (user.getRole() == UserRole.USER) screenController.activate("homePageUser");
             if (user.getRole() == UserRole.ADMINISTRATOR) screenController.activate("homePageManager");
@@ -58,9 +57,18 @@ public class SignUpController {
         user.setPhoneNumber(phoneNumberField.getText());
         user.setPassword(passwordField.getText());
 
-        String response = null;
+        Object response = null;
         try {
-            response = (String) authService.signUp(user);
+            response = authService.signUp(user);
+
+            if (response instanceof ErrorResponse errRes) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Sign up error");
+                alert.setHeaderText(null);
+                alert.setContentText(errRes.message());
+                alert.showAndWait();
+                return;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -71,7 +79,6 @@ public class SignUpController {
             return;
         }
 
-        System.out.println(response);
         screenController.activate("signin");
     }
 }

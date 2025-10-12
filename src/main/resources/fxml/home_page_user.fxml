@@ -4,15 +4,18 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Circle?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+<ScrollPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="com.github.jimtrung.theater.view.HomePageUserController"
   stylesheets="@../styles/home_page_user.css"
-  styleClass="root">
+  styleClass="root-scroll"
+  fitToWidth="true">
 
-  <top>
-    <HBox spacing="12" alignment="CENTER_LEFT" styleClass="header">
-      <ImageView fitHeight="36" fitWidth="36">
+  <VBox spacing="0" alignment="TOP_CENTER">
+
+    <HBox spacing="20" alignment="CENTER_LEFT" styleClass="header">
+      <ImageView fitHeight="48" fitWidth="48">
         <image>
           <Image url="@../images/cat.jpg"/>
         </image>
@@ -20,13 +23,15 @@
 
       <Label text="Theater Management" styleClass="title"/>
 
-      <Region HBox.hgrow="ALWAYS"/>
-
-      <HBox spacing="8">
-        <Button text="Movies" styleClass="header-item"/>
-        <Button text="Messages" styleClass="header-item"/>
-        <Button text="Notifications" styleClass="header-item"/>
+      <HBox spacing="12" styleClass="nav-menu">
+        <Button text="Home" styleClass="header-item"/>
+        <Button text="Show Times" styleClass="header-item"/>
+        <Button text="News" styleClass="header-item"/>
+        <Button text="Promotion" styleClass="header-item"/>
+        <Button text="About" styleClass="header-item"/>
       </HBox>
+
+      <Region HBox.hgrow="ALWAYS"/>
 
       <MenuButton fx:id="avatarMenu" styleClass="avatar-menu">
         <graphic>
@@ -42,12 +47,77 @@
         </items>
       </MenuButton>
     </HBox>
-  </top>
 
-  <center>
-    <VBox alignment="CENTER" spacing="35" styleClass="main">
-<!--      Nội dung (các phim...)-->
+    <VBox spacing="25" alignment="TOP_CENTER" styleClass="main-content">
+      <StackPane styleClass="banner">
+        <ImageView fitWidth="1200" fitHeight="350" preserveRatio="false">
+          <image>
+            <Image url="@../images/cat.jpg"/>
+          </image>
+        </ImageView>
+        <Label text="THEATER MANAGEMENT" styleClass="banner-text"/>
+      </StackPane>
+
+      <HBox spacing="40" alignment="TOP_CENTER" styleClass="movie-section">
+        <VBox spacing="15" alignment="TOP_LEFT" HBox.hgrow="ALWAYS">
+          <HBox alignment="CENTER_LEFT" spacing="8">
+            <Circle radius="6" fill="#e74c3c"/>
+            <Label text="Now showing" styleClass="section-title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Hyperlink text="See all" styleClass="see-all"/>
+          </HBox>
+
+          <ScrollPane fitToWidth="true" styleClass="movie-scroll">
+            <FlowPane hgap="24" vgap="30" fx:id="movieList" styleClass="movie-list" alignment="CENTER_LEFT">
+              <padding>
+                <Insets top="20" right="10" bottom="40" left="10"/>
+              </padding>
+            </FlowPane>
+          </ScrollPane>
+        </VBox>
+
+        <VBox spacing="15" alignment="TOP_LEFT" prefWidth="350">
+          <HBox alignment="CENTER_LEFT" spacing="8">
+            <Label text="Promotion" styleClass="section-title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Hyperlink text="See all" styleClass="see-all"/>
+          </HBox>
+
+          <VBox spacing="16" fx:id="promoList" styleClass="promo-list">
+            <ImageView fitWidth="340" fitHeight="160" preserveRatio="false">
+              <image>
+                <Image url="@../images/cat.jpg"/>
+              </image>
+            </ImageView>
+            <ImageView fitWidth="340" fitHeight="160" preserveRatio="false">
+              <image>
+                <Image url="@../images/cat.jpg"/>
+              </image>
+            </ImageView>
+          </VBox>
+
+          <HBox alignment="CENTER_LEFT" spacing="8">
+            <Label text="Events" styleClass="section-title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Hyperlink text="See all" styleClass="see-all"/>
+          </HBox>
+
+          <VBox spacing="16" fx:id="promoList" styleClass="promo-list">
+            <ImageView fitWidth="340" fitHeight="160" preserveRatio="false">
+              <image>
+                <Image url="@../images/cat.jpg"/>
+              </image>
+            </ImageView>
+            <ImageView fitWidth="340" fitHeight="160" preserveRatio="false">
+              <image>
+                <Image url="@../images/cat.jpg"/>
+              </image>
+            </ImageView>
+          </VBox>
+        </VBox>
+
+      </HBox>
     </VBox>
-  </center>
 
-</BorderPane>
+  </VBox>
+</ScrollPane>

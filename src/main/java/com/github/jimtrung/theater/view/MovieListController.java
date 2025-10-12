@@ -1,7 +1,6 @@
 package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.model.Movie;
-import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.service.MovieService;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
 import javafx.collections.FXCollections;
@@ -12,11 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.io.IOException;
-import java.nio.Buffer;
-import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public class MovieListController {
 

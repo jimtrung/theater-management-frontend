@@ -1,10 +1,8 @@
 package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.model.Movie;
-import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.service.MovieService;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;

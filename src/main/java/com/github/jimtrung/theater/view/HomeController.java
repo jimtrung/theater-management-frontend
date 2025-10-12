@@ -22,9 +22,7 @@ public class HomeController {
 
     public void handleOnOpen() {
         User user = null;
-        try {
-            user = authService.getUser();
-        } catch (Exception e) {}
+        try { user = (User) authService.getUser(); } catch (Exception _) {}
 
         if (user != null) {
             if (user.getRole() == UserRole.USER) screenController.activate("homePageUser");

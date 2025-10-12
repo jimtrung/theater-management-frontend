@@ -1,5 +1,5 @@
 .root {
-    -fx-background-color: #ffffff;
+    -fx-background-color: #f9fafc;
     -fx-alignment: center;
     -fx-padding: 0;
 }
@@ -7,13 +7,14 @@
 .main {
     -fx-alignment: center;
     -fx-spacing: 40;
-    -fx-padding: 80 0;
+    -fx-padding: 100 0;
 }
 
 .title {
-    -fx-font-size: 36px;
-    -fx-font-weight: 800;
-    -fx-text-fill: #111111;
+    -fx-font-size: 38px;
+    -fx-font-weight: 900;
+    -fx-text-fill: #1f2d3d;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 12, 0, 0, 3);
 }
 
 .button-group {
@@ -22,22 +23,22 @@
 }
 
 .button {
-    -fx-background-color: #111111;
-    -fx-text-fill: white;
-    -fx-font-weight: 600;
+    -fx-background-color: #3a7bd5;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: 700;
     -fx-font-size: 16px;
-    -fx-padding: 12 28;
-    -fx-background-radius: 6;
+    -fx-padding: 12 32;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
     -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 6, 0, 0, 2);
-    -fx-transition: all 0.2s ease-in-out;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.12), 8, 0, 0, 3);
 }
 
 .button:hover {
-    -fx-background-color: #333333;
+    -fx-background-color: #357abd;
 }
 
 .button:pressed {
-    -fx-background-color: #000000;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 8, 0, 0, 3);
+    -fx-background-color: #255c91;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 3);
 }

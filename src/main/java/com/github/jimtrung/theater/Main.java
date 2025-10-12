@@ -6,8 +6,10 @@ import com.github.jimtrung.theater.util.AuthTokenUtil;
 import com.github.jimtrung.theater.view.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -66,12 +68,13 @@ public class Main extends Application {
         homePageManagerController.setAuthService(authService);
         homePageManagerController.setAuthTokenUtil(authTokenUtil);
 
-        // Home
+        // HomePageUser
         FXMLLoader homePageUserLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/home_page_user.fxml")));
         screenController.addScreen("homePageUser", homePageUserLoader);
         HomePageUserController homePageUserController = homePageUserLoader.getController();
         homePageUserController.setScreenController(screenController);
         homePageUserController.setAuthService(authService);
+        homePageUserController.setMovieService(movieService);
         homePageUserController.setAuthTokenUtil(authTokenUtil);
 
         // MovieList
@@ -93,9 +96,15 @@ public class Main extends Application {
         // Start with home screen
         screenController.activate("home");
 
-        Scene scene = new Scene(screenController.getRoot(), 1400, 700);
+        Scene scene = new Scene(screenController.getRoot());
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setX(screenBounds.getMinX());
+        stage.setY(screenBounds.getMinY());
+        stage.setWidth(screenBounds.getWidth());
+        stage.setHeight(screenBounds.getHeight());
         stage.setTitle("Theater Management");
         stage.setScene(scene);
+
         stage.show();
     }
 

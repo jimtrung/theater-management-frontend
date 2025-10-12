@@ -1,5 +1,6 @@
 package com.github.jimtrung.theater.view;
 
+import com.github.jimtrung.theater.dto.ErrorResponse;
 import com.github.jimtrung.theater.dto.TokenPair;
 import com.github.jimtrung.theater.model.User;
 import com.github.jimtrung.theater.model.UserRole;
@@ -34,9 +35,8 @@ public class SignInController {
 
     public void handleOnOpen() {
         User user = null;
-        try {
-            user = authService.getUser();
-        } catch (Exception e) {}
+        try { user = (User) authService.getUser(); } catch (Exception _) {}
+
         if (user != null) {
             if (user.getRole() == UserRole.USER) screenController.activate("homePageUser");
             if (user.getRole() == UserRole.ADMINISTRATOR) screenController.activate("homePageManager");
@@ -64,7 +64,17 @@ public class SignInController {
         user.setPassword(passwordField.getText());
 
         try {
-            TokenPair tokenPair = (TokenPair) authService.signIn(user);
+            Object response = authService.signIn(user);
+            if (response instanceof ErrorResponse errRes) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Sign in error");
+                alert.setHeaderText(null);
+                alert.setContentText(errRes.message());
+                alert.showAndWait();
+                return;
+            }
+
+            TokenPair tokenPair = (TokenPair) response;
             authTokenUtil.saveAccessToken(tokenPair.accessToken());
             authTokenUtil.saveRefreshToken(tokenPair.refreshToken());
         } catch (Exception e) {
@@ -72,10 +82,11 @@ public class SignInController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Sign in error");
             alert.setHeaderText(null);
-            alert.setContentText("Failed to sign in\n");
+            alert.setContentText("Failed to sign in");
             alert.showAndWait();
             return;
         }
+
         screenController.activate("home");
     }
 
@@ -86,8 +97,21 @@ public class SignInController {
 
             if (Desktop.isDesktopSupported()) {
                 Desktop.getDesktop().browse(new URI(backendAuthUrl));
-                System.out.println("Browser opened → please login with Google...");
             }
+
+            Object response = authService.oAuth();
+            if (response instanceof ErrorResponse errRes) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Sign in error");
+                alert.setHeaderText(null);
+                alert.setContentText(errRes.message());
+                alert.showAndWait();
+                return;
+            }
+
+            TokenPair tokenPair = (TokenPair) response;
+            authTokenUtil.saveAccessToken(tokenPair.accessToken());
+            authTokenUtil.saveRefreshToken(tokenPair.refreshToken());
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -97,5 +121,7 @@ public class SignInController {
             alert.showAndWait();
             return;
         }
+
+        screenController.activate("home");
     }
 }
