@@ -15,13 +15,11 @@
   <VBox spacing="0" alignment="TOP_CENTER">
 
     <HBox spacing="20" alignment="CENTER_LEFT" styleClass="header">
-      <ImageView fitHeight="48" fitWidth="48">
+      <ImageView fitHeight="48" fitWidth="120">
         <image>
-          <Image url="@../images/cat.jpg"/>
+          <Image url="http://localhost:8080/uploads/logos/logo.png"/>
         </image>
       </ImageView>
-
-      <Label text="Theater Management" styleClass="title"/>
 
       <HBox spacing="12" styleClass="nav-menu">
         <Button text="Home" styleClass="header-item"/>
