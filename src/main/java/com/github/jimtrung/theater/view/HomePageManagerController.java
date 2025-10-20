@@ -39,6 +39,11 @@ public class HomePageManagerController {
     }
 
     @FXML
+    public void handleAuditoriumButton() {
+        screenController.activate("auditoriumList");
+    }
+
+    @FXML
     public void handleProfileButton() {
         screenController.activate("profile");
     }

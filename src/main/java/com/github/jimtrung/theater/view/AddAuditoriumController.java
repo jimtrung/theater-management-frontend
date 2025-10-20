@@ -1,10 +1,10 @@
 package com.github.jimtrung.theater.view;
 
+import com.github.jimtrung.theater.model.Auditorium;
 import com.github.jimtrung.theater.model.Movie;
-import com.github.jimtrung.theater.service.AuthService;
+import com.github.jimtrung.theater.service.AuditoriumService;
 import com.github.jimtrung.theater.service.MovieService;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
@@ -12,22 +12,22 @@ import javafx.scene.control.TextField;
 
 import java.lang.reflect.Field;
 
-public class AddMovieController {
+public class AddAuditoriumController {
     private ScreenController screenController;
     private AuthTokenUtil authTokenUtil;
-    private MovieService movieService;
-    private MovieListController movieListController;
+    private AuditoriumService auditoriumService;
+    private AuditoriumListController auditoriumListController;
 
-    public void setMovieListController(MovieListController movieListController) {
-        this.movieListController = movieListController;
+    public void setAuditoriumListController(AuditoriumListController auditoriumListController) {
+        this.auditoriumListController = auditoriumListController;
     }
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
     }
 
-    public void setMovieService(MovieService movieService) {
-        this.movieService = movieService;
+    public void setAuditoriumService(AuditoriumService auditoriumService) {
+        this.auditoriumService = auditoriumService;
     }
 
     public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
@@ -35,17 +35,16 @@ public class AddMovieController {
     }
 
     public void handleCloseButton() {
-        screenController.activate("movieList");
+        screenController.activate("auditoriumList");
     }
 
-    public void handleAddMovieButtonClick() {
-        Movie movie = new Movie();
-        movie.setName(movieNameField.getText().toString().trim());
-        movie.setAuthor(movieAuthorField.getText().toString().trim());
-        movie.setGenres(movieGenresField.getText().toString().trim());
-        movie.setDescription(movieDescriptionField.getText().toString().trim());
+    public void handleAddAuditoriumButtonClick() {
+        Auditorium auditorium = new Auditorium();
+        auditorium.setName(auditoriumNameField.getText().toString().trim());
+        auditorium.setType(auditoriumTypeField.getText().toString().trim());
+        auditorium.setNote(auditoriumNoteField.getText().toString().trim());
 
-        if (isEmpty(movieDurationField) || isEmpty(ageLimitField)) {
+        if (isEmpty(auditoriumCapacityField)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Input error");
             alert.setHeaderText(null);
@@ -54,10 +53,9 @@ public class AddMovieController {
             return;
         }
 
-        movie.setAgeLimit(Integer.valueOf(ageLimitField.getText().toString().trim()));
-        movie.setDuration(Integer.valueOf(movieDurationField.getText().toString().trim()));
+        auditorium.setCapacity(Integer.valueOf(auditoriumCapacityField.getText().toString().trim()));
         try {
-            if (hasNullField(movie)) {
+            if (hasNullField(auditorium)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Input error");
                 alert.setHeaderText(null);
@@ -66,9 +64,9 @@ public class AddMovieController {
                 return;
             }
             else {
-                movieService.insertMovie(movie);
-                movieListController.refreshData();
-                screenController.activate("movieList");
+                auditoriumService.insertAuditorium(auditorium);
+                auditoriumListController.refreshData();
+                screenController.activate("auditoriumList");
             }
         }
         catch (Exception e) {
@@ -103,20 +101,14 @@ public class AddMovieController {
     }
 
     @FXML
-    private TextField movieNameField;
+    private TextField auditoriumNameField;
 
     @FXML
-    private TextField movieAuthorField;
+    private TextField auditoriumTypeField;
 
     @FXML
-    private TextField movieGenresField;
+    private TextField auditoriumCapacityField;
 
     @FXML
-    private TextArea movieDescriptionField;
-
-    @FXML
-    private TextField ageLimitField;
-
-    @FXML
-    private TextField movieDurationField;
+    private TextArea auditoriumNoteField;
 }

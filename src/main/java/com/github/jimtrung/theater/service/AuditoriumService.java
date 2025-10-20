@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.github.jimtrung.theater.model.Auditorium;
 import com.github.jimtrung.theater.model.Movie;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
 
@@ -15,23 +16,24 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-public class MovieService {
+public class AuditoriumService {
     private final HttpClient client = HttpClient.newHttpClient();
 
     private final AuthTokenUtil authTokenUtil;
-    public MovieService(AuthTokenUtil authTokenUtil) {
+
+    public AuditoriumService(AuthTokenUtil authTokenUtil) {
         this.authTokenUtil = authTokenUtil;
     }
 
-    public void insertMovie(Movie movie) throws Exception{
+    public void insertAuditorium(Auditorium auditorium) throws Exception{
         ObjectMapper mapper = new ObjectMapper();
         mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
         mapper.registerModule(new JavaTimeModule());
 
-        String requestBody = mapper.writeValueAsString(movie);
+        String requestBody = mapper.writeValueAsString(auditorium);
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/movies"))
+                .uri(URI.create("http://localhost:8080/auditoriums"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
@@ -44,40 +46,9 @@ public class MovieService {
         System.out.println("[DEBUG] - insertMovie - Response body: " + response.body());
     }
 
-    public void deleteMovieById(UUID id) throws Exception {
+    public List<Auditorium> getAllAuditoriums() throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/movies/" + id))
-                .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer " + authTokenUtil.loadAccessToken())
-                .DELETE()
-                .build();
-
-        System.out.println("[DEBUG] - deleteMovieById - Sending GET request to /movies...");
-
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        System.out.println("[DEBUG] - deleteMovieById - Response status code: " + response.statusCode());
-        System.out.println("[DEBUG] - deleteMovieById - Response body: " + response.body());
-    }
-
-    public void deleteAllMovies() throws Exception{
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/movies"))
-                .header("Content-Type", "application/json")
-                .DELETE()
-                .build();
-
-        System.out.println("[DEBUG] - deleteAllMovies - Sending POST request to /movies...");
-
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        System.out.println("[DEBUG] - deleteAllMovies - Response status code: " + response.statusCode());
-        System.out.println("[DEBUG] - deleteAllMovies - Response body: " + response.body());
-    }
-
-    public List<Movie> getAllMovies() throws Exception {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/movies"))
+                .uri(URI.create("http://localhost:8080/auditoriums"))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + authTokenUtil.loadAccessToken())
                 .GET()
@@ -101,14 +72,14 @@ public class MovieService {
         objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
         objectMapper.registerModule(new JavaTimeModule());
 
-        List<Movie> movies = objectMapper.readValue(responseBody, new TypeReference<List<Movie>>() {});
-        System.out.println("[DEBUG] - getALlMovies - Parsed movies count: " + movies.size());
-        return movies;
+        List<Auditorium> auditoriums = objectMapper.readValue(responseBody, new TypeReference<List<Auditorium>>() {});
+        System.out.println("[DEBUG] - getALlMovies - Parsed movies count: " + auditoriums.size());
+        return auditoriums;
     }
 
-    public Movie getMovieById(UUID id) throws Exception {
+    public Auditorium getAuditoriumById(UUID id) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/movies/" + id))
+                .uri(URI.create("http://localhost:8080/auditoriums/" + id))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + authTokenUtil.loadAccessToken())
                 .GET()
@@ -132,20 +103,51 @@ public class MovieService {
         objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
         objectMapper.registerModule(new JavaTimeModule());
 
-        Movie movie = objectMapper.readValue(responseBody, new TypeReference<Movie>() {});
-        System.out.println("[DEBUG] - getMovieById - Movie name: " + movie.getName());
-        return movie;
+        Auditorium auditorium = objectMapper.readValue(responseBody, new TypeReference<Auditorium>() {});
+        System.out.println("[DEBUG] - getMovieById - Movie name: " + auditorium.getName());
+        return auditorium;
     }
 
-    public void updateMovie(UUID id, Movie movie) throws Exception {
+    public void deleteAuditoriumById(UUID id) throws Exception {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/auditoriums/" + id))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + authTokenUtil.loadAccessToken())
+                .DELETE()
+                .build();
+
+        System.out.println("[DEBUG] - deleteMovieById - Sending GET request to /movies...");
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println("[DEBUG] - deleteMovieById - Response status code: " + response.statusCode());
+        System.out.println("[DEBUG] - deleteMovieById - Response body: " + response.body());
+    }
+
+    public void deleteAllAuditoriums() throws Exception{
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/auditoriums"))
+                .header("Content-Type", "application/json")
+                .DELETE()
+                .build();
+
+        System.out.println("[DEBUG] - deleteAllMovies - Sending POST request to /movies...");
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println("[DEBUG] - deleteAllMovies - Response status code: " + response.statusCode());
+        System.out.println("[DEBUG] - deleteAllMovies - Response body: " + response.body());
+    }
+
+    public void updateAuditorium(UUID id, Auditorium auditorium) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
         mapper.registerModule(new JavaTimeModule());
 
-        String requestBody = mapper.writeValueAsString(movie);
+        String requestBody = mapper.writeValueAsString(auditorium);
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/movies/" + id))
+                .uri(URI.create("http://localhost:8080/auditoriums/" + id))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + authTokenUtil.loadAccessToken())
                 .PUT(HttpRequest.BodyPublishers.ofString(requestBody))

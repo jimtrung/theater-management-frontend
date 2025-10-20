@@ -15,6 +15,7 @@
     <VBox spacing="15" styleClass="main" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <HBox spacing="25" styleClass="button-group">
             <Button text="Movie" fx:id="movieButton" onAction="#handleMovieButton" layoutX="10.0" layoutY="10.0" styleClass="button primary"/>
+            <Button text="Auditorium" fx:id="auditoriumButton"  onAction="#handleAuditoriumButton" layoutX="10.0" layoutY="10.0" styleClass="button primary"/>
             <Button text="Profile" fx:id="profileButton" onAction="#handleProfileButton" layoutX="10.0" layoutY="10.0" styleClass="button primary"/>
             <Button text="Log Out" fx:id="logOutButton" onAction="#handleLogOutButton" styleClass="button primary"/>
         </HBox>

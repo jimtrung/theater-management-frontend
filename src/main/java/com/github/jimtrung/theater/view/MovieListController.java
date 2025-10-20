@@ -24,7 +24,7 @@ public class MovieListController {
     private AuthTokenUtil authTokenUtil;
     private MovieService movieService;
     private ObservableList<Movie> movieList;
-
+    private UUID uuid;
 
     public void setMovieService(MovieService movieService) {
         this.movieService = movieService;
@@ -37,6 +37,10 @@ public class MovieListController {
 
     public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
         this.authTokenUtil = authTokenUtil;
+    }
+
+    public TableView<Movie> getMovieTable() {
+        return movieTable;
     }
 
     @FXML
@@ -54,27 +58,7 @@ public class MovieListController {
     @FXML
     private TableColumn<Movie, Integer> ageLimit;
 
-    @FXML
-    public void initialize() {
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
-        genreColumn.setCellValueFactory(new PropertyValueFactory<>("genres"));
-        ageLimit.setCellValueFactory(new PropertyValueFactory<>("ageLimit"));
-
-        movieList = FXCollections.observableArrayList();
-        movieTable.setItems(movieList);
-    }
-
-
-    public void refreshData() {
-        if(movieService != null && movieList != null) {
-            try {
-                movieList.setAll(movieService.getAllMovies());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    @FXML TableColumn<Movie, UUID> idColumn;
 
     @FXML
     private Button closeBtn;
@@ -85,8 +69,26 @@ public class MovieListController {
     @FXML
     private Button deleteAllBtn;
 
-    public void handleCloseBtn() {
-        screenController.activate("homePageManager");
+    @FXML
+    public void initialize() {
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+        genreColumn.setCellValueFactory(new PropertyValueFactory<>("genres"));
+        ageLimit.setCellValueFactory(new PropertyValueFactory<>("ageLimit"));
+//        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+        movieList = FXCollections.observableArrayList();
+        movieTable.setItems(movieList);
+
+        movieTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                Movie movie = (Movie) newSelection;
+                System.out.println("Movie id was clicked: " + movie.getId());
+                System.out.println("Movie name was clicked: " + movie.getName());
+                uuid = movie.getId();
+            }
+            handleClickItem(uuid);
+        });
     }
 
     public void handleAddMovie() {
@@ -101,6 +103,25 @@ public class MovieListController {
             addMovieController.setMovieListController(this);
 
             screenController.activate("addMovie");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void handleClickItem(UUID id) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/movie_information.fxml"));
+            screenController.addScreen("movieInformation", loader);
+
+            MovieInformationController movieInformationController = loader.getController();
+            movieInformationController.setScreenController(screenController);
+            movieInformationController.setMovieService(movieService);
+            movieInformationController.setAuthTokenUtil(authTokenUtil);
+            movieInformationController.setMovieListController(this);
+            movieInformationController.setUuid(uuid);
+
+            screenController.activate("movieInformation");
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -122,5 +143,33 @@ public class MovieListController {
         else {
             System.out.println("Delete all operation cancelled !");
         }
+    }
+
+//    @FXML
+//    public void handleOnOpen() {
+//        refreshData();
+//    }
+
+    public void refreshData() {
+        if(movieService != null && movieList != null) {
+            try {
+                movieList.setAll(movieService.getAllMovies());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void updateMovie(Movie updatedMovie) {
+        for (int i = 0; i < movieList.size(); i++) {
+            Movie m = movieList.get(i);
+            if (m.getId().equals(updatedMovie.getId())) {
+                movieList.set(i, updatedMovie);
+                break;
+            }
+        }
+    }
+    public void handleCloseBtn() {
+        screenController.activate("homePageManager");
     }
 }

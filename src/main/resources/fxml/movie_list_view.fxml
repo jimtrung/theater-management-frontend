@@ -17,7 +17,8 @@
                     <TableColumn fx:id="nameColumn" prefWidth="200" text="Tên phim" />
                     <TableColumn fx:id="authorColumn" prefWidth="140" text="Tác giả" />
                     <TableColumn fx:id="genreColumn" prefWidth="120" text="Thể loại" />
-                    <TableColumn fx:id="ageLimit" prefWidth="60" text="Độ tuổi" />
+                    <TableColumn fx:id="ageLimit" prefWidth="70" text="Độ tuổi" />
+<!--                    <TableColumn fx:id="idColumn" prefWidth="0" text="" />-->
                 </columns>
             </TableView>
         </VBox>
