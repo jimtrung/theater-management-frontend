@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public class MovieListController {
 

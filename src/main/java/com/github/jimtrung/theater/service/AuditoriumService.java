@@ -153,11 +153,11 @@ public class AuditoriumService {
                 .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 
-        System.out.println("[DEBUG] - updateMovie - Sending PUT request to /movies/" + id);
+        System.out.println("[DEBUG] - updateAuditorium - Sending PUT request to /movies/" + id);
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println("[DEBUG] - updateMovie - Response status code: " + response.statusCode());
-        System.out.println("[DEBUG] - updateMovie - Response body: " + response.body());
+        System.out.println("[DEBUG] - updateAuditorium - Response status code: " + response.statusCode());
+        System.out.println("[DEBUG] - updateAuditorium - Response body: " + response.body());
     }
 }

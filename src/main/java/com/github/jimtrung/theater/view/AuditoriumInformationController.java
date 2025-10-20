@@ -98,7 +98,6 @@ public class AuditoriumInformationController {
         auditoriumNameField.setText(auditorium.getName());
         auditoriumTypeField.setText(auditorium.getType());
         auditoriumCapacityField.setText(String.valueOf(auditorium.getCapacity()));
-        System.out.println("[12345]: " + auditorium.getNote());
         auditoriumNoteField.setText(auditorium.getNote());
 
         System.out.println("[DEBUG] - Auditorium loaded: " + auditorium.getName());
