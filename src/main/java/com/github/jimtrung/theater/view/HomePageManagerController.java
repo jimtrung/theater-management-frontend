@@ -5,7 +5,6 @@ import com.github.jimtrung.theater.util.AuthTokenUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
 
 import java.awt.*;
 
@@ -52,7 +51,6 @@ public class HomePageManagerController {
     public void handleLogOutButton(ActionEvent event) {
         authTokenUtil.clearRefreshToken();
         authTokenUtil.clearAccessToken();
-
         screenController.activate("home");
     }
 }

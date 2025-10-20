@@ -8,8 +8,7 @@ public class AuthTokenUtil {
   private static final String KEY_REFRESH_TOKEN = "refreshToken";
   private final Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
 
-  public AuthTokenUtil() {
-  }
+  public AuthTokenUtil() {}
 
   public void saveAccessToken(String token) {
     this.accessToken = token;

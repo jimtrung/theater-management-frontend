@@ -11,7 +11,6 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0, 0, 4);
     -fx-alignment: center;
     -fx-max-width: 585;
-    -fx-max-height: 700;
 }
 
 .button {

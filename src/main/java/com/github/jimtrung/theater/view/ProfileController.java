@@ -1,5 +1,6 @@
 package com.github.jimtrung.theater.view;
 
+import com.github.jimtrung.theater.dto.ErrorResponse;
 import com.github.jimtrung.theater.model.User;
 import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
@@ -27,9 +28,9 @@ public class ProfileController {
     }
 
     public void handleOnOpen() {
-        User userInfo = null;
+        Object response = null;
         try {
-            userInfo = authService.getUser();
+            response = authService.getUser();
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Fetch error");
@@ -40,15 +41,20 @@ public class ProfileController {
             return;
         }
 
-        if (userInfo != null) {
+        if (response instanceof User userInfo) {
             usernameLabel.setText(userInfo.getUsername());
             emailLabel.setText(userInfo.getEmail());
             phoneNumberLabel.setText(userInfo.getPhoneNumber());
             passwordLabel.setText(userInfo.getPassword());
             verifiedLabel.setText(userInfo.getVerified().toString());
             createdAtLabel.setText(userInfo.getCreatedAt().toString());
-        } else {
+        } else if (response instanceof ErrorResponse errRes){
             screenController.activate("home");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Fetch error");
+            alert.setHeaderText(null);
+            alert.setContentText(errRes.message());
+            alert.showAndWait();
         }
     }
 
@@ -71,9 +77,7 @@ public class ProfileController {
     private TextField createdAtLabel;
 
     @FXML
-    public void handleBackButton(ActionEvent event) {
-        screenController.activate("home");
-    }
+    public void handleBackButton(ActionEvent event) { screenController.activate("home"); }
 
     @FXML
     public void handleEditButton(ActionEvent event) {
