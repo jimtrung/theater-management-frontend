@@ -104,8 +104,11 @@ public class Main extends Application {
 //        addMovieController.setMovieService(movieService);
 //        addMovieController.setAuthTokenUtil(authTokenUtil);
 
+// Tin Tức
+        FXMLLoader tinTucLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/tintuc.fxml")));
+        screenController.addScreen("tintuc", tinTucLoader);
         // Start with home screen
-        screenController.activate("home");
+        screenController.activate("tintuc");
 
         Scene scene = new Scene(screenController.getRoot());
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
@@ -117,9 +120,12 @@ public class Main extends Application {
         stage.setScene(scene);
 
         stage.show();
+
+
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 }
+
