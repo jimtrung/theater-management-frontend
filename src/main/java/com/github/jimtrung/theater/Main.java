@@ -1,9 +1,6 @@
 package com.github.jimtrung.theater;
 
-import com.github.jimtrung.theater.model.Auditorium;
-import com.github.jimtrung.theater.service.AuditoriumService;
-import com.github.jimtrung.theater.service.AuthService;
-import com.github.jimtrung.theater.service.MovieService;
+import com.github.jimtrung.theater.service.*;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
 import com.github.jimtrung.theater.view.*;
 import javafx.application.Application;
@@ -21,10 +18,16 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         StackPane root = new StackPane();
         ScreenController screenController = new ScreenController(root);
+        // Utils
         AuthTokenUtil authTokenUtil = new AuthTokenUtil();
+
+        // Services
         AuthService authService = new AuthService(authTokenUtil);
         MovieService movieService = new MovieService(authTokenUtil);
         AuditoriumService auditoriumService = new AuditoriumService(authTokenUtil);
+        ActorService actorService = new ActorService(authTokenUtil);
+        DirectorService directorService = new DirectorService(authTokenUtil);
+        MovieActorService movieActorService = new MovieActorService(authTokenUtil);
 
         try {
             String accessToken = authService.refresh();
@@ -32,6 +35,9 @@ public class Main extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        System.out.println("[DEBUG] Refresh Token: " + authTokenUtil.loadRefreshToken());
+        System.out.println("[DEBUG] Access Token: " + authTokenUtil.loadAccessToken());
 
         // Home
         FXMLLoader homeLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/home.fxml")));
@@ -87,6 +93,9 @@ public class Main extends Application {
         movieListController.setScreenController(screenController);
         movieListController.setMovieService(movieService);
         movieListController.setAuthTokenUtil(authTokenUtil);
+        movieListController.setActorService(actorService);
+        movieListController.setDirectorService(directorService);
+        movieListController.setMovieActorService(movieActorService);
 
         // AuditoriumList
         FXMLLoader auditoriumListLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/auditorium_list_view.fxml")));
@@ -96,13 +105,11 @@ public class Main extends Application {
         auditoriumListController.setAuditoriumService(auditoriumService);
         auditoriumListController.setAuthTokenUtil(authTokenUtil);
 
-        // Add movie dialog
-//        FXMLLoader addMovieLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/add_movie_dialog.fxml")));
-//        screenController.addScreen("addMovie", addMovieLoader);
-//        AddMovieController addMovieController = addMovieLoader.getController();
-//        addMovieController.setScreenController(screenController);
-//        addMovieController.setMovieService(movieService);
-//        addMovieController.setAuthTokenUtil(authTokenUtil);
+        // TinTuc
+        FXMLLoader tinTucLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/tintuc.fxml")));
+        screenController.addScreen("tintuc", tinTucLoader);
+//        TinTucController tinTucController = tinTucLoader.getController();
+//        tinTucController.setScreenController(screenController);
 
         // Start with home screen
         screenController.activate("home");

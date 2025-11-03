@@ -107,20 +107,4 @@ public class AuthService {
 
         return response.body();
     }
-
-    public Object oAuth() throws Exception {
-        HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create("http://localhost:8080/oauth/user"))
-            .header("Content-Type", "application/json")
-            .GET()
-            .build();
-
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        if (response.statusCode() != 200) {
-            return mapper.readValue(response.body(), ErrorResponse.class);
-        }
-
-        return mapper.readValue(response.body(), TokenPair.class);
-    }
 }

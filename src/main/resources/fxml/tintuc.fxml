@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.image.*?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+   stylesheets="@../styles/tintuc.css"
+   styleClass="root">
+
+  <VBox spacing="20" alignment="TOP_CENTER">
+
+    <!-- Thanh điều hướng -->
+    <HBox spacing="30" alignment="CENTER_LEFT" styleClass="navbar">
+      <ImageView fitHeight="48" fitWidth="120">
+        <image>
+          <Image url="http://localhost:8080/uploads/logos/logo.png"/>
+        </image>
+      </ImageView>
+      <HBox spacing="20">
+        <Button text="Trang chủ" styleClass="nav-btn"/>
+        <Button text="Lịch chiếu" styleClass="nav-btn"/>
+        <Button text="Tin tức" styleClass="nav-btn-active"/>
+        <Button text="Khuyến mãi" styleClass="nav-btn"/>
+        <Button text="Giá vé" styleClass="nav-btn"/>
+        <Button text="Liên hoan phim" styleClass="nav-btn"/>
+      </HBox>
+      <Region HBox.hgrow="ALWAYS"/>
+      <HBox spacing="10">
+        <Button text="Đăng ký" styleClass="btn-register"/>
+        <Button text="Đăng nhập" styleClass="btn-login"/>
+      </HBox>
+    </HBox>
+
+    <Label text="Tin tức" styleClass="title"/>
+
+    <!-- Khu vực danh sách tin -->
+    <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+      <FlowPane vgap="20" hgap="20" alignment="TOP_CENTER">
+        <padding>
+          <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+
+        <!-- Card 1 -->
+        <VBox styleClass="news-card">
+          <ImageView fitWidth="300" fitHeight="180">
+            <image>
+              <Image url="@../images/cat.jpg"/>
+            </image>
+          </ImageView>
+          <Label text="24/10/2025" styleClass="news-date"/>
+          <Label text="Gian hàng Trung tâm Chiếu phim Quốc gia chính thức góp mặt tại Hội chợ Mùa Thu 2025."
+                 wrapText="true" styleClass="news-title"/>
+        </VBox>
+
+        <!-- Card 2 -->
+        <VBox styleClass="news-card">
+          <ImageView fitWidth="300" fitHeight="180">
+            <image>
+              <Image url="@../images/cat.jpg"/>
+            </image>
+          </ImageView>
+          <Label text="13/10/2025" styleClass="news-date"/>
+          <Label text="CINETOUR 'Tay Anh Giữ Một Vì Sao' tại Trung tâm Chiếu phim Quốc gia ngày 10/10/2025."
+                 wrapText="true" styleClass="news-title"/>
+        </VBox>
+
+        <!-- Card 3 -->
+        <VBox styleClass="news-card">
+          <ImageView fitWidth="300" fitHeight="180">
+            <image>
+              <Image url="@../images/cat.jpg"/>
+            </image>
+          </ImageView>
+          <Label text="10/10/2025" styleClass="news-date"/>
+          <Label text="Cinetour 'Tay Anh Giữ Một Vì Sao' tại NCC ngày 9/10/2025."
+                 wrapText="true" styleClass="news-title"/>
+        </VBox>
+      </FlowPane>
+    </ScrollPane>
+  </VBox>
+</StackPane>

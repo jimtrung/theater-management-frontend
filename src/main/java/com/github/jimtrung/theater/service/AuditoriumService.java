@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.jimtrung.theater.model.Auditorium;
-import com.github.jimtrung.theater.model.Movie;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
 
 import java.net.URI;
@@ -18,14 +17,14 @@ import java.util.UUID;
 
 public class AuditoriumService {
     private final HttpClient client = HttpClient.newHttpClient();
-
     private final AuthTokenUtil authTokenUtil;
 
     public AuditoriumService(AuthTokenUtil authTokenUtil) {
         this.authTokenUtil = authTokenUtil;
     }
 
-    public void insertAuditorium(Auditorium auditorium) throws Exception{
+    // === CREATE ===
+    public void insertAuditorium(Auditorium auditorium) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
         mapper.registerModule(new JavaTimeModule());
@@ -38,14 +37,14 @@ public class AuditoriumService {
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 
-        System.out.println("[DEBUG] - insertMovie - Sending POST request to /movies...");
+        System.out.println("[DEBUG] - insertAuditorium - Sending POST request to /auditoriums...");
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        System.out.println("[DEBUG] - insertMovie - Response status code: " + response.statusCode());
-        System.out.println("[DEBUG] - insertMovie - Response body: " + response.body());
+        System.out.println("[DEBUG] - insertAuditorium - Response status: " + response.statusCode());
+        System.out.println("[DEBUG] - insertAuditorium - Response body: " + response.body());
     }
 
+    // === READ ALL ===
     public List<Auditorium> getAllAuditoriums() throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/auditoriums"))
@@ -54,29 +53,29 @@ public class AuditoriumService {
                 .GET()
                 .build();
 
-        System.out.println("[DEBUG] - getAllMovies - Sending GET request to /movies...");
+        System.out.println("[DEBUG] - getAllAuditoriums - Sending GET request to /auditoriums...");
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println("[DEBUG] - getAllAuditoriums - Status: " + response.statusCode());
+        System.out.println("[DEBUG] - getAllAuditoriums - Body: " + response.body());
 
-        System.out.println("[DEBUG] - getAllMovies - Response status code: " + response.statusCode());
-        System.out.println("[DEBUG] - getAllMovies - Response body: " + response.body());
-
+        // If backend returns error object instead of array -> avoid parsing error
         String responseBody = response.body();
-
-        if (responseBody == null || responseBody.isBlank()) {
-            System.out.println("[DEBUG] - getAllMovies - Movies in DB is empty");
+        if (responseBody == null || responseBody.isBlank() || responseBody.startsWith("{")) {
+            System.out.println("[DEBUG] - getAllAuditoriums - Empty or invalid response (not a list).");
             return Collections.emptyList();
         }
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
-        objectMapper.registerModule(new JavaTimeModule());
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+        mapper.registerModule(new JavaTimeModule());
 
-        List<Auditorium> auditoriums = objectMapper.readValue(responseBody, new TypeReference<List<Auditorium>>() {});
-        System.out.println("[DEBUG] - getALlMovies - Parsed movies count: " + auditoriums.size());
+        List<Auditorium> auditoriums = mapper.readValue(responseBody, new TypeReference<List<Auditorium>>() {});
+        System.out.println("[DEBUG] - getAllAuditoriums - Parsed auditoriums count: " + auditoriums.size());
         return auditoriums;
     }
 
+    // === READ ONE ===
     public Auditorium getAuditoriumById(UUID id) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/auditoriums/" + id))
@@ -85,29 +84,26 @@ public class AuditoriumService {
                 .GET()
                 .build();
 
-        System.out.println("[DEBUG] - getMovieById - Sending GET request to /movies...");
+        System.out.println("[DEBUG] - getAuditoriumById - Sending GET request to /auditoriums/" + id);
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println("[DEBUG] - getAuditoriumById - Status: " + response.statusCode());
+        System.out.println("[DEBUG] - getAuditoriumById - Body: " + response.body());
 
-        System.out.println("[DEBUG] - getMovieById - Response status code: " + response.statusCode());
-        System.out.println("[DEBUG] - getMovieById - Response body: " + response.body());
-
-        String responseBody = response.body();
-
-        if (responseBody == null || responseBody.isBlank()) {
-            System.out.println("[DEBUG] - getMovieById - Movies in DB is empty");
+        String body = response.body();
+        if (body == null || body.isBlank() || body.startsWith("{\"timestamp")) {
+            System.out.println("[DEBUG] - getAuditoriumById - Empty or error response");
             return null;
         }
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
-        objectMapper.registerModule(new JavaTimeModule());
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+        mapper.registerModule(new JavaTimeModule());
 
-        Auditorium auditorium = objectMapper.readValue(responseBody, new TypeReference<Auditorium>() {});
-        System.out.println("[DEBUG] - getMovieById - Movie name: " + auditorium.getName());
-        return auditorium;
+        return mapper.readValue(body, Auditorium.class);
     }
 
+    // === DELETE ONE ===
     public void deleteAuditoriumById(UUID id) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/auditoriums/" + id))
@@ -116,48 +112,44 @@ public class AuditoriumService {
                 .DELETE()
                 .build();
 
-        System.out.println("[DEBUG] - deleteMovieById - Sending GET request to /movies...");
-
+        System.out.println("[DEBUG] - deleteAuditoriumById - Sending DELETE request to /auditoriums/" + id);
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        System.out.println("[DEBUG] - deleteMovieById - Response status code: " + response.statusCode());
-        System.out.println("[DEBUG] - deleteMovieById - Response body: " + response.body());
+        System.out.println("[DEBUG] - deleteAuditoriumById - Status: " + response.statusCode());
+        System.out.println("[DEBUG] - deleteAuditoriumById - Body: " + response.body());
     }
 
-    public void deleteAllAuditoriums() throws Exception{
+    // === DELETE ALL ===
+    public void deleteAllAuditoriums() throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/auditoriums"))
                 .header("Content-Type", "application/json")
                 .DELETE()
                 .build();
 
-        System.out.println("[DEBUG] - deleteAllMovies - Sending POST request to /movies...");
-
+        System.out.println("[DEBUG] - deleteAllAuditoriums - Sending DELETE request to /auditoriums...");
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        System.out.println("[DEBUG] - deleteAllMovies - Response status code: " + response.statusCode());
-        System.out.println("[DEBUG] - deleteAllMovies - Response body: " + response.body());
+        System.out.println("[DEBUG] - deleteAllAuditoriums - Status: " + response.statusCode());
+        System.out.println("[DEBUG] - deleteAllAuditoriums - Body: " + response.body());
     }
 
+    // === UPDATE ===
     public void updateAuditorium(UUID id, Auditorium auditorium) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
         mapper.registerModule(new JavaTimeModule());
 
-        String requestBody = mapper.writeValueAsString(auditorium);
+        String body = mapper.writeValueAsString(auditorium);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/auditoriums/" + id))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + authTokenUtil.loadAccessToken())
-                .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
+                .PUT(HttpRequest.BodyPublishers.ofString(body))
                 .build();
 
-        System.out.println("[DEBUG] - updateAuditorium - Sending PUT request to /movies/" + id);
-
+        System.out.println("[DEBUG] - updateAuditorium - Sending PUT request to /auditoriums/" + id);
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        System.out.println("[DEBUG] - updateAuditorium - Response status code: " + response.statusCode());
-        System.out.println("[DEBUG] - updateAuditorium - Response body: " + response.body());
+        System.out.println("[DEBUG] - updateAuditorium - Status: " + response.statusCode());
+        System.out.println("[DEBUG] - updateAuditorium - Body: " + response.body());
     }
 }

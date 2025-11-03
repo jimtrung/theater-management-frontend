@@ -24,7 +24,7 @@
       <HBox spacing="12" styleClass="nav-menu">
         <Button text="Home" styleClass="header-item"/>
         <Button text="Show Times" styleClass="header-item"/>
-        <Button text="News" styleClass="header-item"/>
+        <Button text="News" styleClass="header-item" onAction="#handleNewsButton"/>
         <Button text="Promotion" styleClass="header-item"/>
         <Button text="About" styleClass="header-item"/>
       </HBox>

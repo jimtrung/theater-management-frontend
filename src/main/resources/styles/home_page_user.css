@@ -3,7 +3,6 @@
     -fx-font-family: "Segoe UI", sans-serif;
 }
 
-/* ===== HEADER ===== */
 .header {
     -fx-background-color: #141414;
     -fx-padding: 14 32;
@@ -49,7 +48,6 @@
     -fx-background-color: #1f2937;
 }
 
-/* ===== BANNER ===== */
 .banner {
     -fx-alignment: CENTER;
     -fx-background-radius: 12;
@@ -133,7 +131,6 @@
     -fx-opacity: 0.8;
 }
 
-/* Promo side */
 .promo-list {
     -fx-alignment: TOP_CENTER;
 }
@@ -145,7 +142,6 @@
     -fx-border-radius: 8;
 }
 
-/* Movie grid reused */
 .movie-scroll {
     -fx-background-color: transparent;
 }
@@ -153,4 +149,3 @@
 .movie-list {
     -fx-padding: 10;
 }
-

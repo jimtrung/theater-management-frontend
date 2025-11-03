@@ -67,7 +67,7 @@ public class AuditoriumListController {
     private Button deleteAllBtn;
 
     @FXML
-    public void initialize() {
+    public void handleOnOpen() {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         capacityColumn.setCellValueFactory(new PropertyValueFactory<>("capacity"));

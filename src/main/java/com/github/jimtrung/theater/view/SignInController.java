@@ -91,37 +91,6 @@ public class SignInController {
     }
 
     @FXML
-    public void handleGoogleSignInButton() {
-        try {
-            String backendAuthUrl = "http://localhost:8080/oauth2/authorization/google";
-
-            if (Desktop.isDesktopSupported()) {
-                Desktop.getDesktop().browse(new URI(backendAuthUrl));
-            }
-
-            Object response = authService.oAuth();
-            if (response instanceof ErrorResponse errRes) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Sign in error");
-                alert.setHeaderText(null);
-                alert.setContentText(errRes.message());
-                alert.showAndWait();
-                return;
-            }
-
-            TokenPair tokenPair = (TokenPair) response;
-            authTokenUtil.saveAccessToken(tokenPair.accessToken());
-            authTokenUtil.saveRefreshToken(tokenPair.refreshToken());
-        } catch (Exception e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Sign in error");
-            alert.setHeaderText(null);
-            alert.setContentText("Failed to sign in with Google\n");
-            alert.showAndWait();
-            return;
-        }
-
-        screenController.activate("home");
+    private void handleForgotPassword(ActionEvent event) {
     }
 }

@@ -25,6 +25,7 @@ public class HomeController {
         try { user = (User) authService.getUser(); } catch (Exception _) {}
 
         if (user != null) {
+            System.out.println("[DEBUG] Role: " + user.getRole());
             if (user.getRole() == UserRole.USER) screenController.activate("homePageUser");
             if (user.getRole() == UserRole.ADMINISTRATOR) screenController.activate("homePageManager");
         }
