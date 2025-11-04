@@ -96,6 +96,12 @@ public class Main extends Application {
         auditoriumListController.setAuditoriumService(auditoriumService);
         auditoriumListController.setAuthTokenUtil(authTokenUtil);
 
+        // TinTuc
+        FXMLLoader tinTucLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/tintuc.fxml")));
+        screenController.addScreen("tintuc", tinTucLoader);
+//        TinTucController tinTucController = tinTucLoader.getController();
+//        tinTucController.setScreenController(screenController);
+
         // ShowtimeList
         FXMLLoader showtimeListLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/show_time_list.fxml")));
         screenController.addScreen("showtimeList", showtimeListLoader);
