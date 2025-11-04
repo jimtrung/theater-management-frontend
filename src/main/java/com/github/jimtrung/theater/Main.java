@@ -96,6 +96,14 @@ public class Main extends Application {
         auditoriumListController.setAuditoriumService(auditoriumService);
         auditoriumListController.setAuthTokenUtil(authTokenUtil);
 
+        // ShowtimeList
+        FXMLLoader showtimeListLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/show_time_list.fxml")));
+        screenController.addScreen("showtimeList", showtimeListLoader);
+        ShowtimeListController showtimeListController = showtimeListLoader.getController();
+        showtimeListController.setScreenController(screenController);
+//        showtimeListController.setShowtimeService(showtimeService);
+        showtimeListController.setAuthTokenUtil(authTokenUtil);
+
         // Add movie dialog
 //        FXMLLoader addMovieLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/add_movie_dialog.fxml")));
 //        screenController.addScreen("addMovie", addMovieLoader);
