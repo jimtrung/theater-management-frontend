@@ -9,8 +9,8 @@ public class Auditorium {
     private String type;
     private Integer capacity;
     private String note;
-//    private OffsetDateTime createdAt;
-//    private OffsetDateTime updatedAt;
+    private OffsetDateTime createdAt;
+    private OffsetDateTime updatedAt;
 
     public Auditorium() {};
     public Auditorium(UUID id, String name, String type,Integer capacity, String note) {
@@ -61,19 +61,19 @@ public class Auditorium {
         this.capacity = capacity;
     }
 
-//    public OffsetDateTime getCreatedAt() {
-//        return createdAt;
-//    }
-//
-//    public void setCreatedAt(OffsetDateTime createdAt) {
-//        this.createdAt = createdAt;
-//    }
-//
-//    public OffsetDateTime getUpdatedAt() {
-//        return updatedAt;
-//    }
-//
-//    public void setUpdatedAt(OffsetDateTime updatedAt) {
-//        this.updatedAt = updatedAt;
-//    }
+    public OffsetDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(OffsetDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public OffsetDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }

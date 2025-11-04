@@ -15,6 +15,8 @@ public class Director {
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
 
+    public Director() {}
+
     public Director(UUID id, String firstName, String lastName, Date dob, Integer age, Gender gender, String countryCode, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.id = id;
         this.firstName = firstName;
@@ -97,5 +99,10 @@ public class Director {
 
     public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
     }
 }

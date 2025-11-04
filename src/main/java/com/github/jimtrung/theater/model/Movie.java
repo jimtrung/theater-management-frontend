@@ -1,99 +1,53 @@
 package com.github.jimtrung.theater.model;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class Movie {
     private UUID id;
     private String name;
-    private String author;
-    private String genres;
-    private int ageLimit;
     private String description;
+    private UUID directorId;
+    private List<String> genres;
+    private OffsetDateTime premiere;
     private Integer duration;
+    private String language;
+    private Integer rated;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
 
-    public Movie() {};
-    public Movie(UUID id, String name, String author, String genres, int ageLimit, String description, Integer duration) {
-        this.id = id;
-        this.name = name;
-        this.author = author;
-        this.genres = genres;
-        this.ageLimit = ageLimit;
-        this.description = description;
-        this.duration = duration;
-    }
+    // --- Getters & Setters ---
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
 
-    public UUID getId() {
-        return id;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getName() {
-        return name;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public String getDescription() {
-        return description;
-    }
+    public UUID getDirectorId() { return directorId; }
+    public void setDirectorId(UUID directorId) { this.directorId = directorId; }
 
-    public String getGenres() {
-        return genres;
-    }
+    public List<String> getGenres() { return genres; }
+    public void setGenres(List<String> genres) { this.genres = genres; }
 
-    public Integer getDuration() {
-        return duration;
-    }
+    public OffsetDateTime getPremiere() { return premiere; }
+    public void setPremiere(OffsetDateTime premiere) { this.premiere = premiere; }
 
-    public OffsetDateTime getCreatedAt() {
-        return createdAt;
-    }
+    public Integer getDuration() { return duration; }
+    public void setDuration(Integer duration) { this.duration = duration; }
 
-    public OffsetDateTime getUpdatedAt() {
-        return updatedAt;
-    }
+    public String getLanguage() { return language; }
+    public void setLanguage(String language) { this.language = language; }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
+    public Integer getRated() { return rated; }
+    public void setRated(Integer rated) { this.rated = rated; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public OffsetDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(OffsetDateTime createdAt) { this.createdAt = createdAt; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setGenres(String genres) {
-        this.genres = genres;
-    }
-
-    public void setDuration(Integer duration) {
-        this.duration = duration;
-    }
-
-    public void setCreatedAt(OffsetDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setUpdatedAt(OffsetDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public int getAgeLimit() {
-        return ageLimit;
-    }
-
-    public void setAgeLimit(int ageLimit) {
-        this.ageLimit = ageLimit;
-    }
+    public OffsetDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(OffsetDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
