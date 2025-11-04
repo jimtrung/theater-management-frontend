@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.github.jimtrung.theater.view.ShowtimeListController" styleClass="root" stylesheets="@../styles/movie_list_view.css">
+    <VBox alignment="CENTER" spacing="25" styleClass="main">
+
+        <HBox alignment="CENTER_RIGHT">
+            <Button fx:id="closeBtn" styleClass="closeBtn" text="❌" onAction="#handleCloseBtnq"/>
+        </HBox>
+
+        <VBox alignment="CENTER">
+            <TableView fx:id="showtimeTable" prefHeight="600" prefWidth="520">
+                <columns>
+                    <TableColumn fx:id="movieName" prefWidth="180" text="Tên Phim"/>
+                    <TableColumn fx:id="cpacity" prefWidth="100" text="Số vé"/>
+                    <TableColumn fx:id="start" prefWidth="125" text="Bắt đầu"/>
+                    <TableColumn fx:id="end" prefWidth="125" text="Kết thúc"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <HBox alignment="CENTER_RIGHT" spacing="10">
+            <Button fx:id="deleteBtn" styleClass="button primary" text="Delete all"/>
+            <Button fx:id="addBtn" styleClass="button primary" text="Add showtime"/>
+        </HBox>
+    </VBox>
+
+</StackPane>

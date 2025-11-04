@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+
+<StackPane xmlns="http://javafx.com/javafx/8"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.github.jimtrung.theater.view.AddShowtimeController"
+           alignment="CENTER"
+           padding="20">
+
+    <VBox spacing="10" alignment="CENTER">
+        <Button fx:id="showMoviesBtn" text="Hiện danh sách phim" onAction="#handleShowMovies"/>
+        <ListView fx:id="movieListView" visible="false"/>
+        <TextField fx:id="selectedMovieField" promptText="Phim bạn chọn sẽ hiện ở đây..." editable="false"/>
+    </VBox>
+
+</StackPane>
+

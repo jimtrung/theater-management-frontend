@@ -43,6 +43,11 @@ public class HomePageManagerController {
     }
 
     @FXML
+    public void handleShowtimeButton() {
+        screenController.activate("showtimeList");
+    }
+
+    @FXML
     public void handleProfileButton() {
         screenController.activate("profile");
     }
