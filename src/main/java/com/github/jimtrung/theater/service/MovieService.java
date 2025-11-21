@@ -29,6 +29,7 @@ public class MovieService {
         mapper.registerModule(new JavaTimeModule());
 
         String requestBody = mapper.writeValueAsString(movie);
+        System.out.println(requestBody);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/movies"))
@@ -88,7 +89,6 @@ public class MovieService {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         System.out.println("[DEBUG] - getAllMovies - Response status code: " + response.statusCode());
-        System.out.println("[DEBUG] - getAllMovies - Response body: " + response.body());
 
         String responseBody = response.body();
 

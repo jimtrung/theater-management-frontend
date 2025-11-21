@@ -38,8 +38,8 @@ public class SignInController {
         try { user = (User) authService.getUser(); } catch (Exception _) {}
 
         if (user != null) {
-            if (user.getRole() == UserRole.USER) screenController.activate("homePageUser");
-            if (user.getRole() == UserRole.ADMINISTRATOR) screenController.activate("homePageManager");
+            if (user.getRole() == UserRole.user) screenController.activate("homePageUser");
+            if (user.getRole() == UserRole.administrator) screenController.activate("homePageManager");
         }
     }
 
