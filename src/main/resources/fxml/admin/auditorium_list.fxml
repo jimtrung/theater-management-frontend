@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.github.jimtrung.theater.view.AuditoriumListController"
+            stylesheets="@/styles/styles.css"
+            prefWidth="600" prefHeight="500">
+
+    <VBox alignment="CENTER" spacing="20" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+        <!-- CLOSE BUTTON -->
+        <HBox alignment="CENTER_RIGHT">
+            <Button text="Đóng" fx:id="closeBtn" onAction="#handleCloseButton" />
+        </HBox>
+
+        <!-- TABLE -->
+        <TableView fx:id="auditoriumTable" prefWidth="450">
+            <columns>
+
+                <TableColumn fx:id="nameColumn" text="Tên phòng" prefWidth="100"/>
+                <TableColumn fx:id="typeColumn" text="Loại phòng" prefWidth="100"/>
+                <TableColumn fx:id="capacityColumn" text="Số lượng" prefWidth="100"/>
+                <TableColumn fx:id="noteColumn" text="Ghi chú" prefWidth="150"/>
+
+            </columns>
+        </TableView>
+
+        <!-- ACTION BUTTONS -->
+        <HBox alignment="CENTER_RIGHT" spacing="10">
+            <Button text="Xóa Tất Cả" fx:id="deleteAllBtn" onAction="#handleDeleteAllButton" />
+            <Button text="Thêm Phòng Chiếu" fx:id="addAuditoriumBtn" onAction="#handleAddAuditoriumButton" />
+        </HBox>
+
+    </VBox>
+</AnchorPane>

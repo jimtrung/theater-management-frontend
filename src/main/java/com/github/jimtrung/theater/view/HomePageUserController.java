@@ -20,32 +20,22 @@ import java.util.List;
 import java.util.Objects;
 
 public class HomePageUserController {
+    @FXML
+    private UserHeaderController userHeaderController;
+
     private ScreenController screenController;
     private AuthService authService;
     private MovieService movieService;
     private AuthTokenUtil authTokenUtil;
 
-    @FXML
-    private FlowPane movieList;
-
-    @FXML
-    private Label titleLabel;
-
-    @FXML
-    private Button signupButton;
-
-    @FXML
-    private Button signinButton;
-
-    @FXML
-    private Button settingsButton;
-
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
+        if (userHeaderController != null) userHeaderController.setScreenController(screenController);
     }
 
     public void setAuthService(AuthService authService) {
         this.authService = authService;
+        if (userHeaderController != null) userHeaderController.setAuthService(authService);
     }
 
     public void setMovieService(MovieService movieService) {
@@ -54,21 +44,26 @@ public class HomePageUserController {
 
     public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
         this.authTokenUtil = authTokenUtil;
+        if (userHeaderController != null) userHeaderController.setAuthTokenUtil(authTokenUtil);
     }
+    
+    @FXML
+    private FlowPane movieList;
 
     // Gọi khi mở scene này
     public void handleOnOpen() {
+        if (userHeaderController != null) userHeaderController.handleOnOpen();
+
         User user = null;
         try {
             user = (User) authService.getUser();
         } catch (Exception ignored) {
         }
-
-        if (user == null) {
-            screenController.activate("home");
-            return;
-        }
-
+        
+        // Note: Logic to redirect if user is null was removed/moved.
+        // If we want homepage accessible to guests, we keep it. If mandatory login, we redirect.
+        // Assuming homepage is public:
+        
         movieList.getChildren().clear();
 
         List<Movie> movies;

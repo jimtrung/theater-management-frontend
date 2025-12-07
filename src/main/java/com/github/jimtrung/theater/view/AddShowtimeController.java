@@ -2,6 +2,7 @@ package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.service.AuditoriumService;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
+import com.github.jimtrung.theater.model.UserRole;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -60,5 +61,22 @@ public class AddShowtimeController {
     private void handleShowMovies() {
         // Ẩn/hiện danh sách
         movieListView.setVisible(!movieListView.isVisible());
+    }
+
+    private com.github.jimtrung.theater.service.AuthService authService;
+
+    public void setAuthService(com.github.jimtrung.theater.service.AuthService authService) {
+        this.authService = authService;
+    }
+
+    public void handleOnOpen() {
+        com.github.jimtrung.theater.model.User user = null;
+        try {
+            user = (com.github.jimtrung.theater.model.User) authService.getUser();
+        } catch (Exception ignored) { }
+
+        if (user == null || user.getRole() != UserRole.administrator) {
+            screenController.activate("home");
+        }
     }
 }

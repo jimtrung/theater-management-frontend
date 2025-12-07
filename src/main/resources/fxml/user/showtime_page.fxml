@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"  
+            fx:controller="com.github.jimtrung.theater.view.ShowtimePageController"
+            stylesheets="@/styles/styles.css">
+
+    <top>
+        <fx:include fx:id="userHeader" source="../component/header.fxml"/>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true">
+            <VBox spacing="0">
+                <!-- Hero Banner -->
+                <StackPane prefHeight="400">
+                    <ImageView fitWidth="1200" fitHeight="400"/>
+                    <Region style="-fx-background-color: rgba(0, 0, 0, 0.25);"/>
+                    <VBox alignment="CENTER" spacing="20">
+                        <Label text="TRẢI NGHIỆM ĐIỆN ẢNH ĐỈNH CAO" 
+                               style="-fx-font-size: 40px; -fx-font-weight: bold; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 10, 0, 0, 2);"/>
+                        <Button text="CLICK ĐỂ XEM CÁC ƯU ĐÃI VÀ KHUYẾN MÃI" 
+                                styleClass="button-primary"/> 
+                    </VBox>
+                </StackPane>
+
+                <!-- Showtime List -->
+                <VBox spacing="30">
+                    <padding>
+                        <Insets top="40" right="40" bottom="40" left="40"/>
+                    </padding>
+                    <HBox alignment="CENTER">
+                        <RadioButton text="ĐẶT VÉ" 
+                                    style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #9CA3AF;"/>
+                    </HBox>
+                    <FlowPane fx:id="showtimeList" hgap="20" vgap="20" alignment="CENTER"/>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

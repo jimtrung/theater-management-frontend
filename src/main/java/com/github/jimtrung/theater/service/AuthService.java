@@ -31,7 +31,6 @@ public class AuthService {
         Map<String, String> bodyMap = new HashMap<>();
         bodyMap.put("username", user.getUsername());
         bodyMap.put("email", user.getEmail());
-        bodyMap.put("phone_number", user.getPhoneNumber());
         bodyMap.put("password", user.getPassword());
 
         String requestBody = mapper.writeValueAsString(bodyMap);
@@ -106,5 +105,14 @@ public class AuthService {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         return response.body();
+    }
+
+    public boolean isLoggedIn() {
+        return authTokenUtil.loadAccessToken() != null;
+    }
+
+    public void logout() {
+        authTokenUtil.clearAccessToken();
+        authTokenUtil.clearRefreshToken();
     }
 }

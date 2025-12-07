@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"  
+            fx:controller="com.github.jimtrung.theater.view.HomePageUserController"
+            stylesheets="@/styles/styles.css">
+
+    <top>
+        <fx:include fx:id="userHeader" source="../component/header.fxml"/>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true">
+            <VBox spacing="0">
+
+                <!-- Full-Width Hero Banner with Stretched Image -->
+                <StackPane prefHeight="400">
+                    <ImageView fitWidth="2000" fitHeight="400" preserveRatio="false">
+                        <Image url="@/images/zootopia.jpg"/>
+                    </ImageView>
+                    <Region style="-fx-background-color: rgba(0, 0, 0, 0.25);"/>
+                    <VBox alignment="CENTER" spacing="20">
+                        <Label text="TRẢI NGHIỆM ĐIỆN ẢNH ĐỈNH CAO" styleClass="banner-title"/>
+                        <Button text="MUA VÉ NGAY" styleClass="button-primary,banner-button"/>
+                    </VBox>
+                </StackPane>
+
+                <!-- Movie Section with Padding -->
+                <VBox spacing="30">
+                    <padding>
+                        <Insets top="40" right="40" bottom="40" left="40"/>
+                    </padding>
+
+                    <!-- Section Title -->
+                    <HBox alignment="CENTER">
+                        <Label text="PHIM ĐANG CHIẾU" styleClass="section-title"/>
+                    </HBox>
+
+                    <!-- Movie List -->
+                    <FlowPane fx:id="movieList" 
+                             hgap="20" 
+                             vgap="20" 
+                             alignment="CENTER"/>
+
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

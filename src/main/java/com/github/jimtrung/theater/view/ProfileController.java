@@ -44,7 +44,6 @@ public class ProfileController {
         if (response instanceof User userInfo) {
             usernameLabel.setText(userInfo.getUsername());
             emailLabel.setText(userInfo.getEmail());
-            phoneNumberLabel.setText(userInfo.getPhoneNumber());
             passwordLabel.setText(userInfo.getPassword());
             verifiedLabel.setText(userInfo.getVerified().toString());
             createdAtLabel.setText(userInfo.getCreatedAt().toString());
@@ -63,9 +62,6 @@ public class ProfileController {
 
     @FXML
     private TextField emailLabel;
-
-    @FXML
-    private TextField phoneNumberLabel;
 
     @FXML
     private PasswordField passwordLabel;

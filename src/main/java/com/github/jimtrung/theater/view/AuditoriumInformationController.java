@@ -4,6 +4,9 @@ import com.github.jimtrung.theater.model.Auditorium;
 import com.github.jimtrung.theater.model.Movie;
 import com.github.jimtrung.theater.service.AuditoriumService;
 import com.github.jimtrung.theater.service.MovieService;
+import com.github.jimtrung.theater.service.AuthService;
+import com.github.jimtrung.theater.model.User;
+import com.github.jimtrung.theater.model.UserRole;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,6 +18,7 @@ import java.util.UUID;
 public class AuditoriumInformationController {
     private ScreenController screenController;
     private AuthTokenUtil authTokenUtil;
+    private AuthService authService;
     private AuditoriumService auditoriumService;
     private AuditoriumListController auditoriumListController;
     private UUID uuid;
@@ -40,6 +44,11 @@ public class AuditoriumInformationController {
         this.authTokenUtil = authTokenUtil;
     }
 
+    public void setAuthService(AuthService authService) {
+        this.authService = authService;
+    }
+
+    @FXML
     public void handleBackButton() {
         auditoriumListController.getAuditoriumTable().getSelectionModel().clearSelection();
         screenController.removeScreen("auditoriumInformation");
@@ -78,6 +87,7 @@ public class AuditoriumInformationController {
         }
     }
 
+    @FXML
     public void handleDeleteButton () throws Exception {
         auditoriumService.deleteAuditoriumById(uuid);
         auditoriumListController.refreshData();
@@ -86,6 +96,16 @@ public class AuditoriumInformationController {
 
     @FXML
     public void handleOnOpen() throws Exception {
+        User user = null;
+        try {
+            user = (User) authService.getUser();
+        } catch (Exception ignored) { }
+
+        if (user == null || user.getRole() != UserRole.administrator) {
+            screenController.activate("home");
+            return;
+        }
+
         System.out.println("Auditorium id was receive: " + uuid);
         Auditorium auditorium = new Auditorium();
         auditorium = auditoriumService.getAuditoriumById(uuid);

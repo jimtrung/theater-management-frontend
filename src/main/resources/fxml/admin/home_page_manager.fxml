@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.github.jimtrung.theater.view.HomePageManagerController"
+            stylesheets="@/styles/styles.css">
+
+    <children>
+
+        <!-- Root DockPanel -> BorderPane -->
+        <BorderPane prefWidth="1200" prefHeight="800">
+
+            <!-- TOP MENU -->
+            <top>
+                <HBox spacing="10">
+                    <children>
+                        <Button fx:id="movieButton" text="Phim" onAction="#handleMovieButton"/>
+                        <Button fx:id="auditoriumButton" text="Phòng Chiếu" onAction="#handleAuditoriumButton"/>
+                        <Button fx:id="showtimeButton" text="Lịch Chiếu" onAction="#handleShowtimeButton"/>
+                        <Button fx:id="profileButton" text="Hồ Sơ" onAction="#handleProfileButton"/>
+                        <Button fx:id="logOutButton" text="Đăng Xuất" onAction="#handleLogOutButton"/>
+                    </children>
+                </HBox>
+            </top>
+
+            <!-- MAIN CONTENT -->
+            <center>
+                <GridPane hgap="20" vgap="20">
+
+                    <!-- COLUMN STRUCTURE -->
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="60"/>
+                        <ColumnConstraints percentWidth="40"/>
+                    </columnConstraints>
+
+                    <!-- LEFT SIDE -->
+                    <children>
+                        <VBox spacing="15" GridPane.columnIndex="0">
+                            <children>
+
+                                <!-- IMAGE -->
+                                <BorderPane prefHeight="400">
+                                    <center>
+                                        <ImageView fx:id="cinemaImage"
+                                                   fitHeight="400"
+                                                   preserveRatio="true"
+                                                   pickOnBounds="true"/>
+                                    </center>
+                                </BorderPane>
+
+                                <!-- Title -->
+                                <Label text="Rạp Chiếu Phim Quốc Gia"/>
+
+                                <!-- Description -->
+                                <Label wrapText="true"
+                                       text="Rạp Chiếu Phim Quốc Gia là trung tâm điện ảnh lớn nhất tại Việt Nam, nơi trình chiếu các bộ phim quốc tế và trong nước chất lượng cao. Với trang thiết bị hiện đại, âm thanh và hình ảnh sống động, rạp mang đến trải nghiệm điện ảnh đỉnh cao cho khán giả mọi lứa tuổi."/>
+                            </children>
+                        </VBox>
+
+                        <!-- RIGHT SIDE -->
+                        <VBox spacing="10" GridPane.columnIndex="1">
+                            <children>
+                                <Label text="Thống kê số lượng từng hạng mục"/>
+
+                                <Label fx:id="userCountText" text="- Người dùng:"/>
+                                <Label fx:id="movieCountText" text="- Phim:"/>
+                                <Label fx:id="auditoriumCountText" text="- Phòng:"/>
+                                <Label fx:id="showtimeCountText" text="- Suất chiếu:"/>
+                                <Label fx:id="ticketCountText" text="- Vé:"/>
+                                <Label fx:id="revenueText" text="- Tổng doanh thu dự kiến:"/>
+
+                                <!-- Chart placeholder -->
+                                <Pane fx:id="chartGrid"
+                                      prefWidth="450"
+                                      prefHeight="450"/>
+                            </children>
+                        </VBox>
+                    </children>
+                </GridPane>
+            </center>
+
+        </BorderPane>
+    </children>
+
+</AnchorPane>

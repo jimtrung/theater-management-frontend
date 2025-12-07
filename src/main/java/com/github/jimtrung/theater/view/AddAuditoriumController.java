@@ -2,6 +2,7 @@ package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.model.Auditorium;
 import com.github.jimtrung.theater.model.Movie;
+import com.github.jimtrung.theater.model.UserRole;
 import com.github.jimtrung.theater.service.AuditoriumService;
 import com.github.jimtrung.theater.service.MovieService;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
@@ -32,6 +33,23 @@ public class AddAuditoriumController {
 
     public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
         this.authTokenUtil = authTokenUtil;
+    }
+
+    private com.github.jimtrung.theater.service.AuthService authService;
+
+    public void setAuthService(com.github.jimtrung.theater.service.AuthService authService) {
+        this.authService = authService;
+    }
+
+    public void handleOnOpen() {
+        com.github.jimtrung.theater.model.User user = null;
+        try {
+            user = (com.github.jimtrung.theater.model.User) authService.getUser();
+        } catch (Exception ignored) { }
+
+        if (user == null || user.getRole() != UserRole.administrator) {
+            screenController.activate("home");
+        }
     }
 
     public void handleCloseButton() {

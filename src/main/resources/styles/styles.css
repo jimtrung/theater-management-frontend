@@ -1,0 +1,448 @@
+/* ============================================================================
+   JAVAFX DARK THEME - Exact WPF Color Palette from App.xaml
+   ============================================================================ */
+
+.root {
+  /* Exact WPF Color Palette */
+  -color-primary-bg: #0F1419;
+  /* PrimaryBackground */
+  -color-secondary-bg: #1A1F2E;
+  /* SecondaryBackground */
+  -color-card-bg: #1E2433;
+  /* CardBackground */
+  -color-input-bg: #252D3D;
+  /* InputBackground */
+
+  -color-primary-accent: #3B82F6;
+  /* PrimaryAccent */
+  -color-primary-hover: #2563EB;
+  /* PrimaryHover */
+
+  -color-success: #10B981;
+  /* Success */
+  -color-danger: #EF4444;
+  /* Danger */
+  -color-warning: #F59E0B;
+  /* Warning */
+
+  -color-text-primary: #F9FAFB;
+  /* PrimaryText */
+  -color-text-secondary: #9CA3AF;
+  /* SecondaryText */
+  -color-text-muted: #6B7280;
+  /* MutedText */
+
+  -color-border: #374151;
+  /* Border */
+  -color-divider: #1F2937;
+  /* Divider */
+
+  /* JavaFX Base Overrides */
+  -fx-background-color: -color-primary-bg;
+  -fx-font-family: 'Segoe UI', 'Roboto', sans-serif;
+  -fx-font-size: 14px;
+  -fx-text-fill: -color-text-primary;
+
+  -fx-base: -color-primary-bg;
+  -fx-control-inner-background: -color-input-bg;
+  -fx-accent: -color-primary-accent;
+  -fx-focus-color: -color-primary-accent;
+  -fx-faint-focus-color: rgba(59, 130, 246, 0.4);
+}
+
+/* =============================================================================
+   TYPOGRAPHY STYLES (matching WPF App.xaml)
+   ============================================================================= */
+
+/* Title Style - 32px, Bold, Center */
+.title {
+  -fx-font-size: 32px;
+  -fx-font-weight: bold;
+  -fx-text-fill: -color-text-primary;
+  -fx-alignment: center;
+  -fx-padding: 0 0 20 0;
+}
+
+/* Heading Style - 20px, SemiBold */
+.heading {
+  -fx-font-size: 20px;
+  -fx-font-weight: 600;
+  -fx-text-fill: -color-text-primary;
+  -fx-padding: 0 0 12 0;
+}
+
+/* Form Label Style - 14px, Medium */
+.form-label {
+  -fx-font-size: 14px;
+  -fx-font-weight: 500;
+  -fx-text-fill: -color-text-primary;
+  -fx-padding: 0 0 6 0;
+}
+
+/* =============================================================================
+   CARD STYLE (matching WPF Border with card style)
+   ============================================================================= */
+.card {
+  -fx-background-color: -color-card-bg;
+  -fx-border-color: -color-border;
+  -fx-border-width: 1px;
+  -fx-background-radius: 12px;
+  -fx-border-radius: 12px;
+  -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.15), 20, 0, 0, 4);
+  -fx-padding: 24px;
+}
+
+/* =============================================================================
+   NAVIGATION BUTTON STYLE (matching WPF NavButtonStyle)
+   ============================================================================= */
+.nav-button {
+  -fx-background-color: transparent;
+  -fx-text-fill: -color-text-primary;
+  -fx-font-weight: bold;
+  -fx-font-size: 14px;
+  -fx-padding: 10px 16px;
+  -fx-border-width: 0;
+  -fx-background-radius: 6px;
+  -fx-cursor: hand;
+}
+
+.nav-button:hover {
+  -fx-background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* =============================================================================
+   TEXT INPUT STYLES (matching WPF form-input)
+   ============================================================================= */
+.text-field,
+.password-field,
+.text-area {
+  -fx-font-size: 14px;
+  -fx-padding: 12px;
+  -fx-border-color: -color-border;
+  -fx-border-width: 1px;
+  -fx-background-color: -color-input-bg;
+  -fx-text-fill: -color-text-primary;
+  -fx-background-radius: 8px;
+  -fx-border-radius: 8px;
+  -fx-prompt-text-fill: -color-text-muted;
+}
+
+.text-field:focused,
+.password-field:focused,
+.text-area:focused {
+  -fx-border-color: -color-primary-accent;
+  -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.4), 8, 0, 0, 0);
+}
+
+/* =============================================================================
+   BUTTON STYLES (matching WPF button styles)
+   ============================================================================= */
+
+/* Base Button */
+.button {
+  -fx-font-size: 14px;
+  -fx-font-weight: 600;
+  -fx-padding: 12px 20px;
+  -fx-background-radius: 8px;
+  -fx-border-radius: 8px;
+  -fx-cursor: hand;
+}
+
+/* Primary Button (button-primary) */
+.button-primary,
+.button.primary {
+  -fx-background-color: -color-primary-accent;
+  -fx-text-fill: white;
+  -fx-border-width: 0;
+}
+
+.button-primary:hover,
+.button.primary:hover {
+  -fx-background-color: -color-primary-hover;
+  -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.5), 12, 0, 0, 0);
+}
+
+.button-primary:pressed,
+.button.primary:pressed {
+  -fx-background-color: #1D4ED8;
+}
+
+/* Secondary Button (button-secondary) */
+.button-secondary,
+.button.secondary {
+  -fx-background-color: -color-secondary-bg;
+  -fx-text-fill: -color-text-primary;
+  -fx-border-color: -color-border;
+  -fx-border-width: 1px;
+}
+
+.button-secondary:hover,
+.button.secondary:hover {
+  -fx-background-color: #2D3748;
+  -fx-border-color: -color-primary-accent;
+}
+
+.button-secondary:pressed,
+.button.secondary:pressed {
+  -fx-background-color: #1A202C;
+}
+
+/* Danger Button (button-danger) */
+.button-danger,
+.button.danger {
+  -fx-background-color: -color-danger;
+  -fx-text-fill: white;
+  -fx-border-width: 0;
+}
+
+.button-danger:hover,
+.button.danger:hover {
+  -fx-background-color: #DC2626;
+  -fx-effect: dropshadow(gaussian, rgba(239, 68, 68, 0.5), 12, 0, 0, 0);
+}
+
+.button-danger:pressed,
+.button.danger:pressed {
+  -fx-background-color: #B91C1C;
+}
+
+/* Success Button (button-success) */
+.button-success,
+.button.success {
+  -fx-background-color: -color-success;
+  -fx-text-fill: white;
+  -fx-border-width: 0;
+}
+
+.button-success:hover,
+.button.success:hover {
+  -fx-background-color: #059669;
+  -fx-effect: dropshadow(gaussian, rgba(16, 185, 129, 0.5), 12, 0, 0, 0);
+}
+
+.button-success:pressed,
+.button.success:pressed {
+  -fx-background-color: #047857;
+}
+
+/* =============================================================================
+   DATA TABLE STYLE (matching WPF data-grid-dark)
+   ============================================================================= */
+.table-view {
+  -fx-background-color: -color-card-bg;
+  -fx-border-color: -color-border;
+  -fx-border-width: 1px;
+}
+
+.table-view .column-header-background {
+  -fx-background-color: -color-secondary-bg;
+}
+
+.table-view .column-header {
+  -fx-background-color: transparent;
+  -fx-border-color: transparent transparent -color-border transparent;
+  -fx-border-width: 0 0 1px 0;
+}
+
+.table-view .column-header .label {
+  -fx-text-fill: -color-text-primary;
+  -fx-font-weight: 600;
+  -fx-padding: 10px 12px;
+  -fx-alignment: center-left;
+}
+
+.table-row-cell {
+  -fx-background-color: -color-card-bg;
+  -fx-text-fill: -color-text-primary;
+  -fx-border-width: 0;
+  -fx-padding: 8px 12px;
+}
+
+.table-row-cell:odd {
+  -fx-background-color: -color-secondary-bg;
+}
+
+.table-row-cell:hover {
+  -fx-background-color: -color-divider;
+}
+
+.table-row-cell:selected {
+  -fx-background-color: -color-primary-accent;
+  -fx-text-fill: white;
+}
+
+/* =============================================================================
+   LIST VIEW STYLE (matching WPF list-view-dark)
+   ============================================================================= */
+.list-view {
+  -fx-background-color: -color-input-bg;
+  -fx-border-color: -color-border;
+  -fx-border-width: 1px;
+}
+
+.list-cell {
+  -fx-background-color: transparent;
+  -fx-text-fill: -color-text-primary;
+}
+
+.list-cell:filled:selected {
+  -fx-background-color: -color-primary-accent;
+  -fx-text-fill: white;
+}
+
+.list-cell:filled:hover {
+  -fx-background-color: -color-secondary-bg;
+}
+
+/* =============================================================================
+   CHECKBOX STYLE (matching WPF checkbox-dark)
+   ============================================================================= */
+.check-box {
+  -fx-text-fill: -color-text-primary;
+}
+
+.check-box .box {
+  -fx-background-color: -color-input-bg;
+  -fx-border-color: -color-border;
+  -fx-border-width: 1px;
+  -fx-background-radius: 4px;
+  -fx-border-radius: 4px;
+}
+
+.check-box:selected .mark {
+  -fx-background-color: -color-primary-accent;
+}
+
+.check-box:selected .box {
+  -fx-border-color: -color-primary-accent;
+}
+
+.check-box:hover .box {
+  -fx-border-color: -color-primary-accent;
+}
+
+/* =============================================================================
+   RADIO BUTTON STYLE (matching WPF radio-dark)
+   ============================================================================= */
+.radio-button {
+  -fx-text-fill: -color-text-primary;
+}
+
+.radio-button .radio {
+  -fx-background-color: -color-input-bg;
+  -fx-border-color: -color-border;
+  -fx-border-width: 1px;
+  -fx-background-radius: 9px;
+  -fx-border-radius: 9px;
+}
+
+.radio-button:selected .radio {
+  -fx-border-color: -color-primary-accent;
+}
+
+.radio-button:selected .dot {
+  -fx-background-color: -color-primary-accent;
+}
+
+.radio-button:hover .radio {
+  -fx-border-color: -color-primary-accent;
+}
+
+/* =============================================================================
+   SCROLLBAR STYLES
+   ============================================================================= */
+.scroll-bar {
+  -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+  -fx-background-color: -color-border;
+  -fx-background-radius: 4px;
+}
+
+.scroll-bar .thumb:hover {
+  -fx-background-color: -color-text-muted;
+}
+
+.scroll-bar:vertical {
+  -fx-pref-width: 10px;
+}
+
+.scroll-bar:horizontal {
+  -fx-pref-height: 10px;
+}
+
+/* =============================================================================
+   SCROLL PANE
+   ============================================================================= */
+.scroll-pane {
+  -fx-background-color: transparent;
+}
+
+.scroll-pane>.viewport {
+  -fx-background-color: transparent;
+}
+
+/* =============================================================================
+   NEWS CARD STYLES (for TinTuc page)
+   ============================================================================= */
+.news-card {
+  -fx-background-color: -color-card-bg;
+  -fx-background-radius: 10px;
+  -fx-border-radius: 10px;
+  -fx-padding: 10px;
+  -fx-pref-width: 300px;
+  -fx-cursor: hand;
+  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 10, 0, 0, 3);
+}
+
+.news-card:hover {
+  -fx-background-color: #2D3748;
+  -fx-scale-x: 1.03;
+  -fx-scale-y: 1.03;
+}
+
+.news-date {
+  -fx-text-fill: -color-text-secondary;
+  -fx-font-size: 12px;
+  -fx-padding: 5px 0 0 0;
+}
+
+.news-title {
+  -fx-text-fill: -color-text-primary;
+  -fx-wrap-text: true;
+  -fx-font-size: 14px;
+  -fx-padding: 5px 0 0 0;
+}
+
+/* =============================================================================
+   BANNER AND SECTION STYLES
+   ============================================================================= */
+.banner-title {
+  -fx-font-size: 40px;
+  -fx-font-weight: bold;
+  -fx-text-fill: white;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 10, 0, 0, 2);
+}
+
+.banner-button {
+  -fx-font-size: 16px;
+  -fx-padding: 15px 30px;
+}
+
+.section-title {
+  -fx-font-size: 20px;
+  -fx-font-weight: bold;
+  -fx-text-fill: -color-primary-accent;
+}
+
+.welcome-subtitle {
+  -fx-text-fill: -color-text-secondary;
+  -fx-font-size: 14px;
+}
+
+.auth-button {
+  -fx-font-size: 16px;
+  -fx-padding: 14px 24px;
+  -fx-pref-width: 300px;
+}

@@ -28,7 +28,8 @@ public class ShowtimeListController {
     @FXML
     private Button closeBtn;
 
-    public void handleAddBtn() {
+    @FXML
+    public void handleAddShowtimeButton() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/add_showtime.fxml"));
             screenController.addScreen("addShowtime", loader);
@@ -45,7 +46,13 @@ public class ShowtimeListController {
         }
     }
 
-    public void handleCloseBtn() {
+    @FXML
+    public void handleCloseButton() {
         screenController.activate("homePageManager");
+    }
+    
+    @FXML
+    public void handleDeleteAllButton() {
+        
     }
 }

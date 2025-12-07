@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"  
+            fx:controller="com.github.jimtrung.theater.view.TinTucController"
+            stylesheets="@/styles/styles.css">
+
+    <top>
+        <fx:include fx:id="userHeader" source="../component/header.fxml"/>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true">
+            <VBox spacing="30" style="-fx-background-color: #0F1419;">
+                <padding>
+                    <Insets top="30" right="40" bottom="30" left="40"/>
+                </padding>
+
+                <!-- News Grid -->
+                <FlowPane fx:id="newsGrid" 
+                         hgap="20" 
+                         vgap="20" 
+                         alignment="CENTER"
+                         maxWidth="1290"/>
+
+                <!-- Page Buttons -->
+                <HBox spacing="20" alignment="CENTER">
+                    <Button fx:id="BtnPrev" 
+                            text="⟵ Prev" 
+                            styleClass="button-primary"
+                            style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 5px 8px; -fx-pref-width: 100px;"
+                            onAction="#handlePrevButton"/>
+                    <Button fx:id="BtnNext" 
+                            text="Next ⟶" 
+                            styleClass="button-primary"
+                            style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 5px 8px; -fx-pref-width: 100px;"
+                            onAction="#handleNextButton"/>
+                </HBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

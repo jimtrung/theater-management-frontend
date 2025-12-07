@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.github.jimtrung.theater.view.EventListController"
+            stylesheets="@/styles/styles.css">
+
+    <VBox spacing="0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+    <top>
+        <fx:include fx:id="userHeader" source="../component/header.fxml"/>
+    </top>
+
+        <!-- Content -->
+        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+            <FlowPane fx:id="eventFlowPane" hgap="20" vgap="20">
+                <!-- Các item event sẽ được load động bằng Java -->
+            </FlowPane>
+        </ScrollPane>
+    </VBox>
+
+</AnchorPane>

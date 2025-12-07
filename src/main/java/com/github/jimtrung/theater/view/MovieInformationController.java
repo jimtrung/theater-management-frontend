@@ -1,6 +1,7 @@
 package com.github.jimtrung.theater.view;
 
-import com.github.jimtrung.theater.model.Movie;
+import com.github.jimtrung.theater.model.Movie; 
+import com.github.jimtrung.theater.model.MovieLanguage;
 import com.github.jimtrung.theater.service.MovieService;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
 import javafx.fxml.FXML;
@@ -42,6 +43,7 @@ public class MovieInformationController {
     }
 
     // ===== BUTTON HANDLERS =====
+    @FXML
     public void handleBackButton() {
         movieListController.getMovieTable().getSelectionModel().clearSelection();
         screenController.removeScreen("movieInformation");
@@ -54,15 +56,8 @@ public class MovieInformationController {
             Movie updatedMovie = new Movie();
             updatedMovie.setName(movieNameField.getText().trim());
             updatedMovie.setDescription(movieDescriptionField.getText().trim());
-            updatedMovie.setLanguage(movieLanguageField.getText().trim());
-
-            // Parse director_id (UUID)
-            try {
-                updatedMovie.setDirectorId(UUID.fromString(movieDirectorIdField.getText().trim()));
-            } catch (IllegalArgumentException e) {
-                System.out.println("[WARN] - Invalid director ID format.");
-                updatedMovie.setDirectorId(null);
-            }
+            updatedMovie.setLanguage(MovieLanguage.valueOf(movieLanguageField.getText().trim()));
+            updatedMovie.setDirector(movieDirectorField.getText().trim());
 
             // Parse rated (int)
             try {
@@ -93,6 +88,14 @@ public class MovieInformationController {
             if (!genresText.isEmpty()) {
                 updatedMovie.setGenres(List.of(genresText.split(",\\s*")));
             }
+            
+            // Actors (comma-separated string)
+            String actorsText = movieActorsField.getText().trim();
+            if (!actorsText.isEmpty()) {
+                updatedMovie.setActors(List.of(actorsText.split(",\\s*")));
+            } else {
+                updatedMovie.setActors(List.of());
+            }
 
             movieService.updateMovie(uuid, updatedMovie);
 
@@ -108,6 +111,7 @@ public class MovieInformationController {
         }
     }
 
+    @FXML
     public void handleDeleteButton() throws Exception {
         movieService.deleteMovieById(uuid);
         movieListController.refreshData();
@@ -126,12 +130,13 @@ public class MovieInformationController {
 
         movieNameField.setText(movie.getName());
         movieDescriptionField.setText(movie.getDescription());
-        movieLanguageField.setText(movie.getLanguage());
+        movieLanguageField.setText(movie.getLanguage().name());
         movieDurationField.setText(String.valueOf(movie.getDuration()));
         movieRatedField.setText(String.valueOf(movie.getRated()));
-        movieDirectorIdField.setText(movie.getDirectorId() != null ? movie.getDirectorId().toString() : "");
+        movieDirectorField.setText(movie.getDirector() != null ? movie.getDirector() : "");
         moviePremiereField.setText(movie.getPremiere() != null ? movie.getPremiere().toString() : "");
-        movieGenresField.setText(String.join(", ", movie.getGenres()));
+        movieGenresField.setText(movie.getGenres() != null ? String.join(", ", movie.getGenres()) : "");
+        movieActorsField.setText(movie.getActors() != null ? String.join(", ", movie.getActors()) : "");
 
         System.out.println("[DEBUG] - Movie loaded: " + movie.getName());
     }
@@ -139,7 +144,8 @@ public class MovieInformationController {
     // ====== FXML BINDINGS ======
     @FXML private TextField movieNameField;
     @FXML private TextArea movieDescriptionField;
-    @FXML private TextField movieDirectorIdField;
+    @FXML private TextField movieDirectorField;
+    @FXML private TextField movieActorsField;
     @FXML private TextField movieGenresField;
     @FXML private TextField moviePremiereField;
     @FXML private TextField movieDurationField;

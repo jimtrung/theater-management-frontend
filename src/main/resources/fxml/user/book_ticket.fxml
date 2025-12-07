@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<ScrollPane fx:id="root"
+            xmlns="http://javafx.com/javafx/25" 
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.github.jimtrung.theater.view.BookTicketController"
+            stylesheets="@/styles/styles.css">
+
+    <VBox alignment="CENTER" spacing="20">
+        
+        <Label text="Ticket Information"/>
+
+        <VBox spacing="16" prefWidth="600">
+            
+            <VBox spacing="5">
+                <Label text="Tên phim"/>
+                <TextField fx:id="ticketMovieName"
+                           editable="false"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Tên phòng chiếu"/>
+                <TextField fx:id="ticketAuditoriumName"
+                           editable="false"/>
+            </VBox>
+
+            <!-- Ngày chiếu -->
+            <VBox spacing="5">
+                <Label text="Ngày chiếu phim"/>
+                <TextField fx:id="ticketDate"
+                           editable="false"/>
+            </VBox>
+
+            <!-- Giờ bắt đầu + kết thúc -->
+            <HBox spacing="20">
+                <VBox spacing="5">
+                    <Label text="Giờ bắt đầu"/>
+                    <TextField fx:id="ticketStartTime"
+                               editable="false"
+                               prefWidth="120"/>
+                </VBox>
+
+                <VBox spacing="5">
+                    <Label text="Giờ kết thúc"/>
+                    <TextField fx:id="ticketEndTime"
+                               editable="false"
+                               prefWidth="120"/>
+                </VBox>
+            </HBox>
+
+            <!-- Giá vé + chọn ghế -->
+            <HBox spacing="20">
+                <VBox spacing="5">
+                    <Label text="Giá vé"/>
+                    <TextField fx:id="ticketPrice"
+                               editable="false"
+                               prefWidth="120"/>
+                </VBox>
+
+                <VBox spacing="5">
+                    <Label text="Chọn ghế"/>
+                    <ComboBox fx:id="ticketSeatSelector"
+                              prefWidth="70">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="A1"/>
+                                <String fx:value="A2"/>
+                                <String fx:value="A3"/>
+                                <String fx:value="B1"/>
+                                <String fx:value="B2"/>
+                                <String fx:value="B3"/>
+                                <String fx:value="C1"/>
+                                <String fx:value="C2"/>
+                                <String fx:value="C3"/>
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                </VBox>
+            </HBox>
+
+            <!-- Buttons -->
+            <HBox alignment="CENTER_RIGHT" spacing="12">
+                <!-- <Button fx:id="backButton"
+                        text="Quay lại"
+                        onAction="#handleBackButton"/> -->
+
+                <Button fx:id="bookTicketButton"
+                        text="Đặt vé"
+                        onAction="#handleBookTicket"/>
+            </HBox>
+
+        </VBox>
+
+    </VBox>
+</ScrollPane>

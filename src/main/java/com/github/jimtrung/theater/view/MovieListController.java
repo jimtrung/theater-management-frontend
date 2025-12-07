@@ -1,9 +1,7 @@
 package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.model.Movie;
-import com.github.jimtrung.theater.service.ActorService;
-import com.github.jimtrung.theater.service.DirectorService;
-import com.github.jimtrung.theater.service.MovieActorService;
+import com.github.jimtrung.theater.model.MovieLanguage;
 import com.github.jimtrung.theater.service.MovieService;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
 import javafx.collections.FXCollections;
@@ -24,9 +22,6 @@ public class MovieListController {
     private MovieService movieService;
     private ObservableList<Movie> movieList;
     private UUID uuid;
-    private ActorService actorService;
-    private DirectorService directorService;
-    private MovieActorService movieActorService;
 
     @FXML
     private TableView<Movie> movieTable;
@@ -66,18 +61,6 @@ public class MovieListController {
         this.authTokenUtil = authTokenUtil;
     }
 
-    public void setActorService(ActorService actorService) {
-        this.actorService = actorService;
-    }
-
-    public void setDirectorService(DirectorService directorService) {
-        this.directorService = directorService;
-    }
-
-    public void setMovieActorService(MovieActorService movieActorService) {
-        this.movieActorService = movieActorService;
-    }
-
     public TableView<Movie> getMovieTable() {
         return movieTable;
     }
@@ -88,10 +71,7 @@ public class MovieListController {
 
         // --- Columns ---
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        directorColumn.setCellValueFactory(cellData -> {
-            UUID directorId = cellData.getValue().getDirectorId();
-            return new javafx.beans.property.SimpleStringProperty(directorId != null ? directorId.toString() : "");
-        });
+        directorColumn.setCellValueFactory(new PropertyValueFactory<>("director"));
         genresColumn.setCellValueFactory(cellData -> {
             var genres = cellData.getValue().getGenres();
             String genresStr = genres != null ? String.join(", ", genres) : "";
@@ -104,7 +84,10 @@ public class MovieListController {
         });
         durationColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
         ratedColumn.setCellValueFactory(new PropertyValueFactory<>("rated"));
-        languageColumn.setCellValueFactory(new PropertyValueFactory<>("language"));
+        languageColumn.setCellValueFactory(cellData -> {
+            var lang = cellData.getValue().getLanguage();
+            return new javafx.beans.property.SimpleStringProperty(lang != null ? lang.name() : "");
+        });
 
         // --- Movie list ---
         movieList = FXCollections.observableArrayList();
@@ -123,7 +106,8 @@ public class MovieListController {
     }
 
     /* ===== BUTTON HANDLERS ===== */
-    public void handleAddMovie() {
+    @FXML
+    public void handleAddMovieButton() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/add_movie_dialog.fxml"));
             screenController.addScreen("addMovie", loader);
@@ -132,15 +116,13 @@ public class MovieListController {
             addMovieController.setMovieService(movieService);
             addMovieController.setAuthTokenUtil(authTokenUtil);
             addMovieController.setMovieListController(this);
-            addMovieController.setActorService(actorService);
-            addMovieController.setDirectorService(directorService);
-            addMovieController.setMovieActorService(movieActorService);
             screenController.activate("addMovie");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    @FXML
     public void handleClickItem(UUID id) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/movie_information.fxml"));
@@ -157,7 +139,8 @@ public class MovieListController {
         }
     }
 
-    public void handleDeleteAllMovie() {
+    @FXML
+    public void handleDeleteAllButton() {
         try {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Delete confirmation");
@@ -177,7 +160,8 @@ public class MovieListController {
         }
     }
 
-    public void handleCloseBtn() {
+    @FXML
+    public void handleCloseButton() {
         screenController.activate("homePageManager");
     }
 

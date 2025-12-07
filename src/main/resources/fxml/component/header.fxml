@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
+
+<HBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.github.jimtrung.theater.view.UserHeaderController"
+      stylesheets="@/styles/styles.css"
+      style="-fx-background-color: #1A1F2E;"
+      spacing="20" alignment="CENTER_LEFT">
+    <padding>
+        <Insets top="12" right="20" bottom="12" left="20"/>
+    </padding>
+    
+    <!-- Logo -->
+    <ImageView fitHeight="40" fitWidth="100" preserveRatio="true">
+        <image>
+            <Image url="http://localhost:8080/uploads/logos/logo.png"/>
+        </image>
+    </ImageView>
+
+    <!-- Center Navigation -->
+    <Region HBox.hgrow="ALWAYS"/>
+    
+    <HBox spacing="8" styleClass="nav-buttons">
+        <Button text="Home" styleClass="nav-button" onAction="#handleHome"/>
+        <Button text="Show Times" styleClass="nav-button" onAction="#handleShowTimes"/>
+        <Button text="News" styleClass="nav-button" onAction="#handleNews"/>
+        <Button text="Promotion" styleClass="nav-button" onAction="#handlePromotion"/>
+        <Button text="About" styleClass="nav-button" onAction="#handleAbout"/>
+    </HBox>
+
+    <Region HBox.hgrow="ALWAYS"/>
+
+    <!-- Auth Buttons (Visible if not logged in)-->
+    <HBox spacing="10" fx:id="authButtons">
+        <Button text="Register" styleClass="nav-button" onAction="#handleRegister"/>
+        <Button text="Login" styleClass="nav-button" onAction="#handleLogin"/>
+    </HBox>
+
+    <!-- User Info (Visible if logged in) -->
+    <HBox spacing="10" fx:id="userInfo" visible="false" managed="false" alignment="CENTER">
+        <Label fx:id="usernameLabel" text="Username" style="-fx-text-fill: #F9FAFB; -fx-font-weight: 600;"/>
+        <Button fx:id="profileButton" text="Profile" styleClass="nav-button" onAction="#handleProfile"/>
+        <Button fx:id="logoutButton" text="Logout" styleClass="nav-button" style="-fx-text-fill: #EF4444;" onAction="#handleLogout"/>
+    </HBox>
+
+</HBox>

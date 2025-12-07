@@ -1,12 +1,11 @@
 package com.github.jimtrung.theater.view;
 
-import com.github.jimtrung.theater.model.Actor;
-import com.github.jimtrung.theater.model.Director;
 import com.github.jimtrung.theater.model.Movie;
 import com.github.jimtrung.theater.model.MovieGenre;
-import com.github.jimtrung.theater.service.ActorService;
-import com.github.jimtrung.theater.service.DirectorService;
-import com.github.jimtrung.theater.service.MovieActorService;
+import com.github.jimtrung.theater.model.MovieLanguage;
+import com.github.jimtrung.theater.model.User;
+import com.github.jimtrung.theater.model.UserRole;
+import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.service.MovieService;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -26,11 +25,9 @@ public class AddMovieController {
 
     private ScreenController screenController;
     private AuthTokenUtil authTokenUtil;
+    private AuthService authService;
     private MovieService movieService;
-    private ActorService actorService;
-    private DirectorService directorService;
     private MovieListController movieListController;
-    private MovieActorService movieActorService;
 
     public void setMovieListController(MovieListController movieListController) {
         this.movieListController = movieListController;
@@ -48,16 +45,8 @@ public class AddMovieController {
         this.authTokenUtil = authTokenUtil;
     }
 
-    public void setActorService(ActorService actorService) {
-        this.actorService = actorService;
-    }
-
-    public void setDirectorService(DirectorService directorService) {
-        this.directorService = directorService;
-    }
-
-    public void setMovieActorService(MovieActorService movieActorService) {
-        this.movieActorService = movieActorService;
+    public void setAuthService(AuthService authService) {
+        this.authService = authService;
     }
 
     @FXML
@@ -73,13 +62,9 @@ public class AddMovieController {
     @FXML
     private TextArea movieDescriptionField;
     @FXML
-    private ListView<Director> directorListView;
+    private TextField movieDirectorField; 
     @FXML
-    private ListView<Actor> actorListView;
-    @FXML
-    private TextField searchDirectorField;
-    @FXML
-    private TextField searchActorField;
+    private TextField movieActorsField; 
     @FXML
     private ListView<MovieGenre> genreListView;
     @FXML
@@ -92,6 +77,16 @@ public class AddMovieController {
     @FXML
     public void handleOnOpen() {
         try {
+            User user = null;
+            try {
+                user = (User) authService.getUser();
+            } catch (Exception ignored) { }
+
+            if (user == null || user.getRole() != UserRole.administrator) {
+                screenController.activate("home");
+                return;
+            }
+
             // --- Load genres ---
             ObservableList<MovieGenre> allGenres = FXCollections.observableArrayList(MovieGenre.values());
             FilteredList<MovieGenre> filteredGenres = new FilteredList<>(allGenres, p -> true);
@@ -118,58 +113,9 @@ public class AddMovieController {
                 filteredGenres.setPredicate(g -> filter.isEmpty() || g.name().toLowerCase().contains(filter));
             });
 
-            // --- Directors ---
-            List<Director> directors = (List<Director>) directorService.getAllDirectors();
-            ObservableList<Director> allDirectors = FXCollections.observableArrayList(directors);
-            FilteredList<Director> filteredDirectors = new FilteredList<>(allDirectors, p -> true);
-            directorListView.setItems(filteredDirectors);
-            directorListView.setCellFactory(CheckBoxListCell.forListView(d -> {
-                SimpleBooleanProperty selected = new SimpleBooleanProperty();
-                selected.addListener((obs, oldV, newV) -> {
-                    if (newV) {
-                        directorListView.getSelectionModel().select(d);
-                    } else {
-                        directorListView.getSelectionModel().clearSelection(directorListView.getItems().indexOf(d));
-                    }
-                });
-                return selected;
-            }));
-            searchDirectorField.textProperty().addListener((obs, oldV, newV) -> {
-                String filter = newV.toLowerCase();
-                filteredDirectors.setPredicate(d ->
-                        filter.isEmpty() || d.toString().toLowerCase().contains(filter)
-                );
-            });
-
-            // --- Actors ---
-            List<Actor> actors = (List<Actor>) actorService.getAllActors();
-            ObservableList<Actor> allActors = FXCollections.observableArrayList(actors);
-            FilteredList<Actor> filteredActors = new FilteredList<>(allActors, p -> true);
-            actorListView.setItems(filteredActors);
-            actorListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-            actorListView.setCellFactory(CheckBoxListCell.forListView(a -> {
-                SimpleBooleanProperty selected = new SimpleBooleanProperty();
-                selected.addListener((obs, oldV, newV) -> {
-                    if (newV) {
-                        actorListView.getSelectionModel().select(a);
-                    } else {
-                        actorListView.getSelectionModel().clearSelection(actorListView.getItems().indexOf(a));
-                    }
-                });
-                return selected;
-            }));
-            searchActorField.textProperty().addListener((obs, oldV, newV) -> {
-                String filter = newV.toLowerCase();
-                filteredActors.setPredicate(a ->
-                        filter.isEmpty() || a.toString().toLowerCase().contains(filter)
-                );
-            });
-
-            System.out.println("[DEBUG] Loaded " + directors.size() + " directors and " + actors.size() + " actors.");
-
         } catch (Exception e) {
             e.printStackTrace();
-            showError("Failed to load actors/directors: " + e.getMessage());
+            showError("Failed to load genres: " + e.getMessage());
         }
     }
 
@@ -180,7 +126,8 @@ public class AddMovieController {
             if (isEmpty(movieNameField) ||
                     isEmpty(movieDurationField) ||
                     isEmpty(movieLanguageField) ||
-                    isEmpty(movieRatedField)) {
+                    isEmpty(movieRatedField) ||
+                    isEmpty(movieDirectorField)) {
                 showError("Please enter complete information");
                 return;
             }
@@ -189,7 +136,8 @@ public class AddMovieController {
             movie.setId(UUID.randomUUID());
             movie.setName(movieNameField.getText().trim());
             movie.setDescription(movieDescriptionField.getText().trim());
-            movie.setLanguage(movieLanguageField.getText().trim());
+            movie.setLanguage(MovieLanguage.valueOf(movieLanguageField.getText().trim()));
+            movie.setDirector(movieDirectorField.getText().trim()); 
             movie.setPremiere(OffsetDateTime.now());
             movie.setCreatedAt(OffsetDateTime.now());
             movie.setUpdatedAt(OffsetDateTime.now());
@@ -210,24 +158,22 @@ public class AddMovieController {
                     .toList();
             movie.setGenres(selectedGenres);
 
-            // --- Get selected director (only 1 allowed) ---
-            Director selectedDirector = null;
-            List<Director> selectedDirectors = directorListView.getSelectionModel().getSelectedItems();
-            if (!selectedDirectors.isEmpty()) {
-                selectedDirector = selectedDirectors.get(0);
-                movie.setDirectorId(selectedDirector.getId());
+            // --- Get actors ---
+            String actorsText = movieActorsField.getText();
+            if (actorsText != null && !actorsText.trim().isEmpty()) {
+                List<String> actorsList = Arrays.stream(actorsText.split(","))
+                        .map(String::trim)
+                        .filter(s -> !s.isEmpty())
+                        .toList();
+                movie.setActors(actorsList);
+            } else {
+                movie.setActors(List.of());
             }
 
             // --- Insert movie ---
             movieService.insertMovie(movie);
 
-            // --- Insert selected actors ---
-            List<Actor> selectedActors = actorListView.getSelectionModel().getSelectedItems();
-            List<UUID> actorIds = selectedActors.stream()
-                    .map(Actor::getId)
-                    .toList();
-            movieActorService.insertMovieActors(movie.getId(), actorIds);
-            System.out.println("[DEBUG] Inserted " + selectedActors.size() + " actors.");
+            System.out.println("[DEBUG] Inserted movie with " + movie.getActors().size() + " actors.");
 
             movieListController.refreshData();
             screenController.activate("movieList");

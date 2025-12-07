@@ -39,9 +39,6 @@ public class SignUpController {
     private TextField emailField;
 
     @FXML
-    private TextField phoneNumberField;
-
-    @FXML
     private PasswordField passwordField;
 
     @FXML
@@ -54,7 +51,6 @@ public class SignUpController {
         User user = new User();
         user.setUsername(usernameField.getText());
         user.setEmail(emailField.getText());
-        user.setPhoneNumber(phoneNumberField.getText());
         user.setPassword(passwordField.getText());
 
         Object response = null;

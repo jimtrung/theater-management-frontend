@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.Scene?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.github.jimtrung.theater.view.AddAuditoriumController"
+            stylesheets="@/styles/styles.css"
+            fitToWidth="true">
+
+    <VBox alignment="TOP_CENTER" spacing="24">
+        
+        <Label text="Thêm Phòng Chiếu"/>
+
+        <!-- Card -->
+        <BorderPane maxWidth="600" minWidth="400">
+            <center>
+                <VBox spacing="12">
+
+                    <!-- Tên phòng chiếu -->
+                    <VBox spacing="4">
+                        <Label text="Tên phòng chiếu"/>
+                        <TextField fx:id="auditoriumNameField"/>
+                    </VBox>
+
+                    <!-- Loại phòng -->
+                    <VBox spacing="4">
+                        <Label text="Loại phòng"/>
+                        <TextField fx:id="auditoriumTypeField"/>
+                    </VBox>
+
+                    <!-- Sức chứa -->
+                    <VBox spacing="4">
+                        <Label text="Sức chứa"/>
+                        <TextField fx:id="auditoriumCapacityField"/>
+                    </VBox>
+
+                    <!-- Ghi chú -->
+                    <VBox spacing="4">
+                        <Label text="Ghi chú"/>
+                        <TextArea fx:id="auditoriumNoteField"
+                                  prefHeight="100"
+                                  wrapText="true"/>
+                    </VBox>
+
+                    <!-- Buttons -->
+                    <HBox alignment="CENTER_RIGHT" spacing="12">
+                        <Button text="Quay Lại" fx:id="backButton"/>
+                        <Button text="Thêm Phòng" fx:id="addAuditoriumButton"/>
+                    </HBox>
+                </VBox>
+            </center>
+        </BorderPane>
+    </VBox>
+</ScrollPane>

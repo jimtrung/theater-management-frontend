@@ -87,7 +87,8 @@ public class AuditoriumListController {
         });
     }
 
-    public void handleAddAuditorium() {
+    @FXML
+    public void handleAddAuditoriumButton() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/add_auditorium_dialog.fxml"));
             screenController.addScreen("addAuditorium", loader);
@@ -105,6 +106,7 @@ public class AuditoriumListController {
         }
     }
 
+    @FXML
     public void handleClickItem(UUID id) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/auditorium_information.fxml"));
@@ -124,7 +126,8 @@ public class AuditoriumListController {
         }
     }
 
-    public void handleDeleteAllAuditoriums() throws Exception {
+    @FXML
+    public void handleDeleteAllButton() throws Exception {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete confirmation");
         alert.setHeaderText(null);
@@ -165,7 +168,9 @@ public class AuditoriumListController {
             }
         }
     }
-    public void handleCloseBtn() {
+    
+    @FXML
+    public void handleCloseButton() { 
         screenController.activate("homePageManager");
     }
 }

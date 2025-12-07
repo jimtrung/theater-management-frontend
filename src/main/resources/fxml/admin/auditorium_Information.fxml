@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/25" 
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.github.jimtrung.theater.view.AuditoriumInformationController"
+            stylesheets="@/styles/styles.css"
+            fitToWidth="true">
+
+    <VBox alignment="CENTER" spacing="20">
+        
+        <!-- TITLE -->
+        <Label text="Thông tin phòng chiếu"/>
+
+        <!-- CARD -->
+        <VBox prefWidth="500"
+              spacing="20">
+
+            <!-- NAME -->
+            <VBox spacing="6">
+                <Label text="Tên phòng chiếu"/>
+                <TextField fx:id="AuditoriumNameField"/>
+            </VBox>
+
+            <!-- TYPE -->
+            <VBox spacing="6">
+                <Label text="Loại phòng chiếu"/>
+                <TextField fx:id="AuditoriumTypeField"/>
+            </VBox>
+
+            <!-- CAPACITY -->
+            <VBox spacing="6">
+                <Label text="Sức chứa"/>
+                <TextField fx:id="AuditoriumCapacityField"/>
+            </VBox>
+
+            <!-- NOTE -->
+            <VBox spacing="6">
+                <Label text="Ghi chú"/>
+                <TextArea fx:id="AuditoriumNoteField"
+                          wrapText="true"
+                          prefHeight="100"/>
+            </VBox>
+
+            <!-- BUTTON GROUP -->
+            <HBox spacing="12" alignment="CENTER_RIGHT">
+                <Button fx:id="backButton"
+                        text="Quay lại"
+                        onAction="#handleBackButton"/>
+
+                <Button fx:id="editButton"
+                        text="Sửa"
+                        onAction="#handleEditButton"/>
+
+                <Button fx:id="deleteButton"
+                        text="Xóa"
+                        onAction="#handleDeleteButton"/>
+            </HBox>
+
+        </VBox>
+    </VBox>
+</ScrollPane>
