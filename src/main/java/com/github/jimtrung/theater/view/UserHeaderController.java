@@ -1,18 +1,13 @@
 package com.github.jimtrung.theater.view;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Label;
 import com.github.jimtrung.theater.model.User;
 import com.github.jimtrung.theater.service.AuthService;
-import com.github.jimtrung.theater.util.AuthTokenUtil;
-import java.net.URL;
-import java.util.ResourceBundle;
 
-public class UserHeaderController implements Initializable {
+public class UserHeaderController {
 
     @FXML
     private HBox authButtons;
@@ -31,7 +26,6 @@ public class UserHeaderController implements Initializable {
 
     private ScreenController screenController;
     private AuthService authService;
-    private AuthTokenUtil authTokenUtil;
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
@@ -39,15 +33,6 @@ public class UserHeaderController implements Initializable {
 
     public void setAuthService(AuthService authService) {
         this.authService = authService;
-    }
-
-    public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
-        this.authTokenUtil = authTokenUtil;
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Initial state logic if needed, but mostly handled in handleOnOpen or listener
     }
 
     public void handleOnOpen() {
@@ -77,52 +62,57 @@ public class UserHeaderController implements Initializable {
     }
 
     @FXML
-    private void handleHome() {
+    private void handleHomeButton() {
         if (screenController != null) screenController.activate("home");
     }
 
     @FXML
-    private void handleShowTimes() {
+    private void handleShowTimesButton() {
         if (screenController != null) screenController.activate("showtimePage");
     }
 
     @FXML
-    private void handleNews() {
+    private void handleBookedTicketButton() {
+        if (screenController != null) screenController.activate("bookedTicket");
+    }
+
+    @FXML
+    private void handleNewsButton() {
         if (screenController != null) screenController.activate("tintuc");
     }
 
     @FXML
-    private void handlePromotion() {
+    private void handlePromotionButton() {
         if (screenController != null) screenController.activate("eventList");
     }
 
     @FXML
-    private void handleAbout() {
+    private void handlePriceButton() {
+        if (screenController != null) screenController.activate("price");
+    }
+
+    @FXML
+    private void handleAboutButton() {
         // TODO: Implement about page
     }
 
     @FXML
-    private void handleRegister() {
+    private void handleSignUpButton() {
         if (screenController != null) screenController.activate("signup");
     }
 
     @FXML
-    private void handleLogin() {
+    private void handleSignInButton() {
         if (screenController != null) screenController.activate("signin");
     }
 
     @FXML
-    private void handleProfile() {
+    private void handleProfileButton() {
         if (screenController != null) screenController.activate("profile");
     }
 
     @FXML
-    private void handleSettings() {
-        // TODO: Implement settings
-    }
-
-    @FXML
-    private void handleLogout() {
+    private void handleLogoutButton() {
         if (authService != null) {
             authService.logout();
         }

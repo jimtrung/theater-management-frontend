@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.github.jimtrung.theater.model.Auditorium;
+import com.github.jimtrung.theater.model.Showtime;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
 
 import java.net.URI;
@@ -15,41 +15,41 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-public class AuditoriumService {
+public class ShowtimeService {
     private final HttpClient client = HttpClient.newHttpClient();
     private final AuthTokenUtil authTokenUtil;
 
-    public AuditoriumService(AuthTokenUtil authTokenUtil) {
+    public ShowtimeService(AuthTokenUtil authTokenUtil) {
         this.authTokenUtil = authTokenUtil;
     }
 
-    public void insertAuditorium(Auditorium auditorium) throws Exception {
+    public void insertShowtime(Showtime showtime) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
         mapper.registerModule(new JavaTimeModule());
-
-        String requestBody = mapper.writeValueAsString(auditorium);
+        String requestBody = mapper.writeValueAsString(showtime);
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/auditoriums"))
+                .uri(URI.create("http://localhost:8080/showtimes"))
                 .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + authTokenUtil.loadAccessToken())
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    public List<Auditorium> getAllAuditoriums() throws Exception {
+    public List<Showtime> getAllShowtimes() throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/auditoriums"))
+                .uri(URI.create("http://localhost:8080/showtimes"))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + authTokenUtil.loadAccessToken())
                 .GET()
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
         String responseBody = response.body();
+
         if (responseBody == null || responseBody.isBlank() || responseBody.startsWith("{")) {
             return Collections.emptyList();
         }
@@ -58,22 +58,20 @@ public class AuditoriumService {
         mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
         mapper.registerModule(new JavaTimeModule());
 
-        List<Auditorium> auditoriums = mapper.readValue(responseBody, new TypeReference<List<Auditorium>>() {});
-        System.out.println("[DEBUG] - getAllAuditoriums - Parsed auditoriums count: " + auditoriums.size());
-        return auditoriums;
+        return mapper.readValue(responseBody, new TypeReference<List<Showtime>>() {});
     }
 
-    public Auditorium getAuditoriumById(UUID id) throws Exception {
+    public Showtime getShowtimeById(UUID id) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/auditoriums/" + id))
+                .uri(URI.create("http://localhost:8080/showtimes/" + id))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + authTokenUtil.loadAccessToken())
                 .GET()
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
         String body = response.body();
+
         if (body == null || body.isBlank() || body.startsWith("{\"timestamp")) {
             return null;
         }
@@ -82,44 +80,44 @@ public class AuditoriumService {
         mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
         mapper.registerModule(new JavaTimeModule());
 
-        return mapper.readValue(body, Auditorium.class);
+        return mapper.readValue(body, Showtime.class);
     }
 
-    public void deleteAuditoriumById(UUID id) throws Exception {
+    public void deleteShowtimeById(UUID id) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/auditoriums/" + id))
+                .uri(URI.create("http://localhost:8080/showtimes/" + id))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + authTokenUtil.loadAccessToken())
                 .DELETE()
                 .build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    public void deleteAllAuditoriums() throws Exception {
+    public void deleteAllShowtimes() throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/auditoriums"))
+                .uri(URI.create("http://localhost:8080/showtimes"))
                 .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + authTokenUtil.loadAccessToken())
                 .DELETE()
                 .build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    public void updateAuditorium(UUID id, Auditorium auditorium) throws Exception {
+    public void updateShowtime(UUID id, Showtime showtime) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
         mapper.registerModule(new JavaTimeModule());
-
-        String body = mapper.writeValueAsString(auditorium);
+        String body = mapper.writeValueAsString(showtime);
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/auditoriums/" + id))
+                .uri(URI.create("http://localhost:8080/showtimes/" + id))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + authTokenUtil.loadAccessToken())
                 .PUT(HttpRequest.BodyPublishers.ofString(body))
                 .build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 }

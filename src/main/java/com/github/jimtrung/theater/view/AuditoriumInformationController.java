@@ -1,15 +1,11 @@
 package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.model.Auditorium;
-import com.github.jimtrung.theater.model.Movie;
 import com.github.jimtrung.theater.service.AuditoriumService;
-import com.github.jimtrung.theater.service.MovieService;
 import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.model.User;
 import com.github.jimtrung.theater.model.UserRole;
-import com.github.jimtrung.theater.util.AuthTokenUtil;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -17,7 +13,6 @@ import java.util.UUID;
 
 public class AuditoriumInformationController {
     private ScreenController screenController;
-    private AuthTokenUtil authTokenUtil;
     private AuthService authService;
     private AuditoriumService auditoriumService;
     private AuditoriumListController auditoriumListController;
@@ -27,21 +22,12 @@ public class AuditoriumInformationController {
         this.auditoriumService = auditoriumService;
     }
 
-    public void setAuditoriumListController(AuditoriumListController auditoriumListController) {
-        this.auditoriumListController = auditoriumListController;
-    }
-
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
-    }
-
-
-    public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
-        this.authTokenUtil = authTokenUtil;
     }
 
     public void setAuthService(AuthService authService) {
@@ -134,15 +120,6 @@ public class AuditoriumInformationController {
 
     @FXML
     private TextArea auditoriumNoteField;
-
-    @FXML
-    private Button deleteButton;
-
-    @FXML
-    private Button editButton;
-
-    @FXML
-    private Button backButton;
 }
 
 

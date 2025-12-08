@@ -4,61 +4,54 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<ScrollPane xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml" 
-    fx:controller="com.github.jimtrung.theater.view.ShowtimeInformationController"
-    stylesheets="@/styles/styles.css"
-    fitToWidth="true">
-    <VBox alignment="TOP_CENTER" spacing="30">
+<ScrollPane xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.github.jimtrung.theater.view.ShowtimeInformationController"
+            stylesheets="@/styles/styles.css"
+            fitToWidth="true">
+  <VBox alignment="TOP_CENTER" spacing="30">
 
-        <!-- Title -->
-        <Label text="Showtime Information"/>
+    <Label text="Showtime Information"/>
 
-        <!-- Card -->
-        <VBox spacing="16" maxWidth="600">
+    <VBox spacing="16" maxWidth="600">
 
-            <!-- Movie Name -->
-            <VBox spacing="5">
-                <Label text="Movie Name"/>
-                <TextField fx:id="showtimeMovieNameField" editable="false"/>
-            </VBox>
+      <VBox spacing="5">
+        <Label text="Movie Name"/>
+        <TextField fx:id="showtimeMovieNameField" editable="false"/>
+      </VBox>
 
-            <!-- Auditorium -->
-            <VBox spacing="5">
-                <Label text="Auditorium"/>
-                <TextField fx:id="showtimeAuditoriumNameField" editable="false"/>
-            </VBox>
+      <VBox spacing="5">
+        <Label text="Auditorium"/>
+        <TextField fx:id="showtimeAuditoriumNameField" editable="false"/>
+      </VBox>
 
-            <!-- Quantity -->
-            <VBox spacing="5">
-                <Label text="Quantity"/>
-                <TextField fx:id="showtimeQuantityField" editable="false"/>
-            </VBox>
+      <VBox spacing="5">
+        <Label text="Quantity"/>
+        <TextField fx:id="showtimeQuantityField" editable="false"/>
+      </VBox>
 
-            <!-- Show Date -->
-            <VBox spacing="5">
-                <Label text="Show Date"/>
-                <TextField fx:id="showtimeDateField" editable="false"/>
-            </VBox>
+      <VBox spacing="5">
+        <Label text="Show Date"/>
+        <TextField fx:id="showtimeDateField" editable="false"/>
+      </VBox>
 
-            <!-- Start + End Time (same row) -->
-            <HBox spacing="16">
-                <VBox spacing="5">
-                    <Label text="Start Time"/>
-                    <TextField fx:id="showtimeStartTimeField" editable="false" prefWidth="120"/>
-                </VBox>
-                <VBox spacing="5">
-                    <Label text="End Time"/>
-                    <TextField fx:id="showtimeEndTimeField" editable="false" prefWidth="120"/>
-                </VBox>
-            </HBox>
-
-            <!-- Buttons -->
-            <HBox spacing="12" alignment="CENTER_RIGHT">
-                <Button fx:id="backButton" text="Back" onAction="#handleBackButton"/>
-                <Button fx:id="deleteButton" text="Delete" onAction="#handleDeleteButton"/>
-            </HBox>
-
+      <HBox spacing="16">
+        <VBox spacing="5">
+          <Label text="Start Time"/>
+          <TextField fx:id="showtimeStartTimeField" editable="false" prefWidth="120"/>
         </VBox>
+        <VBox spacing="5">
+          <Label text="End Time"/>
+          <TextField fx:id="showtimeEndTimeField" editable="false" prefWidth="120"/>
+        </VBox>
+      </HBox>
+
+      <HBox spacing="12" alignment="CENTER_RIGHT">
+        <Button text="Back" onAction="#handleBackButton"/>
+        <Button text="Delete" onAction="#handleDeleteButton"/>
+      </HBox>
 
     </VBox>
+
+  </VBox>
 </ScrollPane>

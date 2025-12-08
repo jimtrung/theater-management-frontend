@@ -11,77 +11,61 @@
             fx:controller="com.github.jimtrung.theater.view.PriceController"
             stylesheets="@/styles/styles.css">
 
-    <top>
-        <fx:include fx:id="userHeader" source="../component/header.fxml"/>
-    </top>
+  <top>
+    <fx:include fx:id="userHeader" source="../component/header.fxml"/>
+  </top>
 
-    <center>
-        <ScrollPane fitToWidth="true">
-            <VBox alignment="TOP_CENTER" maxWidth="1100" spacing="30">
-                <padding>
-                    <Insets top="30" right="0" bottom="50" left="0"/>
-                </padding>
+  <center>
+    <ScrollPane fitToWidth="true">
+      <VBox alignment="TOP_CENTER" maxWidth="1100" spacing="30">
+        <padding>
+          <Insets top="30" right="0" bottom="50" left="0"/>
+        </padding>
 
-                <!-- Title -->
-                <Label text="GIÁ VÉ (Áp dụng từ ngày 01/06/2023)"
-                       style="-fx-text-fill: #EF4444; -fx-font-size: 28px; -fx-font-weight: bold;"/>
+        <!-- Title -->
+        <Label text="GIÁ VÉ (Áp dụng từ ngày 01/06/2023)"/>
 
-                <!-- Image -->
-                <ImageView fitWidth="1100" preserveRatio="true">
-                    <Image url="@/images/giave2.png"/>
-                </ImageView>
+        <!-- Image -->
+        <ImageView fitWidth="1100" preserveRatio="true">
+          <Image url="@/images/giave2.png"/>
+        </ImageView>
 
-                <!-- Content -->
-                <VBox spacing="10">
-                    <padding>
-                        <Insets left="0" right="0"/>
-                    </padding>
+        <!-- Content -->
+        <VBox spacing="10">
+          <padding>
+            <Insets left="0" right="0"/>
+          </padding>
 
-                    <Label text="* Đối với phim có thời lượng từ 150 phút trở xuống: giảm 10.000 VNĐ / vé"
-                           style="-fx-font-size: 18px; -fx-text-fill: #F9FAFB;" wrapText="true"/>
+          <Label text="* Đối với phim có thời lượng từ 150 phút trở xuống: giảm 10.000 VNĐ / vé"/>
 
-                    <Label text="Giá vé đối với các đối tượng khán giả ưu tiên:"
-                           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #F9FAFB; -fx-padding: 15px 0 10px 0;"/>
+          <Label text="Giá vé đối với các đối tượng khán giả ưu tiên:"/>
 
-                    <Label text="- Giảm 20%: Trẻ em (dưới 16 tuổi), người cao tuổi (từ đủ 60 tuổi), người có công với cách mạng, người có hoàn cảnh đặc biệt khó khăn"
-                           style="-fx-font-size: 18px; -fx-text-fill: #F9FAFB; -fx-padding: 0 0 6px 15px;" wrapText="true"/>
+          <Label
+              text="- Giảm 20%: Trẻ em (dưới 16 tuổi), người cao tuổi (từ đủ 60 tuổi), người có công với cách mạng, người có hoàn cảnh đặc biệt khó khăn"
+              wrapText="true"/>
 
-                    <Label text="- Giảm 50%: Người khuyết tật nặng"
-                           style="-fx-font-size: 18px; -fx-text-fill: #F9FAFB; -fx-padding: 0 0 6px 15px;"/>
+          <Label text="- Giảm 50%: Người khuyết tật nặng"/>
+          <Label text="- Giảm 100%: Người khuyết tật đặc biệt nặng, trẻ em dưới 0.7m đi kèm người lớn" wrapText="true"/>
+          <Label text="Điều kiện áp dụng:"/>
+          <Label text="- Chỉ áp dụng khi mua vé tại quầy"/>
 
-                    <Label text="- Giảm 100%: Người khuyết tật đặc biệt nặng, trẻ em dưới 0.7m đi kèm người lớn"
-                           style="-fx-font-size: 18px; -fx-text-fill: #F9FAFB; -fx-padding: 0 0 15px 15px;" wrapText="true"/>
+          <Label text="- Phải xuất trình giấy tờ khi mua vé"/>
 
-                    <Label text="Điều kiện áp dụng:"
-                           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #F9FAFB; -fx-padding: 15px 0 10px 0;"/>
+          <Label text="Lưu ý:"/>
 
-                    <Label text="- Chỉ áp dụng khi mua vé tại quầy"
-                           style="-fx-font-size: 18px; -fx-text-fill: #F9FAFB; -fx-padding: 0 0 6px 15px;"/>
+          <Label text="- Trẻ em dưới 13 tuổi không được xem phim kết thúc sau 22h"/>
 
-                    <Label text="- Phải xuất trình giấy tờ khi mua vé"
-                           style="-fx-font-size: 18px; -fx-text-fill: #F9FAFB; -fx-padding: 0 0 15px 15px;"/>
+          <Label text="- Trẻ em dưới 16 tuổi không được xem phim kết thúc sau 23h"/>
 
-                    <Label text="Lưu ý:"
-                           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #F9FAFB; -fx-padding: 15px 0 10px 0;"/>
+          <Label text="- Giá vé ngày lễ: Tết, 30/4, 1/5, 2/9, 14/2, 8/3, 24/12"/>
 
-                    <Label text="- Trẻ em dưới 13 tuổi không được xem phim kết thúc sau 22h"
-                           style="-fx-font-size: 18px; -fx-text-fill: #F9FAFB; -fx-padding: 0 0 6px 15px;"/>
+          <Label text="TTCPQG không hoàn tiền vé đã thanh toán online."/>
 
-                    <Label text="- Trẻ em dưới 16 tuổi không được xem phim kết thúc sau 23h"
-                           style="-fx-font-size: 18px; -fx-text-fill: #F9FAFB; -fx-padding: 0 0 6px 15px;"/>
+          <Label text="Xin cảm ơn – Chúc quý khách xem phim vui vẻ!"/>
+        </VBox>
 
-                    <Label text="- Giá vé ngày lễ: Tết, 30/4, 1/5, 2/9, 14/2, 8/3, 24/12"
-                           style="-fx-font-size: 18px; -fx-text-fill: #F9FAFB; -fx-padding: 0 0 15px 15px;"/>
-
-                    <Label text="TTCPQG không hoàn tiền vé đã thanh toán online."
-                           style="-fx-font-size: 18px; -fx-text-fill: #F9FAFB; -fx-padding: 10px 0 0 0;"/>
-
-                    <Label text="Xin cảm ơn – Chúc quý khách xem phim vui vẻ!"
-                           style="-fx-font-size: 18px; -fx-text-fill: #F9FAFB; -fx-padding: 10px 0 0 0;"/>
-                </VBox>
-
-            </VBox>
-        </ScrollPane>
-    </center>
+      </VBox>
+    </ScrollPane>
+  </center>
 
 </BorderPane>

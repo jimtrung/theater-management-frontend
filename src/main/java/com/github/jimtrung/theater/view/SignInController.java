@@ -6,15 +6,13 @@ import com.github.jimtrung.theater.model.User;
 import com.github.jimtrung.theater.model.UserRole;
 import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.awt.*;
-import java.net.URI;
 
 public class SignInController {
     private ScreenController screenController;
@@ -41,6 +39,15 @@ public class SignInController {
             if (user.getRole() == UserRole.user) screenController.activate("homePageUser");
             if (user.getRole() == UserRole.administrator) screenController.activate("homePageManager");
         }
+
+        passwordField.clear();
+        passwordField.setVisible(true);
+
+        visiblePasswordField.clear();
+        visiblePasswordField.setVisible(false);
+        showPasswordCheckBox.setSelected(false);
+
+        usernameField.clear();
     }
 
     @FXML
@@ -50,15 +57,18 @@ public class SignInController {
     private PasswordField passwordField;
 
     @FXML
-    private Button githubSignInButton;
+    private TextField visiblePasswordField;
 
     @FXML
-    public void handleBackButton(ActionEvent event) {
+    private CheckBox showPasswordCheckBox;
+
+    @FXML
+    public void handleBackButton() {
         screenController.activate("home");
     }
 
     @FXML
-    public void handleSignInButton(ActionEvent event) {
+    public void handleSignInButton() {
         User user = new User();
         user.setUsername(usernameField.getText());
         user.setPassword(passwordField.getText());
@@ -77,6 +87,11 @@ public class SignInController {
             TokenPair tokenPair = (TokenPair) response;
             authTokenUtil.saveAccessToken(tokenPair.accessToken());
             authTokenUtil.saveRefreshToken(tokenPair.refreshToken());
+
+            usernameField.clear();
+            passwordField.clear();
+            visiblePasswordField.clear();
+            showPasswordCheckBox.setSelected(false);
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -91,6 +106,15 @@ public class SignInController {
     }
 
     @FXML
-    private void handleForgotPassword(ActionEvent event) {
+    private void TogglePasswordVisibility() {
+        if (showPasswordCheckBox.isSelected()) {
+            visiblePasswordField.setText(passwordField.getText());
+            visiblePasswordField.setVisible(true);
+            passwordField.setVisible(false);
+        } else {
+            passwordField.setText(visiblePasswordField.getText());
+            passwordField.setVisible(true);
+            visiblePasswordField.setVisible(false);
+        }
     }
 }

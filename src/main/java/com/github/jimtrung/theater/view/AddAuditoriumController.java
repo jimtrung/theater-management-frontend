@@ -1,11 +1,9 @@
 package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.model.Auditorium;
-import com.github.jimtrung.theater.model.Movie;
 import com.github.jimtrung.theater.model.UserRole;
 import com.github.jimtrung.theater.service.AuditoriumService;
-import com.github.jimtrung.theater.service.MovieService;
-import com.github.jimtrung.theater.util.AuthTokenUtil;
+import com.github.jimtrung.theater.service.AuthService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
@@ -15,30 +13,21 @@ import java.lang.reflect.Field;
 
 public class AddAuditoriumController {
     private ScreenController screenController;
-    private AuthTokenUtil authTokenUtil;
+    private AuthService authService;
+
     private AuditoriumService auditoriumService;
     private AuditoriumListController auditoriumListController;
-
-    public void setAuditoriumListController(AuditoriumListController auditoriumListController) {
-        this.auditoriumListController = auditoriumListController;
-    }
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
     }
 
-    public void setAuditoriumService(AuditoriumService auditoriumService) {
-        this.auditoriumService = auditoriumService;
-    }
-
-    public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
-        this.authTokenUtil = authTokenUtil;
-    }
-
-    private com.github.jimtrung.theater.service.AuthService authService;
-
     public void setAuthService(com.github.jimtrung.theater.service.AuthService authService) {
         this.authService = authService;
+    }
+
+    public void setAuditoriumService(AuditoriumService auditoriumService) {
+        this.auditoriumService = auditoriumService;
     }
 
     public void handleOnOpen() {
@@ -52,11 +41,13 @@ public class AddAuditoriumController {
         }
     }
 
-    public void handleCloseButton() {
+    @FXML
+    private void handleBackButton() {
         screenController.activate("auditoriumList");
     }
 
-    public void handleAddAuditoriumButtonClick() {
+    @FXML
+    public void handleAddAuditoriumButton() {
         Auditorium auditorium = new Auditorium();
         auditorium.setName(auditoriumNameField.getText().toString().trim());
         auditorium.setType(auditoriumTypeField.getText().toString().trim());
@@ -112,7 +103,6 @@ public class AddAuditoriumController {
         }
         return false;
     }
-
 
     private boolean isEmpty(TextField field) {
         return field.getText() == null || field.getText().trim().isEmpty();

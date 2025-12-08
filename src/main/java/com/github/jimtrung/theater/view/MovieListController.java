@@ -105,38 +105,14 @@ public class MovieListController {
         refreshData();
     }
 
-    /* ===== BUTTON HANDLERS ===== */
     @FXML
     public void handleAddMovieButton() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/add_movie_dialog.fxml"));
-            screenController.addScreen("addMovie", loader);
-            AddMovieController addMovieController = loader.getController();
-            addMovieController.setScreenController(screenController);
-            addMovieController.setMovieService(movieService);
-            addMovieController.setAuthTokenUtil(authTokenUtil);
-            addMovieController.setMovieListController(this);
-            screenController.activate("addMovie");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        screenController.activate("addMovie");
     }
 
     @FXML
     public void handleClickItem(UUID id) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/movie_information.fxml"));
-            screenController.addScreen("movieInformation", loader);
-            MovieInformationController movieInformationController = loader.getController();
-            movieInformationController.setScreenController(screenController);
-            movieInformationController.setMovieService(movieService);
-            movieInformationController.setAuthTokenUtil(authTokenUtil);
-            movieInformationController.setMovieListController(this);
-            movieInformationController.setUuid(id);
-            screenController.activate("movieInformation");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        screenController.activate("movieInformation");
     }
 
     @FXML
@@ -151,9 +127,9 @@ public class MovieListController {
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 movieService.deleteAllMovies();
                 refreshData();
-                System.out.println("🗑️ All movies deleted successfully!");
+                System.out.println("All movies deleted successfully!");
             } else {
-                System.out.println("❌ Delete all operation cancelled!");
+                System.out.println("Delete all operation cancelled!");
             }
         } catch (Exception e) {
             e.printStackTrace();

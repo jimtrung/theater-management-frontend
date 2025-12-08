@@ -7,81 +7,72 @@
 <?import javafx.scene.Scene?>
 
 <ScrollPane fx:id="root"
-            xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.github.jimtrung.theater.view.MovieInformationController"
             fitToWidth="true">
 
-    <content>
-        <VBox alignment="CENTER" spacing="16">
-            
-            <Label text="Movie Information"/>
+  <content>
+    <VBox alignment="CENTER" spacing="16">
 
-            <VBox maxWidth="600" spacing="16">
-                
-                <!-- Movie Name -->
-                <VBox spacing="4">
-                    <Label text="Movie Name"/>
-                    <TextField fx:id="movieNameField"/>
-                </VBox>
+      <Label text="Movie Information"/>
 
-                <!-- Description -->
-                <VBox spacing="4">
-                    <Label text="Description"/>
-                    <TextArea fx:id="movieDescriptionField"
-                              wrapText="true"/>
-                </VBox>
+      <VBox maxWidth="600" spacing="16">
 
-                <!-- Director -->
-                <VBox spacing="4">
-                    <Label text="Director"/>
-                    <TextField fx:id="movieDirectorIdField"
-                               editable="false"/>
-                </VBox>
-
-                <!-- Genres -->
-                <VBox spacing="4">
-                    <Label text="Genres (comma-separated)"/>
-                    <TextField fx:id="movieGenresField"
-                               editable="false"/>
-                </VBox>
-
-                <!-- Premiere -->
-                <VBox spacing="4" visible="false" managed="false">
-                    <Label text="Premiere (YYYY-MM-DD HH:mm:ss)"/>
-                    <TextField fx:id="moviePremiereField"
-                               editable="false"/>
-                </VBox>
-
-                <!-- Duration + Rated -->
-                <HBox spacing="16">
-                    <VBox spacing="4">
-                        <Label text="Duration (min)"/>
-                        <TextField fx:id="movieDurationField"
-                                   prefWidth="120"/>
-                    </VBox>
-                    <VBox spacing="4">
-                        <Label text="Rated (age)"/>
-                        <TextField fx:id="movieRatedField"
-                                   prefWidth="120"/>
-                    </VBox>
-                </HBox>
-
-                <!-- Language -->
-                <VBox spacing="4">
-                    <Label text="Language"/>
-                    <TextField fx:id="movieLanguageField"/>
-                </VBox>
-
-                <!-- Buttons -->
-                <HBox spacing="12" alignment="CENTER_RIGHT">
-                    <Button fx:id="backButton" text="Back" onAction="#handleBackButton"/>
-                    <Button fx:id="editButton" text="Edit" onAction="#handleEditButton"/>
-                    <Button fx:id="deleteButton" text="Delete" onAction="#handleDeleteButton"/>
-                </HBox>
-
-            </VBox>
-
+        <VBox spacing="4">
+          <Label text="Movie Name"/>
+          <TextField fx:id="movieNameField"/>
         </VBox>
-    </content>
+
+        <VBox spacing="4">
+          <Label text="Description"/>
+          <TextArea fx:id="movieDescriptionField"
+                    wrapText="true"/>
+        </VBox>
+
+        <VBox spacing="4">
+          <Label text="Director"/>
+          <TextField fx:id="movieDirectorIdField"
+                     editable="false"/>
+        </VBox>
+
+        <VBox spacing="4">
+          <Label text="Genres (comma-separated)"/>
+          <TextField fx:id="movieGenresField"
+                     editable="false"/>
+        </VBox>
+
+        <VBox spacing="4" visible="false" managed="false">
+          <Label text="Premiere (YYYY-MM-DD HH:mm:ss)"/>
+          <TextField fx:id="moviePremiereField"
+                     editable="false"/>
+        </VBox>
+
+        <HBox spacing="16">
+          <VBox spacing="4">
+            <Label text="Duration (min)"/>
+            <TextField fx:id="movieDurationField" prefWidth="120"/>
+          </VBox>
+
+          <VBox spacing="4">
+            <Label text="Rated (age)"/>
+            <TextField fx:id="movieRatedField" prefWidth="120"/>
+          </VBox>
+        </HBox>
+
+        <VBox spacing="4">
+          <Label text="Language"/>
+          <TextField fx:id="movieLanguageField"/>
+        </VBox>
+
+        <HBox spacing="12" alignment="CENTER_RIGHT">
+          <Button text="Back" onAction="#handleBackButton"/>
+          <Button text="Edit" onAction="#handleEditButton"/>
+          <Button text="Delete" onAction="#handleDeleteButton"/>
+        </HBox>
+
+      </VBox>
+
+    </VBox>
+  </content>
 </ScrollPane>

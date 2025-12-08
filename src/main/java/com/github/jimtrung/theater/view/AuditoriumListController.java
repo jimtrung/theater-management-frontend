@@ -89,34 +89,15 @@ public class AuditoriumListController {
 
     @FXML
     public void handleAddAuditoriumButton() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/add_auditorium_dialog.fxml"));
-            screenController.addScreen("addAuditorium", loader);
-
-            AddAuditoriumController addAuditoriumController = loader.getController();
-            addAuditoriumController.setScreenController(screenController);
-            addAuditoriumController.setAuditoriumService(auditoriumService);
-            addAuditoriumController.setAuthTokenUtil(authTokenUtil);
-            addAuditoriumController.setAuditoriumListController(this);
-
-            screenController.activate("addAuditorium");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        screenController.activate("addAuditorium");
     }
 
     @FXML
     public void handleClickItem(UUID id) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/auditorium_information.fxml"));
-            screenController.addScreen("auditoriumInformation", loader);
-
-            AuditoriumInformationController auditoriumInformationController = loader.getController();
-            auditoriumInformationController.setScreenController(screenController);
-            auditoriumInformationController.setAuditoriumService(auditoriumService);
-            auditoriumInformationController.setAuthTokenUtil(authTokenUtil);
-            auditoriumInformationController.setAuditoriumListController(this);
+            FXMLLoader auditoriumInformationLoader = new FXMLLoader(getClass().getResource("/fxml/auditorium_information.fxml"));
+            screenController.addScreen("auditoriumInformation", auditoriumInformationLoader);
+            AuditoriumInformationController auditoriumInformationController = auditoriumInformationLoader.getController();
             auditoriumInformationController.setUuid(uuid);
 
             screenController.activate("auditoriumInformation");
@@ -143,11 +124,6 @@ public class AuditoriumListController {
             System.out.println("Delete all operation cancelled !");
         }
     }
-
-//    @FXML
-//    public void handleOnOpen() {
-//        refreshData();
-//    }
 
     public void refreshData() {
         if(auditoriumService != null && auditoriumList != null) {

@@ -6,104 +6,85 @@
 
 <ScrollPane xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.github.jimtrung.theater.views.AddMovieController"
+            fx:controller="com.github.jimtrung.theater.view.AddMovieController"
             stylesheets="@/styles/styles.css"
             fitToWidth="true">
 
-    <GridPane alignment="CENTER">
-        <GridPane.rowConstraints>
-            <RowConstraints vgrow="NEVER"/>
-            <RowConstraints vgrow="NEVER"/>
-            <RowConstraints vgrow="NEVER"/>
-        </GridPane.rowConstraints>
+  <GridPane alignment="CENTER">
+    <rowConstraints>
+      <RowConstraints vgrow="NEVER"/>
+      <RowConstraints vgrow="NEVER"/>
+      <RowConstraints vgrow="NEVER"/>
+    </rowConstraints>
 
-        <!-- Title -->
-        <Label text="Thêm Phim"
-               GridPane.rowIndex="0"/>
+    <Label text="Thêm Phim" GridPane.rowIndex="0"/>
 
-        <!-- Main Content -->
-        <GridPane GridPane.rowIndex="1" alignment="CENTER">
-            <columnConstraints>
-                <ColumnConstraints prefWidth="400"/>
-                <ColumnConstraints prefWidth="30"/>
-                <ColumnConstraints prefWidth="400"/>
-            </columnConstraints>
+    <GridPane GridPane.rowIndex="1" alignment="CENTER">
+      <columnConstraints>
+        <ColumnConstraints prefWidth="400"/>
+        <ColumnConstraints prefWidth="30"/>
+        <ColumnConstraints prefWidth="400"/>
+      </columnConstraints>
 
-            <!-- LEFT COLUMN -->
-            <VBox spacing="15" GridPane.columnIndex="0">
+      <!-- LEFT COLUMN -->
+      <VBox spacing="15" GridPane.columnIndex="0">
+        <VBox spacing="5">
+          <Label text="Nhập tên phim"/>
+          <TextField fx:id="movieNameField"/>
+        </VBox>
 
-                <!-- Movie Name -->
-                <VBox spacing="5">
-                    <Label text="Nhập tên phim"/>
-                    <TextField fx:id="movieNameField"/>
-                </VBox>
+        <VBox spacing="5">
+          <Label text="Chọn thể loại"/>
+          <TextField fx:id="searchGenreField"/>
 
-                <!-- Genre -->
-                <VBox spacing="5">
-                    <Label text="Chọn thể loại"/>
-                    <TextField fx:id="searchGenreField"/>
+          <ListView fx:id="genreListView" prefHeight="150"/>
+        </VBox>
 
-                    <ListView fx:id="genreListView"
-                              prefHeight="150"/>
-                </VBox>
+        <VBox spacing="5">
+          <Label text="Nhập mô tả phim"/>
+          <TextArea fx:id="movieDescriptionField" prefHeight="100" wrapText="true"/>
+        </VBox>
 
-                <!-- Description -->
-                <VBox spacing="5">
-                    <Label text="Nhập mô tả phim"/>
-                    <TextArea fx:id="movieDescriptionField"
-                              prefHeight="100"
-                              wrapText="true"/>
-                </VBox>
+        <HBox spacing="10">
+          <VBox>
+            <Label text="Giới hạn tuổi"/>
+            <TextField fx:id="movieRatedField" prefWidth="60"/>
+          </VBox>
 
-                <!-- Rated + Duration + Language -->
-                <HBox spacing="10">
+          <VBox>
+            <Label text="Thời lượng"/>
+            <TextField fx:id="movieDurationField" prefWidth="60"/>
+          </VBox>
 
-                    <VBox>
-                        <Label text="Giới hạn tuổi"/>
-                        <TextField fx:id="movieRatedField" prefWidth="60"/>
-                    </VBox>
-
-                    <VBox>
-                        <Label text="Thời lượng"/>
-                        <TextField fx:id="movieDurationField" prefWidth="60"/>
-                    </VBox>
-
-                    <VBox>
-                        <Label text="Ngôn ngữ"/>
-                        <TextField fx:id="movieLanguageField" prefWidth="120"/>
-                    </VBox>
-                </HBox>
-            </VBox>
-
-            <!-- RIGHT COLUMN -->
-            <VBox spacing="20" GridPane.columnIndex="2">
-
-                <!-- Director -->
-                <VBox spacing="5">
-                    <Label text="Chọn đạo diễn"/>
-                    <TextField fx:id="searchDirectorField"/>
-                    <ListView fx:id="directorListView"
-                              prefHeight="185"/>
-                </VBox>
-
-                <!-- Actor -->
-                <VBox spacing="5">
-                    <Label text="Chọn diễn viên"/>
-                    <TextField fx:id="searchActorField"/>
-                    <ListView fx:id="actorListView"
-                              prefHeight="185"/>
-                </VBox>
-
-            </VBox>
-        </GridPane>
-
-        <!-- Buttons -->
-        <HBox GridPane.rowIndex="2"
-              alignment="CENTER"
-              spacing="10">
-            <Button fx:id="backButton" text="Quay Lại" minWidth="80"/>
-            <Button fx:id="addMovieButton" text="Thêm" minWidth="80"/>
+          <VBox>
+            <Label text="Ngôn ngữ"/>
+            <TextField fx:id="movieLanguageField" prefWidth="120"/>
+          </VBox>
         </HBox>
+      </VBox>
 
+      <VBox spacing="20" GridPane.columnIndex="2">
+        <VBox spacing="5">
+          <Label text="Chọn đạo diễn"/>
+          <TextField fx:id="searchDirectorField"/>
+          <ListView fx:id="directorListView" prefHeight="185"/>
+        </VBox>
+
+        <VBox spacing="5">
+          <Label text="Chọn diễn viên"/>
+          <TextField fx:id="searchActorField"/>
+          <ListView fx:id="actorListView" prefHeight="185"/>
+        </VBox>
+
+      </VBox>
     </GridPane>
+
+    <HBox GridPane.rowIndex="2"
+          alignment="CENTER"
+          spacing="10">
+      <Button fx:id="backButton" text="Quay Lại" minWidth="80" onAction="#handleBackButton"/>
+      <Button fx:id="addMovieButton" text="Thêm" minWidth="80" onAction="#handleAddMovieButton"/>
+    </HBox>
+
+  </GridPane>
 </ScrollPane>

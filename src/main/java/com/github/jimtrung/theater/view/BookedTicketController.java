@@ -19,7 +19,6 @@ public class BookedTicketController {
 
     public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
         this.authTokenUtil = authTokenUtil;
-        if (userHeaderController != null) userHeaderController.setAuthTokenUtil(authTokenUtil);
     }
 
     public void setAuthService(AuthService authService) {
@@ -31,7 +30,5 @@ public class BookedTicketController {
         if (userHeaderController != null) userHeaderController.handleOnOpen();
         
         // TODO: Load booked tickets from service
-        // This controller is responsible for displaying the user's booked tickets
-        // The header handles all authentication and navigation
     }
 }

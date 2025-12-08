@@ -5,34 +5,26 @@ import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
 import javafx.fxml.FXML;
 
+import java.util.UUID;
+
 public class BookTicketController {
     private ScreenController screenController;
-    private AuthTokenUtil authTokenUtil;
     private AuthService authService;
+    private UUID showtimeId;
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
-    }
-
-    public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
-        this.authTokenUtil = authTokenUtil;
     }
 
     public void setAuthService(AuthService authService) {
         this.authService = authService;
     }
 
-    public void handleOnOpen() {
-        User user = null;
-        try {
-            user = (User) authService.getUser();
-        } catch (Exception ignored) {
-        }
+    public void setShowtimeId(UUID showtimeId) {
+        this.showtimeId = showtimeId;
+    }
 
-        if (user == null) {
-            // Secure page, redirect to login if not authenticated
-            screenController.activate("signin");
-        }
+    public void handleOnOpen() {
     }
     
     @FXML

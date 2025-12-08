@@ -9,56 +9,33 @@
             fx:controller="com.github.jimtrung.theater.view.MovieListController"
             stylesheets="@/styles/styles.css">
 
-    <GridPane alignment="CENTER">
+  <GridPane alignment="CENTER">
 
-        <GridPane prefWidth="800">
-            <rowConstraints>
-                <RowConstraints vgrow="NEVER"/>
-                <RowConstraints vgrow="NEVER"/>
-                <RowConstraints vgrow="NEVER"/>
-            </rowConstraints>
+    <GridPane prefWidth="800">
+      <rowConstraints>
+        <RowConstraints vgrow="NEVER"/>
+        <RowConstraints vgrow="NEVER"/>
+        <RowConstraints vgrow="NEVER"/>
+      </rowConstraints>
 
-            <!-- Close button -->
-            <Button fx:id="closeBtn"
-                    text="Đóng"
-                    GridPane.rowIndex="0"
-                    GridPane.halignment="RIGHT"
-                    onAction="#handleCloseButton"
-            />
+      <Button fx:id="closeBtn" text="Đóng" GridPane.rowIndex="0" GridPane.halignment="RIGHT" onAction="#handleCloseButton"/>
 
-            <!-- DataGrid equivalent -->
-            <TableView fx:id="movieTable"
-                       prefWidth="800"
-                       GridPane.rowIndex="1">
+      <TableView fx:id="movieTable" prefWidth="800" GridPane.rowIndex="1">
+        <columns>
+          <TableColumn fx:id="nameColumn" text="Tên phim"/>
+          <TableColumn fx:id="directorColumn" text="Đạo diễn"/>
+          <TableColumn fx:id="genresColumn" text="Thể loại"/>
+          <TableColumn fx:id="premiereColumn" text="Khởi chiếu"/>
+          <TableColumn fx:id="durationColumn" text="Thời lượng"/>
+          <TableColumn fx:id="ratedColumn" text="Giới hạn tuổi"/>
+          <TableColumn fx:id="languageColumn" text="Ngôn ngữ"/>
+        </columns>
+      </TableView>
 
-                <columns>
-                    <TableColumn fx:id="nameColumn" text="Tên phim"/>
-                    <TableColumn fx:id="directorColumn" text="Đạo diễn"/>
-                    <TableColumn fx:id="genresColumn" text="Thể loại"/>
-                    <TableColumn fx:id="premiereColumn" text="Khởi chiếu"/>
-                    <TableColumn fx:id="durationColumn" text="Thời lượng"/>
-                    <TableColumn fx:id="ratedColumn" text="Giới hạn tuổi"/>
-                    <TableColumn fx:id="languageColumn" text="Ngôn ngữ"/>
-                </columns>
-
-            </TableView>
-
-            <!-- Bottom Buttons -->
-            <HBox spacing="10"
-                  GridPane.rowIndex="2"
-                  alignment="CENTER_RIGHT">
-                
-                <Button fx:id="deleteAllBtn"
-                        text="Xóa Tất Cả"
-                        onAction="#handleDeleteAllButton"/>
-                
-                <Button fx:id="addMovieBtn"
-                        text="Thêm Phim"
-                        onAction="#handleAddMovieButton"/>
-            </HBox>
-
-        </GridPane>
-
+      <HBox spacing="10" GridPane.rowIndex="2" alignment="CENTER_RIGHT">
+        <Button fx:id="deleteAllBtn" text="Xóa Tất Cả" onAction="#handleDeleteAllButton"/>
+        <Button fx:id="addMovieBtn" text="Thêm Phim" onAction="#handleAddMovieButton"/>
+      </HBox>
     </GridPane>
-
+  </GridPane>
 </AnchorPane>

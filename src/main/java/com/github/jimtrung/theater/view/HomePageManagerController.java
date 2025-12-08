@@ -1,17 +1,14 @@
 package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.service.AuthService;
-import com.github.jimtrung.theater.util.AuthTokenUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 
 import java.awt.*;
 
 public class HomePageManagerController {
 
     private ScreenController screenController;
-    private AuthTokenUtil authTokenUtil;
     private AuthService authService;
 
     public void setScreenController(ScreenController screenController) {
@@ -21,16 +18,6 @@ public class HomePageManagerController {
     public void setAuthService(AuthService authService) {
         this.authService = authService;
     }
-
-    public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
-        this.authTokenUtil = authTokenUtil;
-    }
-
-    @FXML
-    private Button MovieButton;
-
-    @FXML
-    private Button profileButton;
 
     @FXML
     public void handleMovieButton() {
@@ -54,8 +41,7 @@ public class HomePageManagerController {
 
     @FXML
     public void handleLogOutButton(ActionEvent event) {
-        authTokenUtil.clearRefreshToken();
-        authTokenUtil.clearAccessToken();
+        authService.logout();
         screenController.activate("home");
     }
 }

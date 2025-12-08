@@ -4,7 +4,6 @@ import com.github.jimtrung.theater.dto.ErrorResponse;
 import com.github.jimtrung.theater.model.User;
 import com.github.jimtrung.theater.model.UserRole;
 import com.github.jimtrung.theater.service.AuthService;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
@@ -42,12 +41,12 @@ public class SignUpController {
     private PasswordField passwordField;
 
     @FXML
-    public void handleBackButton(ActionEvent event) {
+    public void handleBackButton() {
         screenController.activate("home");
     }
 
     @FXML
-    public void handleSignUpButton(ActionEvent event) {
+    public void handleSignUpButton() {
         User user = new User();
         user.setUsername(usernameField.getText());
         user.setEmail(emailField.getText());

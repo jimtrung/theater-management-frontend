@@ -1,15 +1,12 @@
 package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.model.Movie;
-import com.github.jimtrung.theater.model.User;
 import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.service.MovieService;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,7 +23,6 @@ public class HomePageUserController {
     private ScreenController screenController;
     private AuthService authService;
     private MovieService movieService;
-    private AuthTokenUtil authTokenUtil;
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
@@ -42,28 +38,12 @@ public class HomePageUserController {
         this.movieService = movieService;
     }
 
-    public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
-        this.authTokenUtil = authTokenUtil;
-        if (userHeaderController != null) userHeaderController.setAuthTokenUtil(authTokenUtil);
-    }
-    
     @FXML
     private FlowPane movieList;
 
-    // Gọi khi mở scene này
     public void handleOnOpen() {
         if (userHeaderController != null) userHeaderController.handleOnOpen();
 
-        User user = null;
-        try {
-            user = (User) authService.getUser();
-        } catch (Exception ignored) {
-        }
-        
-        // Note: Logic to redirect if user is null was removed/moved.
-        // If we want homepage accessible to guests, we keep it. If mandatory login, we redirect.
-        // Assuming homepage is public:
-        
         movieList.getChildren().clear();
 
         List<Movie> movies;
@@ -71,12 +51,16 @@ public class HomePageUserController {
             movies = movieService.getAllMovies();
         } catch (Exception e) {
             e.printStackTrace();
-            showError("Failed to fetch movies from server!");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to fetch movies");
+            alert.showAndWait();
             return;
         }
 
         if (movies == null || movies.isEmpty()) {
-            Label emptyLabel = new Label("No movies available 🎬");
+            Label emptyLabel = new Label("Không có phim nào để hiển thị");
             emptyLabel.getStyleClass().add("empty-label");
             movieList.getChildren().add(emptyLabel);
             return;
@@ -89,24 +73,24 @@ public class HomePageUserController {
     }
 
     @FXML
-    public void handleSignUpButton(ActionEvent event) {
+    public void handleSignUpButton() {
         screenController.activate("signup");
     }
 
     @FXML
-    public void handleSignInButton(ActionEvent event) {
+    public void handleSignInButton() {
         screenController.activate("signin");
     }
 
     @FXML
-    public void handleLogOutButton(ActionEvent event) {
-        authTokenUtil.clearRefreshToken();
-        authTokenUtil.clearAccessToken();
+    public void handleLogOutButton() {
+        authService.logout();
+
         screenController.activate("home");
     }
 
     @FXML
-    public void handleNewsButton(ActionEvent event) {
+    public void handleNewsButton() {
         screenController.activate("tintuc");
     }
 
@@ -115,7 +99,6 @@ public class HomePageUserController {
         card.setAlignment(Pos.TOP_CENTER);
         card.getStyleClass().add("movie-card");
 
-        // 🐈 Giữ lại ảnh cat.jpg huyền thoại
         ImageView poster = new ImageView(
                 new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cat.jpg")))
         );
@@ -136,23 +119,10 @@ public class HomePageUserController {
         Label duration = new Label(movie.getDuration() + " min");
         duration.getStyleClass().add("movie-duration");
 
-        Label language = new Label("Lang: " + movie.getLanguage());
+        Label language = new Label("Language: " + movie.getLanguage());
         language.getStyleClass().add("movie-language");
 
-        Label description = new Label(movie.getDescription() != null ? movie.getDescription() : "(No description)");
-        description.getStyleClass().add("movie-desc");
-        description.setWrapText(true);
-        description.setMaxWidth(200);
-
-        card.getChildren().addAll(poster, title, genres, rated, duration, language, description);
+        card.getChildren().addAll(poster, title, genres, rated, duration, language);
         return card;
-    }
-
-    private void showError(String msg) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(msg);
-        alert.showAndWait();
     }
 }

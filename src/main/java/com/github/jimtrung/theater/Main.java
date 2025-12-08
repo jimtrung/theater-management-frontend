@@ -61,7 +61,6 @@ public class Main extends Application {
         ProfileController profileController = profileLoader.getController();
         profileController.setScreenController(screenController);
         profileController.setAuthService(authService);
-        profileController.setAuthTokenUtil(authTokenUtil);
 
         // HomePageManager
         FXMLLoader homePageManagerLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/admin/home_page_manager.fxml")));
@@ -69,7 +68,6 @@ public class Main extends Application {
         HomePageManagerController homePageManagerController = homePageManagerLoader.getController();
         homePageManagerController.setScreenController(screenController);
         homePageManagerController.setAuthService(authService);
-        homePageManagerController.setAuthTokenUtil(authTokenUtil);
 
         // HomePageUser
         FXMLLoader homePageUserLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/home_page_user.fxml")));
@@ -78,7 +76,6 @@ public class Main extends Application {
         homePageUserController.setScreenController(screenController);
         homePageUserController.setAuthService(authService);
         homePageUserController.setMovieService(movieService);
-        homePageUserController.setAuthTokenUtil(authTokenUtil);
 
         // MovieList
         FXMLLoader movieListLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/admin/movie_list.fxml")));
@@ -101,7 +98,6 @@ public class Main extends Application {
         screenController.addScreen("tintuc", tinTucLoader);
         TinTucController tinTucController = tinTucLoader.getController();
         tinTucController.setScreenController(screenController);
-        tinTucController.setAuthTokenUtil(authTokenUtil);
         tinTucController.setAuthService(authService);
         
         // Book Ticket
@@ -110,7 +106,6 @@ public class Main extends Application {
         BookTicketController bookTicketController = bookTicketLoader.getController();
         bookTicketController.setScreenController(screenController);
         bookTicketController.setAuthService(authService);
-        bookTicketController.setAuthTokenUtil(authTokenUtil);
 
         // Booked Ticket
         FXMLLoader bookedTicketLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/booked_ticket.fxml")));
@@ -126,16 +121,14 @@ public class Main extends Application {
         PayPageController payPageController = payPageLoader.getController();
         payPageController.setScreenController(screenController);
         payPageController.setAuthService(authService);
-        payPageController.setAuthTokenUtil(authTokenUtil);
-        
+
         // Price
         FXMLLoader priceLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/price.fxml")));
         screenController.addScreen("price", priceLoader);
         PriceController priceController = priceLoader.getController();
         priceController.setScreenController(screenController);
         priceController.setAuthService(authService);
-        priceController.setAuthTokenUtil(authTokenUtil);
-        
+
         // Showtime Page
         FXMLLoader showtimePageLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/showtime_page.fxml")));
         screenController.addScreen("showtimePage", showtimePageLoader);
@@ -158,16 +151,47 @@ public class Main extends Application {
         ShowtimeInformationController showtimeInfoController = showtimeInfoLoader.getController();
         showtimeInfoController.setScreenController(screenController);
         showtimeInfoController.setAuthService(authService);
-        showtimeInfoController.setAuthTokenUtil(authTokenUtil);
 
         // ShowtimeList
         FXMLLoader showtimeListLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/admin/showtime_list.fxml")));
         screenController.addScreen("showtimeList", showtimeListLoader);
         ShowtimeListController showtimeListController = showtimeListLoader.getController();
         showtimeListController.setScreenController(screenController);
-        showtimeListController.setAuthTokenUtil(authTokenUtil);
 
-        // Start with home screen
+        // Add movie
+        FXMLLoader addMovieLoader = new FXMLLoader(getClass().getResource("/fxml/admin/add_movie.fxml"));
+        screenController.addScreen("addMovie", addMovieLoader);
+        AddMovieController addMovieController = addMovieLoader.getController();
+        addMovieController.setScreenController(screenController);
+        addMovieController.setMovieService(movieService);
+
+        // Movie information
+        FXMLLoader movieInformationLoader = new FXMLLoader(getClass().getResource("/fxml/admin/movie_information.fxml"));
+        screenController.addScreen("movieInformation", movieInformationLoader);
+        MovieInformationController movieInformationController = movieInformationLoader.getController();
+        movieInformationController.setScreenController(screenController);
+        movieInformationController.setMovieService(movieService);
+
+        // Add auditorium
+        FXMLLoader addAuditoriumLoader = new FXMLLoader(getClass().getResource("/fxml/admin/add_auditorium.fxml"));
+        screenController.addScreen("addAuditorium", addAuditoriumLoader);
+        AddAuditoriumController addAuditoriumController = addAuditoriumLoader.getController();
+        addAuditoriumController.setScreenController(screenController);
+        addAuditoriumController.setAuditoriumService(auditoriumService);
+
+        // Auditorium Information
+        FXMLLoader auditoriumInformationLoader = new FXMLLoader(getClass().getResource("/fxml/admin/auditorium_information.fxml"));
+        screenController.addScreen("auditoriumInformation", auditoriumInformationLoader);
+        AuditoriumInformationController auditoriumInformationController = auditoriumInformationLoader.getController();
+        auditoriumInformationController.setScreenController(screenController);
+        auditoriumInformationController.setAuditoriumService(auditoriumService);
+
+        // Add showtime
+        FXMLLoader showtimeLoader = new FXMLLoader(getClass().getResource("/fxml/admin/add_showtime.fxml"));
+        screenController.addScreen("addShowtime", showtimeLoader);
+        AddShowtimeController addShowtimeController = showtimeLoader.getController();
+        addShowtimeController.setScreenController(screenController);
+
         screenController.activate("home");
 
         Scene scene = new Scene(screenController.getRoot());

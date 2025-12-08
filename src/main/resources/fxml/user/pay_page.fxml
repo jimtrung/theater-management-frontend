@@ -6,102 +6,101 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane xmlns="http://javafx.com/javafx/25"  
+<BorderPane xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.github.jimtrung.theater.view.PayPageController"
             stylesheets="@/styles/styles.css">
 
-    <!-- CONTENT WRAPPER -->
-    <center>
-        <GridPane hgap="10" vgap="10">
-            <columnConstraints>
-                <ColumnConstraints percentWidth="60"/>
-                <ColumnConstraints percentWidth="40"/>
-            </columnConstraints>
+  <center>
+    <GridPane hgap="10" vgap="10">
+      <columnConstraints>
+        <ColumnConstraints percentWidth="60"/>
+        <ColumnConstraints percentWidth="40"/>
+      </columnConstraints>
 
-            <!-- LEFT SIDE - Ticket info -->
-            <GridPane GridPane.columnIndex="0" hgap="10" vgap="12">
-                <rowConstraints>
-                    <RowConstraints/>
-                    <RowConstraints/>
-                    <RowConstraints/>
-                    <RowConstraints/>
-                    <RowConstraints/>
-                    <RowConstraints/>
-                    <RowConstraints/>
-                </rowConstraints>
+      <!-- LEFT SIDE - Ticket info -->
+      <GridPane GridPane.columnIndex="0" hgap="10" vgap="12">
+        <rowConstraints>
+          <RowConstraints/>
+          <RowConstraints/>
+          <RowConstraints/>
+          <RowConstraints/>
+          <RowConstraints/>
+          <RowConstraints/>
+          <RowConstraints/>
+        </rowConstraints>
 
-                <!-- Tên phim -->
-                <HBox spacing="10" GridPane.rowIndex="0">
-                    <Label text="Tên phim:"/>
-                    <Label fx:id="ticketMovieName"/>
-                </HBox>
+        <!-- Tên phim -->
+        <HBox spacing="10" GridPane.rowIndex="0">
+          <Label text="Tên phim:"/>
+          <Label fx:id="ticketMovieName"/>
+        </HBox>
 
-                <!-- Phòng -->
-                <HBox spacing="10" GridPane.rowIndex="1">
-                    <Label text="Phòng:"/>
-                    <Label fx:id="ticketAuditoriumName"/>
-                </HBox>
+        <!-- Phòng -->
+        <HBox spacing="10" GridPane.rowIndex="1">
+          <Label text="Phòng:"/>
+          <Label fx:id="ticketAuditoriumName"/>
+        </HBox>
 
-                <!-- Giờ bắt đầu -->
-                <HBox spacing="10" GridPane.rowIndex="2">
-                    <Label text="Giờ bắt đầu:"/>
-                    <Label fx:id="ticketStartTime"/>
-                </HBox>
+        <!-- Giờ bắt đầu -->
+        <HBox spacing="10" GridPane.rowIndex="2">
+          <Label text="Giờ bắt đầu:"/>
+          <Label fx:id="ticketStartTime"/>
+        </HBox>
 
-                <!-- Giờ kết thúc -->
-                <HBox spacing="10" GridPane.rowIndex="3">
-                    <Label text="Giờ kết thúc:"/>
-                    <Label fx:id="ticketEndTime"/>
-                </HBox>
+        <!-- Giờ kết thúc -->
+        <HBox spacing="10" GridPane.rowIndex="3">
+          <Label text="Giờ kết thúc:"/>
+          <Label fx:id="ticketEndTime"/>
+        </HBox>
 
-                <!-- Ngày chiếu -->
-                <HBox spacing="10" GridPane.rowIndex="4">
-                    <Label text="Ngày chiếu:"/>
-                    <Label fx:id="ticketShowDate"/>
-                </HBox>
+        <!-- Ngày chiếu -->
+        <HBox spacing="10" GridPane.rowIndex="4">
+          <Label text="Ngày chiếu:"/>
+          <Label fx:id="ticketShowDate"/>
+        </HBox>
 
-                <!-- Ghế -->
-                <HBox spacing="10" GridPane.rowIndex="5">
-                    <Label text="Số ghế:"/>
-                    <Label fx:id="ticketSeatName"/>
-                </HBox>
+        <!-- Ghế -->
+        <HBox spacing="10" GridPane.rowIndex="5">
+          <Label text="Số ghế:"/>
+          <Label fx:id="ticketSeatName"/>
+        </HBox>
 
-                <!-- Giá vé -->
-                <HBox spacing="10" GridPane.rowIndex="6">
-                    <Label text="Giá vé:"/>
-                    <Label fx:id="ticketPrice"/>
-                </HBox>
-            </GridPane>
+        <!-- Giá vé -->
+        <HBox spacing="10" GridPane.rowIndex="6">
+          <Label text="Giá vé:"/>
+          <Label fx:id="ticketPrice"/>
+        </HBox>
+      </GridPane>
 
-            <!-- RIGHT SIDE - QR + Back button -->
-            <GridPane GridPane.columnIndex="1" vgap="20">
-                <rowConstraints>
-                    <RowConstraints vgrow="ALWAYS"/>
-                    <RowConstraints/>
-                </rowConstraints>
+      <!-- RIGHT SIDE - QR + Back button -->
+      <GridPane GridPane.columnIndex="1" vgap="20">
+        <rowConstraints>
+          <RowConstraints vgrow="ALWAYS"/>
+          <RowConstraints/>
+        </rowConstraints>
 
-                <!-- QR CODE -->
-                <BorderPane GridPane.rowIndex="0" prefWidth="250" prefHeight="250">
-                    <center>
-                        <ImageView fx:id="ticketQRCode"
-                                   fitWidth="250"
-                                   fitHeight="250"
-                                   preserveRatio="true"
-                                   pickOnBounds="true"/>
-                    </center>
-                </BorderPane>
+        <!-- QR CODE -->
+        <BorderPane GridPane.rowIndex="0" prefWidth="250" prefHeight="250">
+          <center>
+            <ImageView fx:id="ticketQRCode"
+                       fitWidth="250"
+                       fitHeight="250"
+                       preserveRatio="true"
+                       pickOnBounds="true"/>
+          </center>
+        </BorderPane>
 
-                <!-- Back button -->
-                <Button fx:id="back"
-                        GridPane.rowIndex="1"
-                        text="Trở lại"
-                        prefWidth="120" prefHeight="40"
-                        GridPane.halignment="RIGHT"
-                        onAction="#handleBackButton"/>
-            </GridPane>
+        <!-- Back button -->
+        <Button fx:id="back"
+                GridPane.rowIndex="1"
+                text="Trở lại"
+                prefWidth="120" prefHeight="40"
+                GridPane.halignment="RIGHT"
+                onAction="#handleBackButton"/>
+      </GridPane>
 
-        </GridPane>
-    </center>
+    </GridPane>
+  </center>
 
 </BorderPane>

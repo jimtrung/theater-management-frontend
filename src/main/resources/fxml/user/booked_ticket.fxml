@@ -7,19 +7,20 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="com.github.jimtrung.theater.view.BookedTicketController"
-          stylesheets="@/styles/styles.css">
+<BorderPane xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.github.jimtrung.theater.view.BookedTicketController"
+            stylesheets="@/styles/styles.css">
 
-    <top>
-        <fx:include fx:id="userHeader" source="../component/header.fxml"/>
-    </top>
+  <top>
+    <fx:include fx:id="userHeader" source="../component/header.fxml"/>
+  </top>
 
-    <center>
-        <!-- TODO: Add booked tickets display here -->
-        <StackPane style="-fx-background-color: #0F1419;">
-            <Text text="Booked Tickets Page - Coming Soon" style="-fx-fill: white; -fx-font-size: 24px;"/>
-        </StackPane>
-    </center>
+  <center>
+    <!-- TODO: Add booked tickets display here -->
+    <StackPane>
+      <Text text="Booked Tickets Page - Coming Soon"/>
+    </StackPane>
+  </center>
 
 </BorderPane>

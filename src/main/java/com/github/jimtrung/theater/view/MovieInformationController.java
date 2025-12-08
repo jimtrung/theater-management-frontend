@@ -3,9 +3,7 @@ package com.github.jimtrung.theater.view;
 import com.github.jimtrung.theater.model.Movie; 
 import com.github.jimtrung.theater.model.MovieLanguage;
 import com.github.jimtrung.theater.service.MovieService;
-import com.github.jimtrung.theater.util.AuthTokenUtil;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -17,7 +15,6 @@ import java.util.UUID;
 public class MovieInformationController {
 
     private ScreenController screenController;
-    private AuthTokenUtil authTokenUtil;
     private MovieService movieService;
     private MovieListController movieListController;
     private UUID uuid;
@@ -36,10 +33,6 @@ public class MovieInformationController {
 
     public void setMovieService(MovieService movieService) {
         this.movieService = movieService;
-    }
-
-    public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
-        this.authTokenUtil = authTokenUtil;
     }
 
     // ===== BUTTON HANDLERS =====
@@ -151,8 +144,4 @@ public class MovieInformationController {
     @FXML private TextField movieDurationField;
     @FXML private TextField movieLanguageField;
     @FXML private TextField movieRatedField;
-
-    @FXML private Button deleteButton;
-    @FXML private Button editButton;
-    @FXML private Button backButton;
 }

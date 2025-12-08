@@ -12,48 +12,40 @@
             stylesheets="@/styles/styles.css"
             fitToWidth="true">
 
-    <VBox alignment="TOP_CENTER" spacing="24">
-        
-        <Label text="Thêm Phòng Chiếu"/>
+  <VBox alignment="TOP_CENTER" spacing="24">
 
-        <!-- Card -->
-        <BorderPane maxWidth="600" minWidth="400">
-            <center>
-                <VBox spacing="12">
+    <Label text="Thêm Phòng Chiếu"/>
 
-                    <!-- Tên phòng chiếu -->
-                    <VBox spacing="4">
-                        <Label text="Tên phòng chiếu"/>
-                        <TextField fx:id="auditoriumNameField"/>
-                    </VBox>
+    <BorderPane maxWidth="600" minWidth="400">
+      <center>
+        <VBox spacing="12">
 
-                    <!-- Loại phòng -->
-                    <VBox spacing="4">
-                        <Label text="Loại phòng"/>
-                        <TextField fx:id="auditoriumTypeField"/>
-                    </VBox>
+          <VBox spacing="4">
+            <Label text="Tên phòng chiếu"/>
+            <TextField fx:id="auditoriumNameField"/>
+          </VBox>
 
-                    <!-- Sức chứa -->
-                    <VBox spacing="4">
-                        <Label text="Sức chứa"/>
-                        <TextField fx:id="auditoriumCapacityField"/>
-                    </VBox>
+          <VBox spacing="4">
+            <Label text="Loại phòng"/>
+            <TextField fx:id="auditoriumTypeField"/>
+          </VBox>
 
-                    <!-- Ghi chú -->
-                    <VBox spacing="4">
-                        <Label text="Ghi chú"/>
-                        <TextArea fx:id="auditoriumNoteField"
-                                  prefHeight="100"
-                                  wrapText="true"/>
-                    </VBox>
+          <VBox spacing="4">
+            <Label text="Sức chứa"/>
+            <TextField fx:id="auditoriumCapacityField"/>
+          </VBox>
 
-                    <!-- Buttons -->
-                    <HBox alignment="CENTER_RIGHT" spacing="12">
-                        <Button text="Quay Lại" fx:id="backButton"/>
-                        <Button text="Thêm Phòng" fx:id="addAuditoriumButton"/>
-                    </HBox>
-                </VBox>
-            </center>
-        </BorderPane>
-    </VBox>
+          <VBox spacing="4">
+            <Label text="Ghi chú"/>
+            <TextArea fx:id="auditoriumNoteField" prefHeight="100" wrapText="true"/>
+          </VBox>
+
+          <HBox alignment="CENTER_RIGHT" spacing="12">
+            <Button text="Quay Lại" onAction="#handleBackButton"/>
+            <Button text="Thêm Phòng" onAction="#handleAddAuditoriumButton"/>
+          </HBox>
+        </VBox>
+      </center>
+    </BorderPane>
+  </VBox>
 </ScrollPane>

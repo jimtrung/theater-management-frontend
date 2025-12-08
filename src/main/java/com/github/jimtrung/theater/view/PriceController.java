@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 
 public class PriceController {
     private ScreenController screenController;
-    private AuthTokenUtil authTokenUtil;
     private AuthService authService;
 
     @FXML
@@ -18,11 +17,6 @@ public class PriceController {
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
         if (userHeaderController != null) userHeaderController.setScreenController(screenController);
-    }
-
-    public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
-        this.authTokenUtil = authTokenUtil;
-        if (userHeaderController != null) userHeaderController.setAuthTokenUtil(authTokenUtil);
     }
 
     public void setAuthService(AuthService authService) {

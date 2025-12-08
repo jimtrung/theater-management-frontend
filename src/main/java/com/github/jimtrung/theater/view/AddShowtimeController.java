@@ -1,34 +1,23 @@
 package com.github.jimtrung.theater.view;
 
-import com.github.jimtrung.theater.service.AuditoriumService;
-import com.github.jimtrung.theater.util.AuthTokenUtil;
+import com.github.jimtrung.theater.model.User;
+import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.model.UserRole;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 public class AddShowtimeController {
-
     private ScreenController screenController;
-    private AuthTokenUtil authTokenUtil;
-//    private AuditoriumService auditoriumService;
-    private ShowtimeListController showtimeListController;
+    private AuthService authService;
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
     }
 
-    public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
-        this.authTokenUtil = authTokenUtil;
+    public void setAuthService(AuthService authService) {
+        this.authService = authService;
     }
-
-    public void setShowtimeListController(ShowtimeListController showtimeListController) {
-        this.showtimeListController = showtimeListController;
-    }
-
-    @FXML
-    private Button showMoviesBtn;
 
     @FXML
     private ListView<String> movieListView;
@@ -36,9 +25,16 @@ public class AddShowtimeController {
     @FXML
     private TextField selectedMovieField;
 
-    @FXML
-    private void initialize() {
-        // Khởi tạo danh sách phim
+    public void handleOnOpen() {
+        User user = null;
+        try {
+            user = (com.github.jimtrung.theater.model.User) authService.getUser();
+        } catch (Exception ignored) { }
+
+        if (user == null || user.getRole() != UserRole.administrator) {
+            screenController.activate("home");
+        }
+
         movieListView.getItems().addAll(
                 "Inception",
                 "Interstellar",
@@ -63,20 +59,13 @@ public class AddShowtimeController {
         movieListView.setVisible(!movieListView.isVisible());
     }
 
-    private com.github.jimtrung.theater.service.AuthService authService;
-
-    public void setAuthService(com.github.jimtrung.theater.service.AuthService authService) {
-        this.authService = authService;
+    @FXML
+    private void handleBackButton() {
+        screenController.activate("showtimeList");
     }
 
-    public void handleOnOpen() {
-        com.github.jimtrung.theater.model.User user = null;
-        try {
-            user = (com.github.jimtrung.theater.model.User) authService.getUser();
-        } catch (Exception ignored) { }
-
-        if (user == null || user.getRole() != UserRole.administrator) {
-            screenController.activate("home");
-        }
+    @FXML
+    private void handleAddShowtimeButton() {
+        // TODO: Implement this
     }
 }

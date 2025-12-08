@@ -7,98 +7,74 @@
 <ScrollPane xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.github.jimtrung.theater.view.ProfileController"
-            fitToWidth="true"
-            style="-fx-background-color: #0F1419;">
+            stylesheets="@/styles/styles.css"
+            fitToWidth="true">
 
-    <VBox alignment="TOP_CENTER" spacing="30">
-        <padding>
-            <Insets top="40" right="40" bottom="40" left="40"/>
-        </padding>
+  <VBox alignment="TOP_CENTER" spacing="30">
+    <padding>
+      <Insets top="40" right="40" bottom="40" left="40"/>
+    </padding>
 
-        <!-- Header -->
-        <VBox spacing="10" alignment="CENTER">
-            <Label text="Hồ Sơ Cá Nhân" styleClass="title"/>
-            <Label fx:id="roleText" 
-                   text="Người dùng"
-                   style="-fx-font-size: 16px; -fx-text-fill: #9CA3AF;"/>
-        </VBox>
-
-        <!-- Two Column Layout -->
-        <GridPane hgap="20" maxWidth="900">
-            <columnConstraints>
-                <ColumnConstraints percentWidth="50"/>
-                <ColumnConstraints percentWidth="50"/>
-            </columnConstraints>
-
-            <!-- Account Information Card -->
-            <VBox GridPane.columnIndex="0" spacing="20" styleClass="card">
-                <padding>
-                    <Insets top="30" right="30" bottom="30" left="30"/>
-                </padding>
-
-                <Label text="Thông Tin Tài Khoản" 
-                       style="-fx-font-size: 20px; -fx-font-weight: 600; -fx-text-fill: #F9FAFB;"/>
-
-                <!-- Username -->
-                <VBox spacing="6">
-                    <Label text="Tên Đăng Nhập" styleClass="form-label"/>
-                    <TextField fx:id="usernameField" 
-                              editable="false"
-                              style="-fx-font-size: 16px; -fx-padding: 12px  15px;"/>
-                </VBox>
-
-                <!-- Email -->
-                <VBox spacing="6">
-                    <Label text="Email" styleClass="form-label"/>
-                    <TextField fx:id="emailField" 
-                              editable="false"
-                              style="-fx-font-size: 16px; -fx-padding: 12px 15px;"/>
-                </VBox>
-            </VBox>
-
-            <!-- Personal Information Card -->
-            <VBox GridPane.columnIndex="1" spacing="20" styleClass="card">
-                <padding>
-                    <Insets top="30" right="30" bottom="30" left="30"/>
-                </padding>
-
-                <Label text="Thông Tin Cá Nhân" 
-                       style="-fx-font-size: 20px; -fx-font-weight: 600; -fx-text-fill: #F9FAFB;"/>
-
-                <!-- Verification Status -->
-                <VBox spacing="6">
-                    <Label text="Trạng Thái Xác Thực" styleClass="form-label"/>
-                    <HBox alignment="CENTER_LEFT">
-                        <Label fx:id="verifiedField" 
-                               text="Đã xác thực"
-                               style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: 600; -fx-padding: 12px 15px; -fx-background-radius: 6px;"/>
-                    </HBox>
-                </VBox>
-
-                <!-- Created Date -->
-                <VBox spacing="6">
-                    <Label text="Ngày Tạo Tài Khoản" styleClass="form-label"/>
-                    <TextField fx:id="createdAtField" 
-                              editable="false"
-                              style="-fx-font-size: 16px; -fx-padding: 12px 15px;"/>
-                </VBox>
-            </VBox>
-        </GridPane>
-
-        <!-- Action Buttons -->
-        <HBox spacing="15" alignment="CENTER">
-            <Button fx:id="backButton" 
-                    text="Quay Lại" 
-                    styleClass="button-secondary"
-                    style="-fx-font-size: 16px; -fx-padding: 12px 30px;"
-                    onAction="#handleBackButton"/>
-            <Button fx:id="logOutButton" 
-                    text="Đăng Xuất" 
-                    styleClass="button-danger"
-                    style="-fx-font-size: 16px; -fx-padding: 12px 30px;"
-                    onAction="#handleLogOutButton"/>
-        </HBox>
-
+    <VBox spacing="10" alignment="CENTER">
+      <Label text="Hồ Sơ Cá Nhân" styleClass="title"/>
+      <Label fx:id="roleText" text="Người dùng"/>
     </VBox>
 
+    <!-- Two Column Layout -->
+    <GridPane hgap="20" maxWidth="900">
+      <columnConstraints>
+        <ColumnConstraints percentWidth="50"/>
+        <ColumnConstraints percentWidth="50"/>
+      </columnConstraints>
+
+      <!-- Account Information Card -->
+      <VBox GridPane.columnIndex="0" spacing="20" styleClass="card">
+        <padding>
+          <Insets top="30" right="30" bottom="30" left="30"/>
+        </padding>
+
+        <Label text="Thông Tin Tài Khoản"/>
+
+        <!-- Username -->
+        <VBox spacing="6">
+          <Label text="Tên Đăng Nhập" styleClass="form-label"/>
+          <TextField fx:id="usernameField" editable="false"/>
+        </VBox>
+
+        <!-- Email -->
+        <VBox spacing="6">
+          <Label text="Email" styleClass="form-label"/>
+          <TextField fx:id="emailField" editable="false"/>
+        </VBox>
+      </VBox>
+
+      <!-- Personal Information Card -->
+      <VBox GridPane.columnIndex="1" spacing="20" styleClass="card">
+        <padding>
+          <Insets top="30" right="30" bottom="30" left="30"/>
+        </padding>
+
+        <Label text="Thông Tin Cá Nhân"/>
+
+        <!-- Verification Status -->
+        <VBox spacing="6">
+          <Label text="Trạng Thái Xác Thực" styleClass="form-label"/>
+          <HBox alignment="CENTER_LEFT">
+            <Label fx:id="verifiedField" text="Đã xác thực"/>
+          </HBox>
+        </VBox>
+
+        <!-- Created Date -->
+        <VBox spacing="6">
+          <Label text="Ngày Tạo Tài Khoản" styleClass="form-label"/>
+          <TextField fx:id="createdAtField" editable="false"/>
+        </VBox>
+      </VBox>
+    </GridPane>
+
+    <HBox spacing="15" alignment="CENTER">
+      <Button fx:id="backButton" text="Quay Lại" styleClass="button-secondary" onAction="#handleBackButton"/>
+      <Button fx:id="logOutButton" text="Đăng Xuất" styleClass="button-danger" onAction="#handleLogOutButton"/>
+    </HBox>
+  </VBox>
 </ScrollPane>

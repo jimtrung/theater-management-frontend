@@ -3,10 +3,7 @@ package com.github.jimtrung.theater.view;
 import com.github.jimtrung.theater.model.User;
 import com.github.jimtrung.theater.model.UserRole;
 import com.github.jimtrung.theater.service.AuthService;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 
 public class HomeController {
     private ScreenController screenController;
@@ -32,24 +29,12 @@ public class HomeController {
     }
 
     @FXML
-    private Label titleLabel;
-
-    @FXML
-    private Button signupButton;
-
-    @FXML
-    private Button signinButton;
-
-    @FXML
-    private Button settingsButton;
-
-    @FXML
-    public void handleSignUpButton(ActionEvent event) {
+    public void handleSignUpButton() {
         screenController.activate("signup");
     }
 
     @FXML
-    public void handleSignInButton(ActionEvent event) {
+    public void handleSignInButton() {
         screenController.activate("signin");
     }
 }

@@ -11,76 +11,68 @@
           stylesheets="@/styles/styles.css"
           alignment="CENTER">
 
-    <GridPane.rowConstraints>
-        <RowConstraints minHeight="60"/>
-        <RowConstraints minHeight="600"/>
-        <RowConstraints minHeight="80"/>
-    </GridPane.rowConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="60"/>
+    <RowConstraints minHeight="600"/>
+    <RowConstraints minHeight="80"/>
+  </rowConstraints>
 
-    <!-- TITLE -->
-    <Label text="Add Showtime" GridPane.rowIndex="0" />
+  <Label text="Add Showtime" GridPane.rowIndex="0"/>
 
-    <!-- MAIN CONTENT -->
-    <GridPane GridPane.rowIndex="1" alignment="CENTER" hgap="30">
+  <GridPane GridPane.rowIndex="1" alignment="CENTER" hgap="30">
 
-        <GridPane.columnConstraints>
-            <ColumnConstraints prefWidth="400"/>
-            <ColumnConstraints prefWidth="30"/>
-            <ColumnConstraints prefWidth="400"/>
-        </GridPane.columnConstraints>
+    <columnConstraints>
+      <ColumnConstraints prefWidth="400"/>
+      <ColumnConstraints prefWidth="30"/>
+      <ColumnConstraints prefWidth="400"/>
+    </columnConstraints>
 
-        <!-- LEFT COLUMN -->
-        <VBox spacing="15" GridPane.columnIndex="0">
+    <!-- LEFT COLUMN -->
+    <VBox spacing="15" GridPane.columnIndex="0">
 
-            <!-- SELECT MOVIE -->
-            <VBox spacing="5">
-                <Label text="Chọn phim"/>
-                <TextField fx:id="searchMovieField"/>
-                <ListView fx:id="movieListView" prefHeight="185"/>
-            </VBox>
+      <VBox spacing="5">
+        <Label text="Chọn phim"/>
+        <TextField fx:id="searchMovieField"/>
+        <ListView fx:id="movieListView" prefHeight="185"/>
+      </VBox>
 
-            <!-- SELECT ROOM -->
-            <VBox spacing="5">
-                <Label text="Chọn phòng"/>
-                <TextField fx:id="searchAuditoriumField"/>
-                <ListView fx:id="auditoriumListView" prefHeight="185"/>
-            </VBox>
+      <VBox spacing="5">
+        <Label text="Chọn phòng"/>
+        <TextField fx:id="searchAuditoriumField"/>
+        <ListView fx:id="auditoriumListView" prefHeight="185"/>
+      </VBox>
 
+    </VBox>
+
+    <!-- RIGHT COLUMN -->
+    <VBox spacing="20" GridPane.columnIndex="2" alignment="CENTER">
+
+      <HBox spacing="20" alignment="CENTER">
+
+        <VBox spacing="5">
+          <Label text="Giờ bắt đầu"/>
+          <ComboBox fx:id="startTimePicker" prefWidth="120"/>
         </VBox>
 
-        <!-- RIGHT COLUMN -->
-        <VBox spacing="20" GridPane.columnIndex="2" alignment="CENTER">
-
-            <HBox spacing="20" alignment="CENTER">
-
-                <!-- START TIME -->
-                <VBox spacing="5">
-                    <Label text="Giờ bắt đầu"/>
-                    <ComboBox fx:id="startTimePicker" prefWidth="120"/>
-                </VBox>
-
-                <!-- END TIME -->
-                <VBox spacing="5">
-                    <Label text="Giờ kết thúc"/>
-                    <ComboBox fx:id="endTimePicker" prefWidth="120"/>
-                </VBox>
-
-            </HBox>
-
-            <!-- DATE PICKER -->
-            <VBox spacing="5">
-                <Label text="Chọn ngày"/>
-                <DatePicker fx:id="showtimeDatePicker" prefWidth="250"/>
-            </VBox>
-
+        <VBox spacing="5">
+          <Label text="Giờ kết thúc"/>
+          <ComboBox fx:id="endTimePicker" prefWidth="120"/>
         </VBox>
 
-    </GridPane>
+      </HBox>
 
-    <!-- BUTTON GROUP -->
-    <HBox spacing="10" alignment="CENTER" GridPane.rowIndex="2">
-        <Button fx:id="backButton" text="Quay Lại" minWidth="80"/>
-        <Button fx:id="addButton" text="Thêm" minWidth="80"/>
-    </HBox>
+      <VBox spacing="5">
+        <Label text="Chọn ngày"/>
+        <DatePicker fx:id="showtimeDatePicker" prefWidth="250"/>
+      </VBox>
+
+    </VBox>
+
+  </GridPane>
+
+  <HBox spacing="10" alignment="CENTER" GridPane.rowIndex="2">
+    <Button text="Quay Lại" minWidth="80" onAction="#handleBackButton"/>
+    <Button text="Thêm" minWidth="80" onAction="#handleAddShowtimeButton"/>
+  </HBox>
 
 </GridPane>

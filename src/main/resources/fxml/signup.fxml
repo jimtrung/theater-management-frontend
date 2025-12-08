@@ -4,83 +4,72 @@
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.Insets?>
 
-<StackPane xmlns="http://javafx.com/javafx/25" 
-           xmlns:fx="http://javafx.com/fxml/1" 
+<StackPane xmlns="http://javafx.com/javafx/25"
+           xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.github.jimtrung.theater.view.SignUpController"
-           stylesheets="@/styles/styles.css"
-           style="-fx-background-color: #0F1419;">
+           stylesheets="@/styles/styles.css">
 
-    <VBox styleClass="card" alignment="TOP_CENTER" spacing="16">
-        <padding>
-            <Insets top="40" right="48" bottom="40" left="48"/>
-        </padding>
+  <VBox styleClass="card" alignment="CENTER" spacing="16">
+    <padding>
+      <Insets top="40" right="48" bottom="40" left="48"/>
+    </padding>
 
-        <Label text="Tạo Tài Khoản" 
-               styleClass="title"
-               style="-fx-font-size: 28px;"/>
+    <Label text="Tạo Tài Khoản" styleClass="title"/>
 
-        <Label text="Tham gia Rạp Chiếu Phim Quốc Gia" 
-               style="-fx-text-fill: #9CA3AF; -fx-font-size: 14px;"
-               alignment="CENTER">
-            <VBox.margin>
-                <Insets bottom="16"/>
-            </VBox.margin>
-        </Label>
+    <Label text="Tham gia Rạp Chiếu Phim Quốc Gia" alignment="CENTER">
+      <VBox.margin>
+        <Insets bottom="16"/>
+      </VBox.margin>
+    </Label>
 
-        <VBox spacing="6" maxWidth="400">
-            <Label text="Tên đăng nhập" styleClass="form-label"/>
-            <TextField fx:id="usernameField" promptText=""/>
-        </VBox>
-
-        <VBox spacing="6" maxWidth="400">
-            <Label text="Email" styleClass="form-label"/>
-            <TextField fx:id="emailField" promptText=""/>
-        </VBox>
-
-        <VBox spacing="6" maxWidth="400">
-            <Label text="Mật khẩu" styleClass="form-label"/>
-            <StackPane>
-                <PasswordField fx:id="passwordField" promptText=""/>
-                <TextField fx:id="visiblePasswordField" 
-                          visible="false" 
-                          managed="false"
-                          promptText=""/>
-            </StackPane>
-        </VBox>
-
-        <VBox spacing="6" maxWidth="400">
-            <Label text="Xác nhận mật khẩu" styleClass="form-label"/>
-            <StackPane>
-                <PasswordField fx:id="confirmPasswordField" promptText=""/>
-                <TextField fx:id="visibleConfirmPasswordField" 
-                          visible="false" 
-                          managed="false"
-                          promptText=""/>
-            </StackPane>
-        </VBox>
-
-        <CheckBox fx:id="showPasswordCheckBox" 
-                  text="Hiển thị mật khẩu">
-            <VBox.margin>
-                <Insets top="0" bottom="12"/>
-            </VBox.margin>
-        </CheckBox>
-
-        <VBox spacing="12" alignment="CENTER">
-            <Button fx:id="signUpButton" 
-                    text="Đăng Ký" 
-                    styleClass="button-primary"
-                    onAction="#handleSignUpButton"
-                    style="-fx-font-size: 16px; -fx-padding: 14px 24px;"
-                    prefWidth="300"/>
-
-            <Button fx:id="backButton" 
-                    text="Quay Lại" 
-                    styleClass="button-secondary"
-                    onAction="#handleBackButton"
-                    style="-fx-font-size: 16px; -fx-padding: 14px 24px;"
-                    prefWidth="300"/>
-        </VBox>
+    <VBox spacing="6" maxWidth="400">
+      <Label text="Tên đăng nhập" styleClass="form-label"/>
+      <TextField fx:id="usernameField" promptText=""/>
     </VBox>
+
+    <VBox spacing="6" maxWidth="400">
+      <Label text="Email" styleClass="form-label"/>
+      <TextField fx:id="emailField" promptText=""/>
+    </VBox>
+
+    <VBox spacing="6" maxWidth="400">
+      <Label text="Mật khẩu" styleClass="form-label"/>
+      <StackPane>
+        <PasswordField fx:id="passwordField" promptText=""/>
+        <TextField fx:id="visiblePasswordField" visible="false" managed="false" promptText=""/>
+      </StackPane>
+    </VBox>
+
+    <VBox spacing="6" maxWidth="400">
+      <Label text="Xác nhận mật khẩu" styleClass="form-label"/>
+      <StackPane>
+        <PasswordField fx:id="confirmPasswordField" promptText=""/>
+        <TextField fx:id="visibleConfirmPasswordField"
+                   visible="false"
+                   managed="false"
+                   promptText=""/>
+      </StackPane>
+    </VBox>
+
+    <CheckBox fx:id="showPasswordCheckBox" text="Hiển thị mật khẩu">
+      <VBox.margin>
+        <Insets top="0" bottom="12"/>
+      </VBox.margin>
+    </CheckBox>
+
+    <VBox spacing="12" alignment="CENTER">
+      <Button fx:id="signUpButton"
+              text="Đăng Ký"
+              styleClass="button-primary"
+              onAction="#handleSignUpButton"
+              prefWidth="300"/>
+
+      <Button fx:id="backButton"
+              text="Quay Lại"
+              styleClass="button-secondary"
+              onAction="#handleBackButton"
+              prefWidth="300"/>
+    </VBox>
+  </VBox>
 
 </StackPane>

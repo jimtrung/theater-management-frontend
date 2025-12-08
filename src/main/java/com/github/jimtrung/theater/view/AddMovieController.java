@@ -7,7 +7,6 @@ import com.github.jimtrung.theater.model.User;
 import com.github.jimtrung.theater.model.UserRole;
 import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.service.MovieService;
-import com.github.jimtrung.theater.util.AuthTokenUtil;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +23,6 @@ import java.util.UUID;
 public class AddMovieController {
 
     private ScreenController screenController;
-    private AuthTokenUtil authTokenUtil;
     private AuthService authService;
     private MovieService movieService;
     private MovieListController movieListController;
@@ -39,10 +37,6 @@ public class AddMovieController {
 
     public void setMovieService(MovieService movieService) {
         this.movieService = movieService;
-    }
-
-    public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
-        this.authTokenUtil = authTokenUtil;
     }
 
     public void setAuthService(AuthService authService) {
@@ -70,7 +64,8 @@ public class AddMovieController {
     @FXML
     private TextField searchGenreField;
 
-    public void handleCloseButton() {
+    @FXML
+    public void handleBackButton() {
         screenController.activate("movieList");
     }
 
@@ -120,7 +115,7 @@ public class AddMovieController {
     }
 
     @FXML
-    public void handleAddMovieButtonClick() {
+    public void handleAddMovieButton() {
         try {
             // --- Validate required fields ---
             if (isEmpty(movieNameField) ||
@@ -137,7 +132,7 @@ public class AddMovieController {
             movie.setName(movieNameField.getText().trim());
             movie.setDescription(movieDescriptionField.getText().trim());
             movie.setLanguage(MovieLanguage.valueOf(movieLanguageField.getText().trim()));
-            movie.setDirector(movieDirectorField.getText().trim()); 
+            movie.setDirector(movieDirectorField.getText().trim());
             movie.setPremiere(OffsetDateTime.now());
             movie.setCreatedAt(OffsetDateTime.now());
             movie.setUpdatedAt(OffsetDateTime.now());
