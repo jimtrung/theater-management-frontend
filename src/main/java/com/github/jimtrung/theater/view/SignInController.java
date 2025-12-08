@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 
 import java.awt.*;
 
@@ -39,15 +40,47 @@ public class SignInController {
             if (user.getRole() == UserRole.user) screenController.activate("homePageUser");
             if (user.getRole() == UserRole.administrator) screenController.activate("homePageManager");
         }
+        
+        if (usernameErrorLabel != null) {
+             usernameErrorLabel.setVisible(false);
+             // usernameErrorLabel.setManaged(false); // Reserved space
+        }
+        if (passwordErrorLabel != null) {
+             passwordErrorLabel.setVisible(false);
+             // passwordErrorLabel.setManaged(false); // Reserved space
+        }
+
+        passwordField.textProperty().unbindBidirectional(visiblePasswordField.textProperty());
+        passwordField.textProperty().bindBidirectional(visiblePasswordField.textProperty());
 
         passwordField.clear();
         passwordField.setVisible(true);
+        passwordField.setManaged(true);
 
-        visiblePasswordField.clear();
         visiblePasswordField.setVisible(false);
+        visiblePasswordField.setManaged(false);
         showPasswordCheckBox.setSelected(false);
 
         usernameField.clear();
+        
+        // Validation Listeners
+        usernameField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.trim().isEmpty()) {
+                usernameErrorLabel.setText("Vui lòng nhập tên đăng nhập");
+                usernameErrorLabel.setVisible(true);
+            } else {
+                usernameErrorLabel.setVisible(false);
+            }
+        });
+        
+        passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
+             if (newValue == null || newValue.isEmpty()) {
+                passwordErrorLabel.setText("Vui lòng nhập mật khẩu");
+                passwordErrorLabel.setVisible(true);
+            } else {
+                passwordErrorLabel.setVisible(false);
+            }
+        });
     }
 
     @FXML
@@ -61,6 +94,12 @@ public class SignInController {
 
     @FXML
     private CheckBox showPasswordCheckBox;
+    
+    @FXML
+    private Label usernameErrorLabel;
+
+    @FXML
+    private Label passwordErrorLabel;
 
     @FXML
     public void handleBackButton() {
@@ -108,13 +147,15 @@ public class SignInController {
     @FXML
     private void TogglePasswordVisibility() {
         if (showPasswordCheckBox.isSelected()) {
-            visiblePasswordField.setText(passwordField.getText());
             visiblePasswordField.setVisible(true);
+            visiblePasswordField.setManaged(true);
             passwordField.setVisible(false);
+            passwordField.setManaged(false);
         } else {
-            passwordField.setText(visiblePasswordField.getText());
             passwordField.setVisible(true);
+            passwordField.setManaged(true);
             visiblePasswordField.setVisible(false);
+            visiblePasswordField.setManaged(false);
         }
     }
 }

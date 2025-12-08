@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.image.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 
 <HBox xmlns="http://javafx.com/javafx/8"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.github.jimtrung.theater.view.UserHeaderController"
       stylesheets="@/styles/styles.css"
-      spacing="20" alignment="CENTER_LEFT">
+      spacing="20" alignment="CENTER_LEFT"
+      styleClass="header-bar">
   <padding>
     <Insets top="12" right="20" bottom="12" left="20"/>
   </padding>

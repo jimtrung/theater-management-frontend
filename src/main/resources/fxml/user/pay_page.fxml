@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -12,8 +13,13 @@
             stylesheets="@/styles/styles.css">
 
   <center>
-    <GridPane hgap="10" vgap="10">
-      <columnConstraints>
+    <StackPane>
+      <VBox spacing="10" alignment="CENTER">
+        <Label text="Thanh Toán Vé" styleClass="title"/>
+
+        <GridPane hgap="10" vgap="10" maxWidth="800" styleClass="card">
+          <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
+          <columnConstraints>
         <ColumnConstraints percentWidth="60"/>
         <ColumnConstraints percentWidth="40"/>
       </columnConstraints>
@@ -32,43 +38,43 @@
 
         <!-- Tên phim -->
         <HBox spacing="10" GridPane.rowIndex="0">
-          <Label text="Tên phim:"/>
+          <Label text="Tên phim:" styleClass="form-label"/>
           <Label fx:id="ticketMovieName"/>
         </HBox>
 
         <!-- Phòng -->
         <HBox spacing="10" GridPane.rowIndex="1">
-          <Label text="Phòng:"/>
+          <Label text="Phòng:" styleClass="form-label"/>
           <Label fx:id="ticketAuditoriumName"/>
         </HBox>
 
         <!-- Giờ bắt đầu -->
         <HBox spacing="10" GridPane.rowIndex="2">
-          <Label text="Giờ bắt đầu:"/>
+          <Label text="Giờ bắt đầu:" styleClass="form-label"/>
           <Label fx:id="ticketStartTime"/>
         </HBox>
 
         <!-- Giờ kết thúc -->
         <HBox spacing="10" GridPane.rowIndex="3">
-          <Label text="Giờ kết thúc:"/>
+          <Label text="Giờ kết thúc:" styleClass="form-label"/>
           <Label fx:id="ticketEndTime"/>
         </HBox>
 
         <!-- Ngày chiếu -->
         <HBox spacing="10" GridPane.rowIndex="4">
-          <Label text="Ngày chiếu:"/>
+          <Label text="Ngày chiếu:" styleClass="form-label"/>
           <Label fx:id="ticketShowDate"/>
         </HBox>
 
         <!-- Ghế -->
         <HBox spacing="10" GridPane.rowIndex="5">
-          <Label text="Số ghế:"/>
+          <Label text="Số ghế:" styleClass="form-label"/>
           <Label fx:id="ticketSeatName"/>
         </HBox>
 
         <!-- Giá vé -->
         <HBox spacing="10" GridPane.rowIndex="6">
-          <Label text="Giá vé:"/>
+          <Label text="Giá vé:" styleClass="form-label"/>
           <Label fx:id="ticketPrice"/>
         </HBox>
       </GridPane>
@@ -97,10 +103,13 @@
                 text="Trở lại"
                 prefWidth="120" prefHeight="40"
                 GridPane.halignment="RIGHT"
+                styleClass="button-secondary"
                 onAction="#handleBackButton"/>
       </GridPane>
 
-    </GridPane>
+        </GridPane>
+      </VBox>
+    </StackPane>
   </center>
 
 </BorderPane>

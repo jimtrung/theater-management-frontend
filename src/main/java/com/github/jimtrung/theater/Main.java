@@ -1,9 +1,7 @@
 package com.github.jimtrung.theater;
 
 import com.github.jimtrung.theater.model.Auditorium;
-import com.github.jimtrung.theater.service.AuditoriumService;
-import com.github.jimtrung.theater.service.AuthService;
-import com.github.jimtrung.theater.service.MovieService;
+import com.github.jimtrung.theater.service.*; 
 import com.github.jimtrung.theater.util.AuthTokenUtil;
 import com.github.jimtrung.theater.view.*;
 import javafx.application.Application;
@@ -19,12 +17,14 @@ import java.util.Objects;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
+        System.setProperty("prism.force.dark", "true");
         StackPane root = new StackPane();
         ScreenController screenController = new ScreenController(root);
         AuthTokenUtil authTokenUtil = new AuthTokenUtil();
         AuthService authService = new AuthService(authTokenUtil);
         MovieService movieService = new MovieService(authTokenUtil);
         AuditoriumService auditoriumService = new AuditoriumService(authTokenUtil);
+        ShowtimeService showtimeService = new ShowtimeService(authTokenUtil);
 
         try {
             String accessToken = authService.refresh();
@@ -136,14 +136,14 @@ public class Main extends Application {
         showtimePageController.setScreenController(screenController);
         showtimePageController.setAuthService(authService);
         showtimePageController.setAuthTokenUtil(authTokenUtil);
+        showtimePageController.setShowtimeService(showtimeService);
         
         // Event List
-        FXMLLoader eventListLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/event_list.xaml")));
+        FXMLLoader eventListLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/event_list.fxml")));
         screenController.addScreen("eventList", eventListLoader);
         EventListController eventListController = eventListLoader.getController();
         eventListController.setScreenController(screenController);
         eventListController.setAuthService(authService);
-        eventListController.setAuthTokenUtil(authTokenUtil);
         
         // Admin - Showtime Information
         FXMLLoader showtimeInfoLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/admin/showtime_information.fxml")));
@@ -164,6 +164,8 @@ public class Main extends Application {
         AddMovieController addMovieController = addMovieLoader.getController();
         addMovieController.setScreenController(screenController);
         addMovieController.setMovieService(movieService);
+        addMovieController.setAuthService(authService);
+        // addMovieController.setMovieListController(movieListController); // Set this later!
 
         // Movie information
         FXMLLoader movieInformationLoader = new FXMLLoader(getClass().getResource("/fxml/admin/movie_information.fxml"));
@@ -178,6 +180,8 @@ public class Main extends Application {
         AddAuditoriumController addAuditoriumController = addAuditoriumLoader.getController();
         addAuditoriumController.setScreenController(screenController);
         addAuditoriumController.setAuditoriumService(auditoriumService);
+        addAuditoriumController.setAuthService(authService);
+        // addAuditoriumController.setAuditoriumListController(auditoriumListController); // Set this later!
 
         // Auditorium Information
         FXMLLoader auditoriumInformationLoader = new FXMLLoader(getClass().getResource("/fxml/admin/auditorium_information.fxml"));
@@ -191,14 +195,19 @@ public class Main extends Application {
         screenController.addScreen("addShowtime", showtimeLoader);
         AddShowtimeController addShowtimeController = showtimeLoader.getController();
         addShowtimeController.setScreenController(screenController);
+        addShowtimeController.setAuthService(authService);
 
         screenController.activate("home");
 
         Scene scene = new Scene(screenController.getRoot());
         stage.setMaximized(true);
-        stage.setTitle("Theater Management");
+        stage.setTitle("National Cinema Center");
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
         stage.setScene(scene);
+
+        // Late bindings
+        addMovieController.setMovieListController(movieListController);
+        addAuditoriumController.setAuditoriumListController(auditoriumListController);
 
         stage.show();
     }

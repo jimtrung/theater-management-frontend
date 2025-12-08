@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
 
@@ -15,35 +17,37 @@
 
   <VBox alignment="CENTER" spacing="20">
 
-    <Label text="Ticket Information"/>
+    <Label text="Thông Tin Đặt Vé" styleClass="title"/>
 
-    <VBox spacing="16" prefWidth="600">
+    <VBox spacing="16" prefWidth="600" styleClass="card">
+      <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
 
+      <!-- Các label con -->
       <VBox spacing="5">
-        <Label text="Tên phim"/>
+        <Label text="Tên phim" styleClass="form-label"/>
         <TextField fx:id="ticketMovieName" editable="false"/>
       </VBox>
 
       <VBox spacing="5">
-        <Label text="Tên phòng chiếu"/>
+        <Label text="Tên phòng chiếu" styleClass="form-label"/>
         <TextField fx:id="ticketAuditoriumName" editable="false"/>
       </VBox>
 
       <!-- Ngày chiếu -->
       <VBox spacing="5">
-        <Label text="Ngày chiếu phim"/>
+        <Label text="Ngày chiếu phim" styleClass="form-label"/>
         <TextField fx:id="ticketDate" editable="false"/>
       </VBox>
 
       <!-- Giờ bắt đầu + kết thúc -->
       <HBox spacing="20">
         <VBox spacing="5">
-          <Label text="Giờ bắt đầu"/>
+          <Label text="Giờ bắt đầu" styleClass="form-label"/>
           <TextField fx:id="ticketStartTime" editable="false" prefWidth="120"/>
         </VBox>
 
         <VBox spacing="5">
-          <Label text="Giờ kết thúc"/>
+          <Label text="Giờ kết thúc" styleClass="form-label"/>
           <TextField fx:id="ticketEndTime" editable="false" prefWidth="120"/>
         </VBox>
       </HBox>
@@ -51,12 +55,12 @@
       <!-- Giá vé + chọn ghế -->
       <HBox spacing="20">
         <VBox spacing="5">
-          <Label text="Giá vé"/>
+          <Label text="Giá vé" styleClass="form-label"/>
           <TextField fx:id="ticketPrice" editable="false" prefWidth="120"/>
         </VBox>
 
         <VBox spacing="5">
-          <Label text="Chọn ghế"/>
+          <Label text="Chọn ghế" styleClass="form-label"/>
           <ComboBox fx:id="ticketSeatSelector"
                     prefWidth="70">
             <items>
@@ -84,6 +88,7 @@
 
         <Button fx:id="bookTicketButton"
                 text="Đặt vé"
+                styleClass="button-primary"
                 onAction="#handleBookTicket"/>
       </HBox>
 

@@ -2,58 +2,68 @@
 
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.Group?>
+<?import javafx.geometry.*?>
 
 <StackPane xmlns="http://javafx.com/javafx/25"
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.github.jimtrung.theater.view.SignInController"
-           stylesheets="@/styles/styles.css">
+           stylesheets="@/styles/styles.css"
+           styleClass="root-gradient">
 
-  <VBox styleClass="card" alignment="CENTER" spacing="20">
-    <padding>
-      <Insets top="40" right="48" bottom="40" left="48"/>
-    </padding>
+  <Group>
+    <VBox styleClass="card-modern" alignment="CENTER" spacing="20" prefWidth="450" prefHeight="600">
+      <padding>
+        <Insets top="80" right="80" bottom="80" left="80"/>
+      </padding>
 
-    <Label text="Chào Mừng Trở Lại" styleClass="title"/>
+      <Label text="NATIONAL CINEMA CENTER" styleClass="auth-branding"/>
 
-    <Label text="Đăng nhập vào tài khoản của bạn" alignment="CENTER">
-      <VBox.margin>
-        <Insets bottom="12"/>
-      </VBox.margin>
-    </Label>
+      <Label text="Chào Mừng Trở Lại" styleClass="title"/>
 
-    <VBox spacing="6" maxWidth="400">
-      <Label text="Tên đăng nhập" styleClass="form-label"/>
-      <TextField fx:id="usernameField" promptText=""/>
+      <Label text="Đăng nhập vào tài khoản của bạn" alignment="CENTER">
+        <VBox.margin>
+          <Insets bottom="12"/>
+        </VBox.margin>
+      </Label>
+
+      <VBox spacing="6" maxWidth="400">
+        <Label text="Tên đăng nhập" styleClass="form-label"/>
+        <TextField fx:id="usernameField" promptText="" styleClass="text-field-large"/>
+        <Label fx:id="usernameErrorLabel" text="" styleClass="error-label" minHeight="20.0" visible="false"/>
+      </VBox>
+
+      <VBox spacing="6" maxWidth="400">
+        <Label text="Mật khẩu" styleClass="form-label"/>
+        <StackPane>
+          <PasswordField fx:id="passwordField" promptText="" styleClass="text-field-large"/>
+          <TextField fx:id="visiblePasswordField" visible="false" managed="false" promptText="" styleClass="text-field-large"/>
+        </StackPane>
+        <Label fx:id="passwordErrorLabel" text="" styleClass="error-label" minHeight="20.0" visible="false"/>
+      </VBox>
+
+      <HBox alignment="CENTER_LEFT" maxWidth="400">
+        <CheckBox fx:id="showPasswordCheckBox" text="Hiển thị mật khẩu" onAction="#TogglePasswordVisibility"/>
+      </HBox>
+
+      <VBox spacing="12" alignment="CENTER">
+        <Button fx:id="signInButton"
+                defaultButton="true"
+                text="Đăng Nhập"
+                styleClass="button-primary"
+                onAction="#handleSignInButton"
+                prefWidth="300"/>
+
+        <Button fx:id="backButton"
+                text="Quay Lại"
+                styleClass="button-secondary"
+                onAction="#handleBackButton"
+                prefWidth="300"/>
+      </VBox>
     </VBox>
-
-    <VBox spacing="6" maxWidth="400">
-      <Label text="Mật khẩu" styleClass="form-label"/>
-      <StackPane>
-        <PasswordField fx:id="passwordField" promptText=""/>
-        <TextField fx:id="visiblePasswordField" visible="false" managed="false" promptText=""/>
-      </StackPane>
-    </VBox>
-
-    <CheckBox fx:id="showPasswordCheckBox" text="Hiển thị mật khẩu" onAction="#TogglePasswordVisibility">
-      <VBox.margin>
-        <Insets bottom="4"/>
-      </VBox.margin>
-    </CheckBox>
-
-    <VBox spacing="12" alignment="CENTER">
-      <Button fx:id="signInButton"
-              text="Đăng Nhập"
-              styleClass="button-primary"
-              onAction="#handleSignInButton"
-              prefWidth="300"/>
-
-      <Button fx:id="backButton"
-              text="Quay Lại"
-              styleClass="button-secondary"
-              onAction="#handleBackButton"
-              prefWidth="300"/>
-    </VBox>
-  </VBox>
+  </Group>
 
 </StackPane>

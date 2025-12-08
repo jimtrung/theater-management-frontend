@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 
 public class ProfileController {
     private ScreenController screenController;
@@ -36,11 +38,16 @@ public class ProfileController {
         }
 
         if (response instanceof User userInfo) {
-            usernameLabel.setText(userInfo.getUsername());
-            emailLabel.setText(userInfo.getEmail());
-            passwordLabel.setText(userInfo.getPassword());
-            verifiedLabel.setText(userInfo.getVerified().toString());
-            createdAtLabel.setText(userInfo.getCreatedAt().toString());
+            usernameField.setText(userInfo.getUsername());
+            emailField.setText(userInfo.getEmail());
+            // passwordField.setText(userInfo.getPassword()); // Not present in FXML
+            
+            boolean isVerified = userInfo.getVerified();
+            verifiedField.setText(isVerified ? "Đã xác thực" : "Chưa xác thực");
+            verifiedField.getStyleClass().removeAll("status-verified", "status-unverified");
+            verifiedField.getStyleClass().add(isVerified ? "status-verified" : "status-unverified");
+
+            createdAtField.setText(userInfo.getCreatedAt().atZoneSameInstant(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
         } else if (response instanceof ErrorResponse errRes){
             screenController.activate("home");
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -52,19 +59,16 @@ public class ProfileController {
     }
 
     @FXML
-    private TextField usernameLabel;
+    private TextField usernameField;
 
     @FXML
-    private TextField emailLabel;
+    private TextField emailField;
 
     @FXML
-    private PasswordField passwordLabel;
+    private javafx.scene.control.Label verifiedField;
 
     @FXML
-    private TextField verifiedLabel;
-
-    @FXML
-    private TextField createdAtLabel;
+    private TextField createdAtField;
 
     @FXML
     public void handleBackButton(ActionEvent event) { screenController.activate("home"); }

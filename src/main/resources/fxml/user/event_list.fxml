@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -11,13 +14,14 @@
 
   <VBox spacing="0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
 
-    <top>
-      <fx:include fx:id="userHeader" source="../component/header.fxml"/>
-    </top>
+    <fx:include fx:id="userHeader" source="../component/header.fxml"/>
 
     <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
-      <FlowPane fx:id="eventFlowPane" hgap="20" vgap="20">
-      </FlowPane>
+      <VBox spacing="20" alignment="TOP_CENTER">
+        <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
+        <Label text="Sự Kiện &amp; Khuyến Mãi" styleClass="title"/>
+        <FlowPane fx:id="eventFlowPane" hgap="20" vgap="20" alignment="CENTER"/>
+      </VBox>
     </ScrollPane>
   </VBox>
 

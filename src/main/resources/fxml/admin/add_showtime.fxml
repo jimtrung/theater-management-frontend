@@ -1,78 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
 
-<GridPane fx:controller="com.github.jimtrung.theater.view.AddShowtimeController"
-          xmlns="http://javafx.com/javafx/25"
-          xmlns:fx="http://javafx.com/fxml/1"
-          prefWidth="1200" prefHeight="800"
-          stylesheets="@/styles/styles.css"
-          alignment="CENTER">
+<BorderPane fx:controller="com.github.jimtrung.theater.view.AddShowtimeController"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            prefWidth="1200" prefHeight="800"
+            stylesheets="@/styles/styles.css">
 
-  <rowConstraints>
-    <RowConstraints minHeight="60"/>
-    <RowConstraints minHeight="600"/>
-    <RowConstraints minHeight="80"/>
-  </rowConstraints>
+  <center>
+    <ScrollPane fitToWidth="true">
+      <VBox alignment="CENTER" spacing="40">
+        <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
 
-  <Label text="Add Showtime" GridPane.rowIndex="0"/>
+        <Label text="Thêm Lịch Chiếu Mới" styleClass="title"/>
 
-  <GridPane GridPane.rowIndex="1" alignment="CENTER" hgap="30">
+        <HBox spacing="40" alignment="CENTER">
+          <!-- Selection Column -->
+          <VBox spacing="30" maxWidth="500" HBox.hgrow="ALWAYS">
+            <VBox spacing="10" styleClass="card">
+              <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+              <Label text="1. Chọn Phim" styleClass="heading"/>
+              <TextField fx:id="searchMovieField" promptText="Tìm kiếm phim..."/>
+              <ListView fx:id="movieListView" prefHeight="200"/>
+            </VBox>
 
-    <columnConstraints>
-      <ColumnConstraints prefWidth="400"/>
-      <ColumnConstraints prefWidth="30"/>
-      <ColumnConstraints prefWidth="400"/>
-    </columnConstraints>
+            <VBox spacing="10" styleClass="card">
+              <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+              <Label text="2. Chọn Phòng Chiếu" styleClass="heading"/>
+              <TextField fx:id="searchAuditoriumField" promptText="Tìm kiếm phòng..."/>
+              <ListView fx:id="auditoriumListView" prefHeight="200"/>
+            </VBox>
+          </VBox>
 
-    <!-- LEFT COLUMN -->
-    <VBox spacing="15" GridPane.columnIndex="0">
+          <!-- Configuration Column -->
+          <VBox spacing="30" maxWidth="400" HBox.hgrow="ALWAYS">
+            <VBox spacing="20" styleClass="card">
+              <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
+              <Label text="3. Thiết Lập Thời Gian" styleClass="heading"/>
+              
+              <VBox spacing="10">
+                <Label text="Ngày chiếu" styleClass="form-label"/>
+                <DatePicker fx:id="showtimeDatePicker" prefWidth="340"/>
+              </VBox>
 
-      <VBox spacing="5">
-        <Label text="Chọn phim"/>
-        <TextField fx:id="searchMovieField"/>
-        <ListView fx:id="movieListView" prefHeight="185"/>
+              <HBox spacing="20">
+                <VBox spacing="10">
+                  <Label text="Giờ bắt đầu" styleClass="form-label"/>
+                  <ComboBox fx:id="startTimePicker" prefWidth="160"/>
+                </VBox>
+
+                <VBox spacing="10">
+                  <Label text="Giờ kết thúc" styleClass="form-label"/>
+                  <ComboBox fx:id="endTimePicker" prefWidth="160"/>
+                </VBox>
+              </HBox>
+            </VBox>
+
+            <HBox spacing="20" alignment="CENTER_RIGHT">
+               <Button text="Hủy Bỏ" minWidth="120" styleClass="button-secondary" onAction="#handleBackButton"/>
+               <Button text="Xác Nhận Thêm" minWidth="150" styleClass="button-primary" onAction="#handleAddShowtimeButton"/>
+            </HBox>
+          </VBox>
+        </HBox>
       </VBox>
-
-      <VBox spacing="5">
-        <Label text="Chọn phòng"/>
-        <TextField fx:id="searchAuditoriumField"/>
-        <ListView fx:id="auditoriumListView" prefHeight="185"/>
-      </VBox>
-
-    </VBox>
-
-    <!-- RIGHT COLUMN -->
-    <VBox spacing="20" GridPane.columnIndex="2" alignment="CENTER">
-
-      <HBox spacing="20" alignment="CENTER">
-
-        <VBox spacing="5">
-          <Label text="Giờ bắt đầu"/>
-          <ComboBox fx:id="startTimePicker" prefWidth="120"/>
-        </VBox>
-
-        <VBox spacing="5">
-          <Label text="Giờ kết thúc"/>
-          <ComboBox fx:id="endTimePicker" prefWidth="120"/>
-        </VBox>
-
-      </HBox>
-
-      <VBox spacing="5">
-        <Label text="Chọn ngày"/>
-        <DatePicker fx:id="showtimeDatePicker" prefWidth="250"/>
-      </VBox>
-
-    </VBox>
-
-  </GridPane>
-
-  <HBox spacing="10" alignment="CENTER" GridPane.rowIndex="2">
-    <Button text="Quay Lại" minWidth="80" onAction="#handleBackButton"/>
-    <Button text="Thêm" minWidth="80" onAction="#handleAddShowtimeButton"/>
-  </HBox>
-
-</GridPane>
+    </ScrollPane>
+  </center>
+</BorderPane>

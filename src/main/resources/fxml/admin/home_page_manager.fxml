@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -12,22 +13,30 @@
             stylesheets="@/styles/styles.css">
 
   <children>
-    <BorderPane prefWidth="1200" prefHeight="800">
+    <BorderPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
       <top>
-        <HBox spacing="10">
+        <HBox spacing="10" styleClass="header-bar" alignment="CENTER_LEFT">
+          <padding>
+            <Insets top="12" right="20" bottom="12" left="20"/>
+          </padding>
           <children>
-            <Button fx:id="movieButton" text="Phim" onAction="#handleMovieButton"/>
-            <Button fx:id="auditoriumButton" text="Phòng Chiếu" onAction="#handleAuditoriumButton"/>
-            <Button fx:id="showtimeButton" text="Lịch Chiếu" onAction="#handleShowtimeButton"/>
-            <Button fx:id="profileButton" text="Hồ Sơ" onAction="#handleProfileButton"/>
-            <Button fx:id="logOutButton" text="Đăng Xuất" onAction="#handleLogOutButton"/>
+            <Label text="Admin Dashboard" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 18px;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="movieButton" text="Phim" styleClass="nav-button" onAction="#handleMovieButton"/>
+            <Button fx:id="auditoriumButton" text="Phòng Chiếu" styleClass="nav-button" onAction="#handleAuditoriumButton"/>
+            <Button fx:id="showtimeButton" text="Lịch Chiếu" styleClass="nav-button" onAction="#handleShowtimeButton"/>
+            <Button fx:id="profileButton" text="Hồ Sơ" styleClass="nav-button" onAction="#handleProfileButton"/>
+            <Button fx:id="logOutButton" text="Đăng Xuất" styleClass="nav-button" onAction="#handleLogOutButton"/>
           </children>
         </HBox>
       </top>
 
       <center>
         <GridPane hgap="20" vgap="20">
+          <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+          </padding>
 
           <columnConstraints>
             <ColumnConstraints percentWidth="60"/>
@@ -53,16 +62,16 @@
               </children>
             </VBox>
 
-            <VBox spacing="10" GridPane.columnIndex="1">
+            <VBox spacing="10" GridPane.columnIndex="1" styleClass="card">
               <children>
-                <Label text="Thống kê số lượng từng hạng mục"/>
+                <Label text="Thống kê hệ thống" styleClass="heading"/>
 
-                <Label fx:id="userCountText" text="- Người dùng:"/>
-                <Label fx:id="movieCountText" text="- Phim:"/>
-                <Label fx:id="auditoriumCountText" text="- Phòng:"/>
-                <Label fx:id="showtimeCountText" text="- Suất chiếu:"/>
-                <Label fx:id="ticketCountText" text="- Vé:"/>
-                <Label fx:id="revenueText" text="- Tổng doanh thu dự kiến:"/>
+                <Label fx:id="userCountText" text="- Người dùng:" styleClass="form-label"/>
+                <Label fx:id="movieCountText" text="- Phim:" styleClass="form-label"/>
+                <Label fx:id="auditoriumCountText" text="- Phòng:" styleClass="form-label"/>
+                <Label fx:id="showtimeCountText" text="- Suất chiếu:" styleClass="form-label"/>
+                <Label fx:id="ticketCountText" text="- Vé:" styleClass="form-label"/>
+                <Label fx:id="revenueText" text="- Tổng doanh thu dự kiến:" styleClass="form-label"/>
 
                 <Pane fx:id="chartGrid" prefWidth="450" prefHeight="450"/>
               </children>

@@ -2,9 +2,10 @@
 
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -17,54 +18,55 @@
 
   <center>
     <ScrollPane fitToWidth="true">
-      <VBox alignment="TOP_CENTER" maxWidth="1100" spacing="30">
-        <padding>
-          <Insets top="30" right="0" bottom="50" left="0"/>
-        </padding>
-
-        <!-- Title -->
-        <Label text="GIÁ VÉ (Áp dụng từ ngày 01/06/2023)"/>
-
-        <!-- Image -->
-        <ImageView fitWidth="1100" preserveRatio="true">
-          <Image url="@/images/giave2.png"/>
-        </ImageView>
-
-        <!-- Content -->
-        <VBox spacing="10">
+      <StackPane>
+        <VBox alignment="TOP_CENTER" maxWidth="1100" spacing="30">
           <padding>
-            <Insets left="0" right="0"/>
+            <Insets top="30" right="0" bottom="50" left="0"/>
           </padding>
 
-          <Label text="* Đối với phim có thời lượng từ 150 phút trở xuống: giảm 10.000 VNĐ / vé"/>
+          <!-- Title -->
+          <Label text="GIÁ VÉ (Áp dụng từ ngày 01/06/2023)" styleClass="title"/>
 
-          <Label text="Giá vé đối với các đối tượng khán giả ưu tiên:"/>
+          <!-- Image -->
+          <ImageView fitWidth="1100" preserveRatio="true">
+            <Image url="@/images/giave2.png"/>
+          </ImageView>
 
-          <Label
-              text="- Giảm 20%: Trẻ em (dưới 16 tuổi), người cao tuổi (từ đủ 60 tuổi), người có công với cách mạng, người có hoàn cảnh đặc biệt khó khăn"
-              wrapText="true"/>
+          <!-- Content -->
+          <VBox spacing="10" styleClass="card">
+            <padding>
+              <Insets top="30" right="30" bottom="30" left="30"/>
+            </padding>
 
-          <Label text="- Giảm 50%: Người khuyết tật nặng"/>
-          <Label text="- Giảm 100%: Người khuyết tật đặc biệt nặng, trẻ em dưới 0.7m đi kèm người lớn" wrapText="true"/>
-          <Label text="Điều kiện áp dụng:"/>
-          <Label text="- Chỉ áp dụng khi mua vé tại quầy"/>
+            <Label text="* Đối với phim có thời lượng từ 150 phút trở xuống: giảm 10.000 VNĐ / vé"/>
 
-          <Label text="- Phải xuất trình giấy tờ khi mua vé"/>
+            <Label text="Giá vé đối với các đối tượng khán giả ưu tiên:"/>
 
-          <Label text="Lưu ý:"/>
+            <Label
+                text="- Giảm 20%: Trẻ em (dưới 16 tuổi), người cao tuổi (từ đủ 60 tuổi), người có công với cách mạng, người có hoàn cảnh đặc biệt khó khăn"
+                wrapText="true"/>
 
-          <Label text="- Trẻ em dưới 13 tuổi không được xem phim kết thúc sau 22h"/>
+            <Label text="- Giảm 50%: Người khuyết tật nặng"/>
+            <Label text="- Giảm 100%: Người khuyết tật đặc biệt nặng, trẻ em dưới 0.7m đi kèm người lớn" wrapText="true"/>
+            <Label text="Điều kiện áp dụng:"/>
+            <Label text="- Chỉ áp dụng khi mua vé tại quầy"/>
 
-          <Label text="- Trẻ em dưới 16 tuổi không được xem phim kết thúc sau 23h"/>
+            <Label text="- Phải xuất trình giấy tờ khi mua vé"/>
 
-          <Label text="- Giá vé ngày lễ: Tết, 30/4, 1/5, 2/9, 14/2, 8/3, 24/12"/>
+            <Label text="Lưu ý:"/>
 
-          <Label text="TTCPQG không hoàn tiền vé đã thanh toán online."/>
+            <Label text="- Trẻ em dưới 13 tuổi không được xem phim kết thúc sau 22h"/>
 
-          <Label text="Xin cảm ơn – Chúc quý khách xem phim vui vẻ!"/>
+            <Label text="- Trẻ em dưới 16 tuổi không được xem phim kết thúc sau 23h"/>
+
+            <Label text="- Giá vé ngày lễ: Tết, 30/4, 1/5, 2/9, 14/2, 8/3, 24/12"/>
+
+            <Label text="TTCPQG không hoàn tiền vé đã thanh toán online."/>
+
+            <Label text="Xin cảm ơn – Chúc quý khách xem phim vui vẻ!"/>
+          </VBox>
         </VBox>
-
-      </VBox>
+      </StackPane>
     </ScrollPane>
   </center>
 

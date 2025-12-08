@@ -30,6 +30,10 @@ public class AddAuditoriumController {
         this.auditoriumService = auditoriumService;
     }
 
+    public void setAuditoriumListController(AuditoriumListController auditoriumListController) {
+        this.auditoriumListController = auditoriumListController;
+    }
+
     public void handleOnOpen() {
         com.github.jimtrung.theater.model.User user = null;
         try {

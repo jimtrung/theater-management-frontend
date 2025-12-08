@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
 
 <ScrollPane xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -11,44 +14,45 @@
             fitToWidth="true">
   <VBox alignment="TOP_CENTER" spacing="30">
 
-    <Label text="Showtime Information"/>
+    <Label text="Thông Tin Lịch Chiếu" styleClass="title"/>
 
-    <VBox spacing="16" maxWidth="600">
+    <VBox spacing="16" maxWidth="600" styleClass="card">
+      <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
 
       <VBox spacing="5">
-        <Label text="Movie Name"/>
+        <Label text="Tên phim" styleClass="form-label"/>
         <TextField fx:id="showtimeMovieNameField" editable="false"/>
       </VBox>
 
       <VBox spacing="5">
-        <Label text="Auditorium"/>
+        <Label text="Phòng chiếu" styleClass="form-label"/>
         <TextField fx:id="showtimeAuditoriumNameField" editable="false"/>
       </VBox>
 
       <VBox spacing="5">
-        <Label text="Quantity"/>
+        <Label text="Số lượng vé" styleClass="form-label"/>
         <TextField fx:id="showtimeQuantityField" editable="false"/>
       </VBox>
 
       <VBox spacing="5">
-        <Label text="Show Date"/>
+        <Label text="Ngày chiếu" styleClass="form-label"/>
         <TextField fx:id="showtimeDateField" editable="false"/>
       </VBox>
 
       <HBox spacing="16">
         <VBox spacing="5">
-          <Label text="Start Time"/>
+          <Label text="Giờ bắt đầu" styleClass="form-label"/>
           <TextField fx:id="showtimeStartTimeField" editable="false" prefWidth="120"/>
         </VBox>
         <VBox spacing="5">
-          <Label text="End Time"/>
+          <Label text="Giờ kết thúc" styleClass="form-label"/>
           <TextField fx:id="showtimeEndTimeField" editable="false" prefWidth="120"/>
         </VBox>
       </HBox>
 
       <HBox spacing="12" alignment="CENTER_RIGHT">
-        <Button text="Back" onAction="#handleBackButton"/>
-        <Button text="Delete" onAction="#handleDeleteButton"/>
+        <Button text="Quay lại" styleClass="button-secondary" onAction="#handleBackButton"/>
+        <Button text="Xóa" styleClass="button-danger" onAction="#handleDeleteButton"/>
       </HBox>
 
     </VBox>

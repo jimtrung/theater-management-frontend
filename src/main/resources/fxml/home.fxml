@@ -2,37 +2,45 @@
 
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.Group?>
+<?import javafx.geometry.*?>
 
 <StackPane xmlns="http://javafx.com/javafx/25"
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.github.jimtrung.theater.view.HomeController"
-           stylesheets="@/styles/styles.css">
+           stylesheets="@/styles/styles.css"
+           styleClass="root-gradient">
 
-  <VBox styleClass="card" alignment="CENTER" spacing="20">
-    <padding>
-      <Insets top="40" right="48" bottom="40" left="48"/>
-    </padding>
+  <Group>
+    <VBox styleClass="card-modern" alignment="CENTER" spacing="20" prefWidth="500" prefHeight="500">
+      <padding>
+        <Insets top="40" right="48" bottom="40" left="48"/>
+      </padding>
 
-    <Label text="Quản Lý Rạp Chiếu Phim" styleClass="title"/>
+      <Label text="NATIONAL CINEMA CENTER" styleClass="auth-branding"/>
 
-    <Label text="Chào mừng đến với Trung Tâm Chiếu Phim Quốc Gia" styleClass="welcome-subtitle"/>
+      <Label text="Quản Lý Rạp Chiếu Phim" styleClass="title"/>
 
-    <VBox spacing="12" alignment="CENTER" maxWidth="400">
-      <VBox.margin>
-        <Insets top="12"/>
-      </VBox.margin>
+      <Label text="Chào mừng đến với Trung Tâm Chiếu Phim Quốc Gia" styleClass="welcome-subtitle"/>
 
-      <Button fx:id="signinButton"
-              text="Đăng Nhập"
-              styleClass="button-primary,auth-button"
-              onAction="#handleSignInButton"/>
+      <VBox spacing="12" alignment="CENTER" maxWidth="400">
+        <VBox.margin>
+          <Insets top="12"/>
+        </VBox.margin>
 
-      <Button fx:id="signupButton"
-              text="Đăng Ký"
-              styleClass="button-secondary,auth-button"
-              onAction="#handleSignUpButton"/>
+        <Button fx:id="signinButton"
+                text="Đăng Nhập"
+                styleClass="button-primary,auth-button"
+                onAction="#handleSignInButton"/>
+
+        <Button fx:id="signupButton"
+                text="Đăng Ký"
+                styleClass="button-secondary,auth-button"
+                onAction="#handleSignUpButton"/>
+      </VBox>
     </VBox>
-  </VBox>
-
+  </Group>
 </StackPane>

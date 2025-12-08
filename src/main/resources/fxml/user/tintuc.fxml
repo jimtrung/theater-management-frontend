@@ -2,7 +2,10 @@
 
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -14,12 +17,14 @@
 
   <center>
     <ScrollPane fitToWidth="true">
-      <VBox spacing="30" style="-fx-background-color: #0F1419;">
+      <VBox spacing="30" alignment="TOP_CENTER">
         <padding>
           <Insets top="30" right="40" bottom="30" left="40"/>
         </padding>
 
-        <FlowPane fx:id="newsGrid" hgap="20" vgap="20" alignment="CENTER" maxWidth="1290"/>
+        <Label text="Tin Tức Điện Ảnh" styleClass="title"/>
+
+        <FlowPane fx:id="newsGrid" hgap="20" vgap="20" alignment="CENTER" maxWidth="1400"/>
 
         <HBox spacing="20" alignment="CENTER">
           <Button fx:id="BtnPrev" text="⟵ Prev" styleClass="button-primary" onAction="#handlePrevButton"/>

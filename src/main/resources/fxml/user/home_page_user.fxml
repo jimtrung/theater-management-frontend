@@ -2,9 +2,10 @@
 
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -19,8 +20,11 @@
     <ScrollPane fitToWidth="true">
       <VBox spacing="0">
 
-        <StackPane prefHeight="400">
-          <ImageView fitWidth="2000" fitHeight="400" preserveRatio="false">
+        <StackPane fx:id="homeBannerP" prefHeight="400" maxHeight="400" minHeight="400">
+          <clip>
+            <Rectangle width="${homeBannerP.width}" height="400"/>
+          </clip>
+          <ImageView fitWidth="${homeBannerP.width}" preserveRatio="true">
             <Image url="@/images/zootopia.jpg"/>
           </ImageView>
           <Region style="-fx-background-color: rgba(0, 0, 0, 0.25);"/>

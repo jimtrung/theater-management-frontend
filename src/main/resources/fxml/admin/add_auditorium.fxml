@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.scene.Scene?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
 
 <ScrollPane xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -12,37 +13,38 @@
             stylesheets="@/styles/styles.css"
             fitToWidth="true">
 
-  <VBox alignment="TOP_CENTER" spacing="24">
+  <VBox alignment="CENTER" spacing="24">
+    <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
 
-    <Label text="Thêm Phòng Chiếu"/>
+    <Label text="Thêm Phòng Chiếu" styleClass="title"/>
 
     <BorderPane maxWidth="600" minWidth="400">
       <center>
-        <VBox spacing="12">
+        <VBox spacing="12" styleClass="card">
 
           <VBox spacing="4">
-            <Label text="Tên phòng chiếu"/>
+            <Label text="Tên phòng chiếu" styleClass="form-label"/>
             <TextField fx:id="auditoriumNameField"/>
           </VBox>
 
           <VBox spacing="4">
-            <Label text="Loại phòng"/>
+            <Label text="Loại phòng" styleClass="form-label"/>
             <TextField fx:id="auditoriumTypeField"/>
           </VBox>
 
           <VBox spacing="4">
-            <Label text="Sức chứa"/>
+            <Label text="Sức chứa" styleClass="form-label"/>
             <TextField fx:id="auditoriumCapacityField"/>
           </VBox>
 
           <VBox spacing="4">
-            <Label text="Ghi chú"/>
+            <Label text="Ghi chú" styleClass="form-label"/>
             <TextArea fx:id="auditoriumNoteField" prefHeight="100" wrapText="true"/>
           </VBox>
 
           <HBox alignment="CENTER_RIGHT" spacing="12">
-            <Button text="Quay Lại" onAction="#handleBackButton"/>
-            <Button text="Thêm Phòng" onAction="#handleAddAuditoriumButton"/>
+            <Button text="Quay Lại" styleClass="button-secondary" onAction="#handleBackButton"/>
+            <Button text="Thêm Phòng" styleClass="button-primary" onAction="#handleAddAuditoriumButton"/>
           </HBox>
         </VBox>
       </center>

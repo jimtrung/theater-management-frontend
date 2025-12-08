@@ -37,11 +37,11 @@ public class AuditoriumListController {
     }
 
     public TableView<Auditorium> getAuditoriumTable() {
-        return movieTable;
+        return auditoriumTable;
     }
 
     @FXML
-    private TableView movieTable;
+    private TableView auditoriumTable;
 
     @FXML
     private TableColumn<Auditorium, String> nameColumn;
@@ -74,9 +74,9 @@ public class AuditoriumListController {
         noteColumn.setCellValueFactory(new PropertyValueFactory<>("note"));
 
         auditoriumList = FXCollections.observableArrayList();
-        movieTable.setItems(auditoriumList);
+        auditoriumTable.setItems(auditoriumList);
 
-        movieTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        auditoriumTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 Auditorium auditorium = (Auditorium) newSelection;
                 System.out.println("Auditorium id was clicked: " + auditorium.getId());

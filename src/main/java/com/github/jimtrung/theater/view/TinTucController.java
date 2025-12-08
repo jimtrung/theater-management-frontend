@@ -135,9 +135,9 @@ public class TinTucController {
 
         Image img;
         try {
-            img = new Image(getClass().getResourceAsStream("images/" + imagePath));
+            img = new Image(getClass().getResourceAsStream("/images/news/" + imagePath));
         } catch (Exception e) {
-            img = new Image(getClass().getResourceAsStream("images/not_found.png"));
+            img = new Image(getClass().getResourceAsStream("/images/movies/not_found.png"));
         }
 
         ImageView imageView = new ImageView(img);

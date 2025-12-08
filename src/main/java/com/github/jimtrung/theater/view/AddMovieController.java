@@ -46,8 +46,6 @@ public class AddMovieController {
     @FXML
     private TextField movieNameField;
     @FXML
-    private TextField movieGenresField;
-    @FXML
     private TextField movieDurationField;
     @FXML
     private TextField movieLanguageField;
@@ -56,9 +54,9 @@ public class AddMovieController {
     @FXML
     private TextArea movieDescriptionField;
     @FXML
-    private TextField movieDirectorField; 
+    private TextField movieDirectorField;
     @FXML
-    private TextField movieActorsField; 
+    private TextField movieActorsField;
     @FXML
     private ListView<MovieGenre> genreListView;
     @FXML
@@ -107,6 +105,17 @@ public class AddMovieController {
                 String filter = newV.toLowerCase();
                 filteredGenres.setPredicate(g -> filter.isEmpty() || g.name().toLowerCase().contains(filter));
             });
+
+            // Clear fields
+            movieNameField.clear();
+            movieDurationField.clear();
+            movieLanguageField.clear();
+            movieRatedField.clear();
+            movieDescriptionField.clear();
+            movieDirectorField.clear();
+            movieActorsField.clear();
+            searchGenreField.clear();
+            genreListView.getSelectionModel().clearSelection();
 
         } catch (Exception e) {
             e.printStackTrace();
