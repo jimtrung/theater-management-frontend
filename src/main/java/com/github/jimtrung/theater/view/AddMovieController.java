@@ -14,6 +14,9 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxListCell;
+import javafx.scene.control.cell.TextFieldListCell;
+import javafx.scene.layout.FlowPane;
+import javafx.util.StringConverter;
 
 import java.time.OffsetDateTime;
 import java.util.Arrays;
@@ -46,17 +49,23 @@ public class AddMovieController {
     @FXML
     private TextField movieNameField;
     @FXML
-    private TextField movieDurationField;
+    private Spinner<Integer> movieDurationSpinner;
     @FXML
-    private TextField movieLanguageField;
+    private ComboBox<MovieLanguage> movieLanguageComboBox;
     @FXML
-    private TextField movieRatedField;
+    private Spinner<Integer> movieRatedSpinner;
+    @FXML
+    private DatePicker moviePremiereDatePicker;
     @FXML
     private TextArea movieDescriptionField;
     @FXML
     private TextField movieDirectorField;
     @FXML
-    private TextField movieActorsField;
+    private FlowPane actorsFlowPane;
+    @FXML
+    private TextField actorInputField;
+    
+    private final ObservableList<String> actorsList = FXCollections.observableArrayList();
     @FXML
     private ListView<MovieGenre> genreListView;
     @FXML
@@ -98,29 +107,70 @@ public class AddMovieController {
                     }
                 });
                 return selected;
+            }, new StringConverter<MovieGenre>() {
+                @Override
+                public String toString(MovieGenre object) {
+                    return object != null ? object.toVietnamese() : "";
+                }
+
+                @Override
+                public MovieGenre fromString(String string) {
+                    return MovieGenre.fromVietnamese(string);
+                }
             }));
 
             // --- Filter genres ---
             searchGenreField.textProperty().addListener((obs, oldV, newV) -> {
                 String filter = newV.toLowerCase();
-                filteredGenres.setPredicate(g -> filter.isEmpty() || g.name().toLowerCase().contains(filter));
+                filteredGenres.setPredicate(g -> filter.isEmpty() ||
+                        g.name().toLowerCase().contains(filter) ||
+                        g.toVietnamese().toLowerCase().contains(filter));
             });
 
             // Clear fields
             movieNameField.clear();
-            movieDurationField.clear();
-            movieLanguageField.clear();
-            movieRatedField.clear();
+            movieDurationSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 500, 120, 10));
+            movieLanguageComboBox.getSelectionModel().clearSelection();
+            movieRatedSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 18, 13));
+            moviePremiereDatePicker.setValue(null);
             movieDescriptionField.clear();
             movieDirectorField.clear();
-            movieActorsField.clear();
+            actorsList.clear();
+            actorsFlowPane.getChildren().clear();
+            actorInputField.clear();
             searchGenreField.clear();
             genreListView.getSelectionModel().clearSelection();
+            
+            // --- Actors Input Handler ---
+            actorInputField.setOnKeyPressed(event -> {
+                if (event.getCode() == javafx.scene.input.KeyCode.ENTER) {
+                    event.consume(); // Prevent default action
+                    String name = actorInputField.getText().trim();
+                    if (!name.isEmpty() && !actorsList.contains(name)) {
+                        addActorTag(name);
+                        actorInputField.clear();
+                    }
+                }
+            });
 
         } catch (Exception e) {
             e.printStackTrace();
             showError("Failed to load genres: " + e.getMessage());
         }
+        
+        // Load languages
+        movieLanguageComboBox.setItems(FXCollections.observableArrayList(MovieLanguage.values()));
+        movieLanguageComboBox.setConverter(new StringConverter<MovieLanguage>() {
+            @Override
+            public String toString(MovieLanguage object) {
+                return object != null ? object.toVietnamese() : "";
+            }
+
+            @Override
+            public MovieLanguage fromString(String string) {
+                return MovieLanguage.fromVietnamese(string);
+            }
+        });
     }
 
     @FXML
@@ -128,31 +178,29 @@ public class AddMovieController {
         try {
             // --- Validate required fields ---
             if (isEmpty(movieNameField) ||
-                    isEmpty(movieDurationField) ||
-                    isEmpty(movieLanguageField) ||
-                    isEmpty(movieRatedField) ||
-                    isEmpty(movieDirectorField)) {
+                    movieDurationSpinner.getValue() == 0 ||
+                    movieLanguageComboBox.getValue() == null ||
+                    movieDirectorField.getText().trim().isEmpty() ||
+                    moviePremiereDatePicker.getValue() == null) {
                 showError("Please enter complete information");
                 return;
             }
 
             Movie movie = new Movie();
-            movie.setId(UUID.randomUUID());
             movie.setName(movieNameField.getText().trim());
             movie.setDescription(movieDescriptionField.getText().trim());
-            movie.setLanguage(MovieLanguage.valueOf(movieLanguageField.getText().trim()));
+            movie.setLanguage(movieLanguageComboBox.getValue());
             movie.setDirector(movieDirectorField.getText().trim());
-            movie.setPremiere(OffsetDateTime.now());
+            
+            // Premiere
+            java.time.LocalDate date = moviePremiereDatePicker.getValue();
+            movie.setPremiere(date.atStartOfDay().atOffset(java.time.ZoneOffset.UTC));
+            
             movie.setCreatedAt(OffsetDateTime.now());
             movie.setUpdatedAt(OffsetDateTime.now());
 
-            try {
-                movie.setDuration(Integer.parseInt(movieDurationField.getText().trim()));
-                movie.setRated(Integer.parseInt(movieRatedField.getText().trim()));
-            } catch (NumberFormatException e) {
-                showError("Duration and Rated must be valid numbers");
-                return;
-            }
+            movie.setDuration(movieDurationSpinner.getValue());
+            movie.setRated(movieRatedSpinner.getValue());
 
             // --- Get selected genres ---
             List<String> selectedGenres = genreListView.getSelectionModel()
@@ -162,22 +210,18 @@ public class AddMovieController {
                     .toList();
             movie.setGenres(selectedGenres);
 
+            movie.setGenres(selectedGenres);
+
             // --- Get actors ---
-            String actorsText = movieActorsField.getText();
-            if (actorsText != null && !actorsText.trim().isEmpty()) {
-                List<String> actorsList = Arrays.stream(actorsText.split(","))
-                        .map(String::trim)
-                        .filter(s -> !s.isEmpty())
-                        .toList();
-                movie.setActors(actorsList);
+            // --- Get actors ---
+            if (!actorsList.isEmpty()) {
+                movie.setActors(List.copyOf(actorsList));
             } else {
                 movie.setActors(List.of());
             }
 
             // --- Insert movie ---
             movieService.insertMovie(movie);
-
-            System.out.println("[DEBUG] Inserted movie with " + movie.getActors().size() + " actors.");
 
             movieListController.refreshData();
             screenController.activate("movieList");
@@ -196,6 +240,29 @@ public class AddMovieController {
         alert.showAndWait();
     }
 
+    private void addActorTag(String name) {
+        actorsList.add(name);
+
+        javafx.scene.layout.HBox tag = new javafx.scene.layout.HBox();
+        tag.setAlignment(javafx.geometry.Pos.CENTER);
+        tag.setStyle("-fx-background-color: #3B82F6; -fx-background-radius: 15; -fx-padding: 5 10;");
+        tag.setSpacing(5);
+
+        Label label = new Label(name);
+        label.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
+
+        Button closeBtn = new Button("✕");
+        closeBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 10; -fx-padding: 0;");
+        closeBtn.setCursor(javafx.scene.Cursor.HAND);
+        closeBtn.setOnAction(e -> {
+            actorsFlowPane.getChildren().remove(tag);
+            actorsList.remove(name);
+        });
+
+        tag.getChildren().addAll(label, closeBtn);
+        actorsFlowPane.getChildren().add(tag);
+    }
+    
     private boolean isEmpty(TextField field) {
         return field.getText() == null || field.getText().trim().isEmpty();
     }

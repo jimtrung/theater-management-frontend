@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import java.time.OffsetDateTime;
 
 import java.lang.reflect.Field;
 
@@ -67,6 +68,8 @@ public class AddAuditoriumController {
         }
 
         auditorium.setCapacity(Integer.valueOf(auditoriumCapacityField.getText().toString().trim()));
+        auditorium.setCreatedAt(OffsetDateTime.now());
+        auditorium.setUpdatedAt(OffsetDateTime.now());
         try {
             if (hasNullField(auditorium)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);

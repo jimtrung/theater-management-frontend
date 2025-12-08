@@ -12,6 +12,10 @@ public class ScreenController {
     private final Map<String, Object> controllers = new HashMap<>();
     private final StackPane root;
 
+    public Object getController(String name) {
+        return controllers.get(name);
+    }
+
     public ScreenController(StackPane root) {
         this.root = root;
     }

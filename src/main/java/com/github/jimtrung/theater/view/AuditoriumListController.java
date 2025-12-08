@@ -85,6 +85,8 @@ public class AuditoriumListController {
             }
             handleClickItem(uuid);
         });
+        
+        refreshData();
     }
 
     @FXML
@@ -95,12 +97,14 @@ public class AuditoriumListController {
     @FXML
     public void handleClickItem(UUID id) {
         try {
-            FXMLLoader auditoriumInformationLoader = new FXMLLoader(getClass().getResource("/fxml/auditorium_information.fxml"));
-            screenController.addScreen("auditoriumInformation", auditoriumInformationLoader);
-            AuditoriumInformationController auditoriumInformationController = auditoriumInformationLoader.getController();
-            auditoriumInformationController.setUuid(uuid);
-
-            screenController.activate("auditoriumInformation");
+            AuditoriumInformationController controller = (AuditoriumInformationController) screenController.getController("auditoriumInformation");
+            if (controller != null) {
+                controller.setUuid(id);
+                controller.setAuditoriumListController(this);
+                screenController.activate("auditoriumInformation");
+            } else {
+                System.out.println("Error: AuditoriumInformationController not found.");
+            }
         }
         catch (Exception e) {
             e.printStackTrace();

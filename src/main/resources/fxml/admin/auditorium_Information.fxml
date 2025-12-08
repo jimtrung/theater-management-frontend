@@ -16,27 +16,27 @@
   <VBox alignment="CENTER" spacing="20">
     <Label text="Thông tin phòng chiếu" styleClass="title"/>
 
-    <VBox prefWidth="500" spacing="20" styleClass="card">
+    <VBox prefWidth="400" spacing="10" styleClass="card">
       <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
 
       <VBox spacing="6">
         <Label text="Tên phòng chiếu" styleClass="form-label"/>
-        <TextField fx:id="AuditoriumNameField"/>
+        <TextField fx:id="auditoriumNameField"/>
       </VBox>
 
       <VBox spacing="6">
         <Label text="Loại phòng chiếu" styleClass="form-label"/>
-        <TextField fx:id="AuditoriumTypeField"/>
+        <TextField fx:id="auditoriumTypeField"/>
       </VBox>
 
       <VBox spacing="6">
         <Label text="Sức chứa" styleClass="form-label"/>
-        <TextField fx:id="AuditoriumCapacityField"/>
+        <TextField fx:id="auditoriumCapacityField"/>
       </VBox>
 
       <VBox spacing="6">
         <Label text="Ghi chú" styleClass="form-label"/>
-        <TextArea fx:id="AuditoriumNoteField" wrapText="true" prefHeight="100"/>
+        <TextArea fx:id="auditoriumNoteField" wrapText="true" prefHeight="100"/>
       </VBox>
 
       <HBox spacing="12" alignment="CENTER_RIGHT">

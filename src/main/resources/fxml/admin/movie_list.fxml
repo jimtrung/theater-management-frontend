@@ -24,6 +24,7 @@
         <columns>
           <TableColumn fx:id="nameColumn" text="Tên phim"/>
           <TableColumn fx:id="directorColumn" text="Đạo diễn"/>
+          <TableColumn fx:id="actorsColumn" text="Diễn viên"/>
           <TableColumn fx:id="genresColumn" text="Thể loại"/>
           <TableColumn fx:id="premiereColumn" text="Khởi chiếu"/>
           <TableColumn fx:id="durationColumn" text="Thời lượng"/>

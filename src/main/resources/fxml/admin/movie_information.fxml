@@ -5,76 +5,96 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.image.*?>
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 
 <ScrollPane fx:id="root"
             xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.github.jimtrung.theater.view.MovieInformationController"
+            stylesheets="@/styles/styles.css"
             fitToWidth="true">
 
-  <content>
-    <VBox alignment="CENTER" spacing="16">
+  <VBox alignment="CENTER" spacing="30">
+    <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
 
-      <Label text="Thông Tin Phim" styleClass="title"/>
+    <Label text="Thông Tin Phim" styleClass="title"/>
 
-      <VBox maxWidth="600" spacing="16" styleClass="card">
+    <GridPane alignment="CENTER" hgap="40" vgap="20">
+      <columnConstraints>
+        <ColumnConstraints prefWidth="350"/>
+        <ColumnConstraints prefWidth="2"/> <!-- Separator or space -->
+        <ColumnConstraints prefWidth="350"/>
+      </columnConstraints>
+
+      <!-- LEFT COLUMN -->
+      <VBox spacing="20" GridPane.columnIndex="0" styleClass="card">
         <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
-
-        <VBox spacing="4">
+        
+        <VBox spacing="5">
           <Label text="Tên phim" styleClass="form-label"/>
           <TextField fx:id="movieNameField"/>
         </VBox>
 
-        <VBox spacing="4">
-          <Label text="Mô tả" styleClass="form-label"/>
-          <TextArea fx:id="movieDescriptionField"
-                    wrapText="true"/>
-        </VBox>
-
-        <VBox spacing="4">
-          <Label text="Đạo diễn" styleClass="form-label"/>
-          <TextField fx:id="movieDirectorIdField"
-                     editable="false"/>
-        </VBox>
-
-        <VBox spacing="4">
-          <Label text="Thể loại" styleClass="form-label"/>
-          <TextField fx:id="movieGenresField"
-                     editable="false"/>
-        </VBox>
-
-        <VBox spacing="4" visible="false" managed="false">
-          <Label text="Ngày khởi chiếu" styleClass="form-label"/>
-          <TextField fx:id="moviePremiereField"
-                     editable="false"/>
-        </VBox>
-
-        <HBox spacing="16">
-          <VBox spacing="4">
-            <Label text="Thời lượng (phút)" styleClass="form-label"/>
-            <TextField fx:id="movieDurationField" prefWidth="120"/>
-          </VBox>
-
-          <VBox spacing="4">
+        <HBox spacing="15">
+          <VBox HBox.hgrow="ALWAYS">
             <Label text="Giới hạn tuổi" styleClass="form-label"/>
-            <TextField fx:id="movieRatedField" prefWidth="120"/>
+            <Spinner fx:id="movieRatedSpinner" editable="true"/>
+          </VBox>
+
+          <VBox HBox.hgrow="ALWAYS">
+            <Label text="Thời lượng (phút)" styleClass="form-label"/>
+            <Spinner fx:id="movieDurationSpinner" editable="true"/>
           </VBox>
         </HBox>
 
-        <VBox spacing="4">
-          <Label text="Ngôn ngữ" styleClass="form-label"/>
-          <TextField fx:id="movieLanguageField"/>
-        </VBox>
+        <HBox spacing="15">
+           <VBox HBox.hgrow="ALWAYS">
+            <Label text="Ngày khởi chiếu" styleClass="form-label"/>
+            <DatePicker fx:id="moviePremiereDatePicker"/>
+          </VBox>
 
-        <HBox spacing="12" alignment="CENTER_RIGHT">
-          <Button text="Quay lại" styleClass="button-secondary" onAction="#handleBackButton"/>
-          <Button text="Sửa" styleClass="button-primary" onAction="#handleEditButton"/>
-          <Button text="Xóa" styleClass="button-danger" onAction="#handleDeleteButton"/>
+          <VBox HBox.hgrow="ALWAYS">
+            <Label text="Ngôn ngữ" styleClass="form-label"/>
+            <ComboBox fx:id="movieLanguageComboBox" prefWidth="150" promptText="Chọn ngôn ngữ"/>
+          </VBox>
         </HBox>
-
+        
+        <VBox HBox.hgrow="ALWAYS">
+          <Label text="Mô tả" styleClass="form-label"/>
+          <TextArea fx:id="movieDescriptionField" prefHeight="100" wrapText="true"/>
+        </VBox>
       </VBox>
 
-    </VBox>
-  </content>
+      <!-- RIGHT COLUMN -->
+      <VBox spacing="20" GridPane.columnIndex="2" styleClass="card">
+        <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+        
+        <VBox spacing="5">
+          <Label text="Đạo diễn" styleClass="form-label"/>
+          <TextField fx:id="movieDirectorField"/>
+        </VBox>
+
+        <VBox spacing="5">
+          <Label text="Diễn viên (Nhấn Enter để thêm)" styleClass="form-label"/>
+          <VBox spacing="10">
+            <FlowPane fx:id="actorsFlowPane" hgap="8" vgap="8" prefWrapLength="300"/>
+            <TextField fx:id="actorInputField" promptText="Nhập tên diễn viên..."/>
+          </VBox>
+        </VBox>
+
+        <VBox spacing="5">
+          <Label text="Thể loại" styleClass="form-label"/>
+          <TextField fx:id="searchGenreField" promptText="Tìm kiếm thể loại..."/>
+          <ListView fx:id="genreListView" prefHeight="150"/>
+        </VBox>
+      </VBox>
+    </GridPane>
+
+    <HBox spacing="20" alignment="CENTER_RIGHT" maxWidth="740">
+      <Button text="Quay lại" minWidth="100" styleClass="button-secondary" onAction="#handleBackButton"/>
+      <Button text="Xóa" minWidth="100" styleClass="button-danger" onAction="#handleDeleteButton"/>
+      <Button text="Lưu Thay Đổi" minWidth="120" styleClass="button-primary" onAction="#handleEditButton"/>
+    </HBox>
+
+  </VBox>
 </ScrollPane>

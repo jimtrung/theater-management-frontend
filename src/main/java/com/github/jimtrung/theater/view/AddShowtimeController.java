@@ -7,9 +7,44 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
+import com.github.jimtrung.theater.model.Auditorium;
+import com.github.jimtrung.theater.model.Movie;
+import com.github.jimtrung.theater.model.Showtime;
+import com.github.jimtrung.theater.service.AuditoriumService;
+import com.github.jimtrung.theater.service.MovieService;
+import com.github.jimtrung.theater.service.ShowtimeService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 public class AddShowtimeController {
     private ScreenController screenController;
     private AuthService authService;
+    private MovieService movieService;
+    private AuditoriumService auditoriumService;
+    private ShowtimeService showtimeService;
+    private ShowtimeListController showtimeListController;
+
+    private Movie selectedMovie;
+    private Auditorium selectedAuditorium;
+
+    @FXML private ListView<Movie> movieListView;
+    @FXML private ListView<Auditorium> auditoriumListView;
+    @FXML private TextField searchMovieField;
+    @FXML private TextField searchAuditoriumField;
+    @FXML private DatePicker showtimeDatePicker;
+    @FXML private ComboBox<String> startTimePicker;
+    @FXML private ComboBox<String> endTimePicker;
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
@@ -19,44 +54,131 @@ public class AddShowtimeController {
         this.authService = authService;
     }
 
-    @FXML
-    private ListView<String> movieListView;
+    public void setMovieService(MovieService movieService) {
+        this.movieService = movieService;
+    }
 
-    @FXML
-    private TextField selectedMovieField;
+    public void setAuditoriumService(AuditoriumService auditoriumService) {
+        this.auditoriumService = auditoriumService;
+    }
+
+    public void setShowtimeService(ShowtimeService showtimeService) {
+        this.showtimeService = showtimeService;
+    }
+
+    public void setShowtimeListController(ShowtimeListController showtimeListController) {
+        this.showtimeListController = showtimeListController;
+    }
 
     public void handleOnOpen() {
         User user = null;
         try {
-            user = (com.github.jimtrung.theater.model.User) authService.getUser();
+            user = (User) authService.getUser();
         } catch (Exception ignored) { }
 
         if (user == null || user.getRole() != UserRole.administrator) {
             screenController.activate("home");
+            return;
         }
 
-        movieListView.getItems().addAll(
-                "Inception",
-                "Interstellar",
-                "The Dark Knight",
-                "Avatar",
-                "Titanic",
-                "Avengers: Endgame"
-        );
+        clearFields();
+        loadMovies();
+        loadAuditoriums();
+        loadTimes();
+    }
 
-        // Khi click chọn phim → hiện trong TextField
-        movieListView.setOnMouseClicked(e -> {
-            String selectedMovie = movieListView.getSelectionModel().getSelectedItem();
-            if (selectedMovie != null) {
-                selectedMovieField.setText(selectedMovie);
+    private void clearFields() {
+        searchMovieField.clear();
+        searchAuditoriumField.clear();
+        showtimeDatePicker.setValue(null);
+        startTimePicker.getSelectionModel().clearSelection();
+        endTimePicker.getSelectionModel().clearSelection();
+        selectedMovie = null;
+        selectedAuditorium = null;
+    }
+
+    private void loadTimes() {
+        ObservableList<String> times = FXCollections.observableArrayList();
+        for (int h = 0; h < 24; h++) {
+            for (int m = 0; m < 60; m += 30) {
+                times.add(String.format("%02d:%02d", h, m));
             }
-        });
+        }
+        startTimePicker.setItems(times);
+        endTimePicker.setItems(times);
+    }
+
+    private void loadMovies() {
+        try {
+            ObservableList<Movie> movies = FXCollections.observableArrayList(movieService.getAllMovies());
+            FilteredList<Movie> filteredMovies = new FilteredList<>(movies, p -> true);
+            
+            movieListView.setItems(filteredMovies);
+            movieListView.setCellFactory(param -> new javafx.scene.control.ListCell<>() {
+                @Override
+                protected void updateItem(Movie item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        setText(item.getName());
+                    }
+                }
+            });
+
+            searchMovieField.textProperty().addListener((obs, oldVal, newVal) -> {
+                filteredMovies.setPredicate(movie -> {
+                    if (newVal == null || newVal.isEmpty()) return true;
+                    return movie.getName().toLowerCase().contains(newVal.toLowerCase());
+                });
+            });
+
+            movieListView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+                selectedMovie = newVal;
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadAuditoriums() {
+        try {
+            ObservableList<Auditorium> auditoriums = FXCollections.observableArrayList(auditoriumService.getAllAuditoriums());
+            FilteredList<Auditorium> filteredAuditoriums = new FilteredList<>(auditoriums, p -> true);
+
+            auditoriumListView.setItems(filteredAuditoriums);
+            auditoriumListView.setCellFactory(param -> new javafx.scene.control.ListCell<>() {
+                @Override
+                protected void updateItem(Auditorium item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        setText(item.getName() + " (" + item.getType() + ")");
+                    }
+                }
+            });
+
+            searchAuditoriumField.textProperty().addListener((obs, oldVal, newVal) -> {
+                filteredAuditoriums.setPredicate(auditorium -> {
+                    if (newVal == null || newVal.isEmpty()) return true;
+                    return auditorium.getName().toLowerCase().contains(newVal.toLowerCase());
+                });
+            });
+
+            auditoriumListView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+                selectedAuditorium = newVal;
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void handleShowMovies() {
-        // Ẩn/hiện danh sách
-        movieListView.setVisible(!movieListView.isVisible());
+        // Obsolete?
     }
 
     @FXML
@@ -66,6 +188,60 @@ public class AddShowtimeController {
 
     @FXML
     private void handleAddShowtimeButton() {
-        // TODO: Implement this
+        try {
+            if (selectedMovie == null || selectedAuditorium == null || 
+                showtimeDatePicker.getValue() == null || 
+                startTimePicker.getValue() == null || endTimePicker.getValue() == null) {
+                
+                showAlert("Please fill all fields!");
+                return;
+            }
+
+            String date = showtimeDatePicker.getValue().format(DateTimeFormatter.ISO_LOCAL_DATE);
+            String start = date + "T" + startTimePicker.getValue() + ":00Z"; // Simply assuming UTC/User TZ for now, careful
+            String end = date + "T" + endTimePicker.getValue() + ":00Z";
+
+            // Better approach using OffsetDateTime
+            ZoneOffset offset = ZoneOffset.ofHours(7); // Vietnam Time? Or use system default.
+            // Actually the backend expects OffsetDateTime.
+            // Let's assume input is local time and we simply attach an offset or treat as UTC.
+            // For simplicity, let's parse using LocalTime and Date then combine.
+            
+            LocalTime startTime = LocalTime.parse(startTimePicker.getValue());
+            LocalTime endTime = LocalTime.parse(endTimePicker.getValue());
+            
+            if (!endTime.isAfter(startTime)) {
+                showAlert("End time must be after start time!");
+                return;
+            }
+
+            OffsetDateTime startOdt = OffsetDateTime.of(showtimeDatePicker.getValue(), startTime, offset);
+            OffsetDateTime endOdt = OffsetDateTime.of(showtimeDatePicker.getValue(), endTime, offset);
+
+            Showtime showtime = new Showtime();
+            showtime.setMovieId(selectedMovie.getId());
+            showtime.setAuditoriumId(selectedAuditorium.getId());
+            showtime.setStartTime(startOdt);
+            showtime.setEndTime(endOdt);
+
+            showtimeService.insertShowtime(showtime);
+            
+            if (showtimeListController != null) {
+                showtimeListController.refreshData();
+            }
+            
+            screenController.activate("showtimeList");
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error adding showtime: " + e.getMessage());
+        }
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setContentText(message);
+        alert.show();
     }
 }

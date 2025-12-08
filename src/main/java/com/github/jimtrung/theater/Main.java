@@ -76,6 +76,7 @@ public class Main extends Application {
         homePageUserController.setScreenController(screenController);
         homePageUserController.setAuthService(authService);
         homePageUserController.setMovieService(movieService);
+        homePageUserController.setShowtimeService(showtimeService);
 
         // MovieList
         FXMLLoader movieListLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/admin/movie_list.fxml")));
@@ -151,12 +152,19 @@ public class Main extends Application {
         ShowtimeInformationController showtimeInfoController = showtimeInfoLoader.getController();
         showtimeInfoController.setScreenController(screenController);
         showtimeInfoController.setAuthService(authService);
+        showtimeInfoController.setShowtimeService(showtimeService);
+        showtimeInfoController.setMovieService(movieService);
+        showtimeInfoController.setAuditoriumService(auditoriumService);
 
         // ShowtimeList
         FXMLLoader showtimeListLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/admin/showtime_list.fxml")));
         screenController.addScreen("showtimeList", showtimeListLoader);
         ShowtimeListController showtimeListController = showtimeListLoader.getController();
         showtimeListController.setScreenController(screenController);
+        showtimeListController.setAuthService(authService);
+        showtimeListController.setShowtimeService(showtimeService);
+        showtimeListController.setMovieService(movieService);
+        showtimeListController.setAuditoriumService(auditoriumService);
 
         // Add movie
         FXMLLoader addMovieLoader = new FXMLLoader(getClass().getResource("/fxml/admin/add_movie.fxml"));
@@ -189,6 +197,7 @@ public class Main extends Application {
         AuditoriumInformationController auditoriumInformationController = auditoriumInformationLoader.getController();
         auditoriumInformationController.setScreenController(screenController);
         auditoriumInformationController.setAuditoriumService(auditoriumService);
+        auditoriumInformationController.setAuthService(authService);
 
         // Add showtime
         FXMLLoader showtimeLoader = new FXMLLoader(getClass().getResource("/fxml/admin/add_showtime.fxml"));
@@ -196,6 +205,9 @@ public class Main extends Application {
         AddShowtimeController addShowtimeController = showtimeLoader.getController();
         addShowtimeController.setScreenController(screenController);
         addShowtimeController.setAuthService(authService);
+        addShowtimeController.setShowtimeService(showtimeService);
+        addShowtimeController.setMovieService(movieService);
+        addShowtimeController.setAuditoriumService(auditoriumService);
 
         screenController.activate("home");
 
@@ -208,11 +220,13 @@ public class Main extends Application {
         // Late bindings
         addMovieController.setMovieListController(movieListController);
         addAuditoriumController.setAuditoriumListController(auditoriumListController);
+        addShowtimeController.setShowtimeListController(showtimeListController);
 
         stage.show();
     }
 
     public static void main(String[] args) {
+        System.setProperty("prism.force.dark", "true");
         launch(args);
     }
 }

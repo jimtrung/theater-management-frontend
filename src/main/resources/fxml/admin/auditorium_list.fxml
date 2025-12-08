@@ -11,7 +11,7 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.github.jimtrung.theater.view.AuditoriumListController"
             stylesheets="@/styles/styles.css">
-  <VBox alignment="CENTER" spacing="20" maxWidth="600">
+  <VBox alignment="CENTER" spacing="20" maxWidth="500">
     <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
 
     <HBox alignment="CENTER_RIGHT">

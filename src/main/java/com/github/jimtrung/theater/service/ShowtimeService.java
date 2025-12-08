@@ -3,6 +3,7 @@ package com.github.jimtrung.theater.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.jimtrung.theater.model.Showtime;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
@@ -27,6 +28,7 @@ public class ShowtimeService {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
         mapper.registerModule(new JavaTimeModule());
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         String requestBody = mapper.writeValueAsString(showtime);
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -36,7 +38,10 @@ public class ShowtimeService {
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 
-        client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        if (response.statusCode() >= 300) {
+            throw new RuntimeException("Failed to insert showtime: (" + response.statusCode() + ") " + response.body());
+        }
     }
 
     public List<Showtime> getAllShowtimes() throws Exception {

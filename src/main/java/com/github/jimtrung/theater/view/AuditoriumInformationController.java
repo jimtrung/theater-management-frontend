@@ -17,6 +17,11 @@ public class AuditoriumInformationController {
     private AuditoriumService auditoriumService;
     private AuditoriumListController auditoriumListController;
     private UUID uuid;
+    private Auditorium currentAuditorium;
+
+    public void setAuditoriumListController(AuditoriumListController auditoriumListController) {
+        this.auditoriumListController = auditoriumListController;
+    }
 
     public void setAuditoriumService(AuditoriumService auditoriumService) {
         this.auditoriumService = auditoriumService;
@@ -44,26 +49,30 @@ public class AuditoriumInformationController {
     @FXML
     public void handleEditButton() {
         try {
-            Auditorium updatedAuditorium = new Auditorium();
-            updatedAuditorium.setName(auditoriumNameField.getText().trim());
-            updatedAuditorium.setType(auditoriumTypeField.getText().trim());
-            updatedAuditorium.setNote(auditoriumNoteField.getText().trim());
-
-            try {
-                updatedAuditorium.setCapacity(Integer.parseInt(auditoriumCapacityField.getText().trim()));
-            } catch (NumberFormatException e) {
-                System.out.println("[WARN] - Invalid age limit input. Default to 0");
-                updatedAuditorium.setCapacity(0);
+            if (currentAuditorium == null) {
+                currentAuditorium = new Auditorium();
+                currentAuditorium.setId(uuid);
             }
 
-            auditoriumService.updateAuditorium(uuid, updatedAuditorium);
+            currentAuditorium.setName(auditoriumNameField.getText().trim());
+            currentAuditorium.setType(auditoriumTypeField.getText().trim());
+            currentAuditorium.setNote(auditoriumNoteField.getText().trim());
+
+            try {
+                currentAuditorium.setCapacity(Integer.parseInt(auditoriumCapacityField.getText().trim()));
+            } catch (NumberFormatException e) {
+                System.out.println("[WARN] - Invalid age limit input. Default to 0");
+                currentAuditorium.setCapacity(0);
+            }
+
+            auditoriumService.updateAuditorium(uuid, currentAuditorium);
 
             Auditorium auditorium = auditoriumService.getAuditoriumById(uuid);
             auditoriumListController.updateAuditorium(auditorium);
 
 //            movieListController.refreshData();
 
-            System.out.println("[INFO] - Movie updated successfully: " + updatedAuditorium.getName());
+            System.out.println("[INFO] - Auditorium updated successfully: " + currentAuditorium.getName());
 
             screenController.activate("auditoriumList");
 
@@ -93,20 +102,19 @@ public class AuditoriumInformationController {
         }
 
         System.out.println("Auditorium id was receive: " + uuid);
-        Auditorium auditorium = new Auditorium();
-        auditorium = auditoriumService.getAuditoriumById(uuid);
+        currentAuditorium = auditoriumService.getAuditoriumById(uuid);
 
-        if (auditorium == null) {
+        if (currentAuditorium == null) {
             System.out.println("[WARN] - Movie not found with id: " + uuid);
             return;
         }
 
-        auditoriumNameField.setText(auditorium.getName());
-        auditoriumTypeField.setText(auditorium.getType());
-        auditoriumCapacityField.setText(String.valueOf(auditorium.getCapacity()));
-        auditoriumNoteField.setText(auditorium.getNote());
+        auditoriumNameField.setText(currentAuditorium.getName());
+        auditoriumTypeField.setText(currentAuditorium.getType());
+        auditoriumCapacityField.setText(String.valueOf(currentAuditorium.getCapacity()));
+        auditoriumNoteField.setText(currentAuditorium.getNote());
 
-        System.out.println("[DEBUG] - Auditorium loaded: " + auditorium.getName());
+        System.out.println("[DEBUG] - Auditorium loaded: " + currentAuditorium.getName());
     }
 
     @FXML

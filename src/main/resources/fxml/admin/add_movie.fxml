@@ -34,33 +34,34 @@
           <TextField fx:id="movieNameField"/>
         </VBox>
 
-        <VBox spacing="5">
-          <Label text="Chọn thể loại" styleClass="form-label"/>
-          <TextField fx:id="searchGenreField"/>
-          <ListView fx:id="genreListView" prefHeight="150"/>
-        </VBox>
-
-        <VBox spacing="5">
-          <Label text="Nhập mô tả phim" styleClass="form-label"/>
-          <TextArea fx:id="movieDescriptionField" prefHeight="100" wrapText="true"/>
-        </VBox>
-
         <HBox spacing="15">
           <VBox HBox.hgrow="ALWAYS">
             <Label text="Giới hạn tuổi" styleClass="form-label"/>
-            <TextField fx:id="movieRatedField"/>
+            <Spinner fx:id="movieRatedSpinner" editable="true"/>
           </VBox>
 
           <VBox HBox.hgrow="ALWAYS">
-            <Label text="Thời lượng" styleClass="form-label"/>
-            <TextField fx:id="movieDurationField"/>
+            <Label text="Thời lượng (phút)" styleClass="form-label"/>
+            <Spinner fx:id="movieDurationSpinner" editable="true"/>
+          </VBox>
+        </HBox>
+
+        <HBox spacing="15">
+           <VBox HBox.hgrow="ALWAYS">
+            <Label text="Ngày khởi chiếu" styleClass="form-label"/>
+            <DatePicker fx:id="moviePremiereDatePicker"/>
           </VBox>
 
           <VBox HBox.hgrow="ALWAYS">
             <Label text="Ngôn ngữ" styleClass="form-label"/>
-            <TextField fx:id="movieLanguageField"/>
+            <ComboBox fx:id="movieLanguageComboBox" prefWidth="150" promptText="Chọn ngôn ngữ"/>
           </VBox>
         </HBox>
+        
+        <VBox HBox.hgrow="ALWAYS">
+          <Label text="Nhập mô tả phim" styleClass="form-label"/>
+          <TextArea fx:id="movieDescriptionField" prefHeight="100" wrapText="true"/>
+        </VBox>
       </VBox>
 
       <!-- RIGHT COLUMN -->
@@ -73,8 +74,17 @@
         </VBox>
 
         <VBox spacing="5">
-          <Label text="Nhập diễn viên (phân cách bởi dấu phẩy)" styleClass="form-label"/>
-          <TextField fx:id="movieActorsField"/>
+          <Label text="Nhập diễn viên (Nhấn Enter để thêm)" styleClass="form-label"/>
+          <VBox spacing="10">
+            <FlowPane fx:id="actorsFlowPane" hgap="8" vgap="8" prefWrapLength="300"/>
+            <TextField fx:id="actorInputField" promptText="Nhập tên diễn viên..."/>
+          </VBox>
+        </VBox>
+
+        <VBox spacing="5">
+          <Label text="Chọn thể loại" styleClass="form-label"/>
+          <TextField fx:id="searchGenreField"/>
+          <ListView fx:id="genreListView" prefHeight="150"/>
         </VBox>
       </VBox>
     </GridPane>

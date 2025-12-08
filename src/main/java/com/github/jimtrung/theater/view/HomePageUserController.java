@@ -1,9 +1,12 @@
 package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.model.Movie;
+import com.github.jimtrung.theater.model.Showtime;
 import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.service.MovieService;
+import com.github.jimtrung.theater.service.ShowtimeService;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
+import com.github.jimtrung.theater.model.MovieGenre;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -15,6 +18,9 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class HomePageUserController {
     @FXML
@@ -23,6 +29,7 @@ public class HomePageUserController {
     private ScreenController screenController;
     private AuthService authService;
     private MovieService movieService;
+    private ShowtimeService showtimeService;
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
@@ -38,6 +45,10 @@ public class HomePageUserController {
         this.movieService = movieService;
     }
 
+    public void setShowtimeService(ShowtimeService showtimeService) {
+        this.showtimeService = showtimeService;
+    }
+
     @FXML
     private FlowPane movieList;
 
@@ -49,6 +60,15 @@ public class HomePageUserController {
         List<Movie> movies;
         try {
             movies = movieService.getAllMovies();
+            List<Showtime> showtimes = showtimeService.getAllShowtimes();
+            Set<UUID> movieIdsWithShowtimes = showtimes.stream()
+                    .map(Showtime::getMovieId)
+                    .collect(Collectors.toSet());
+
+            movies = movies.stream()
+                    .filter(movie -> movieIdsWithShowtimes.contains(movie.getId()))
+                    .collect(Collectors.toList());
+
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -110,7 +130,17 @@ public class HomePageUserController {
         Label title = new Label(movie.getName());
         title.getStyleClass().add("movie-title");
 
-        Label genres = new Label(String.join(", ", movie.getGenres()));
+        String genresText = movie.getGenres().stream()
+                .map(g -> {
+                    try {
+                        return MovieGenre.valueOf(g).toVietnamese();
+                    } catch (IllegalArgumentException e) {
+                        return g;
+                    }
+                })
+                .collect(Collectors.joining(", "));
+        
+        Label genres = new Label(genresText);
         genres.getStyleClass().add("movie-genre");
 
         Label rated = new Label("Rated: " + movie.getRated() + "+");
@@ -119,7 +149,7 @@ public class HomePageUserController {
         Label duration = new Label(movie.getDuration() + " min");
         duration.getStyleClass().add("movie-duration");
 
-        Label language = new Label("Language: " + movie.getLanguage());
+        Label language = new Label("Language: " + (movie.getLanguage() != null ? movie.getLanguage().toVietnamese() : "Unknown"));
         language.getStyleClass().add("movie-language");
 
         card.getChildren().addAll(poster, title, genres, rated, duration, language);

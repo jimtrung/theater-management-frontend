@@ -1,6 +1,7 @@
 package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.model.Movie;
+import com.github.jimtrung.theater.model.MovieGenre;
 import com.github.jimtrung.theater.model.MovieLanguage;
 import com.github.jimtrung.theater.service.MovieService;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
@@ -14,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class MovieListController {
 
@@ -30,6 +32,8 @@ public class MovieListController {
     private TableColumn<Movie, String> nameColumn;
     @FXML
     private TableColumn<Movie, String> directorColumn;
+    @FXML
+    private TableColumn<Movie, String> actorsColumn;
     @FXML
     private TableColumn<Movie, String> genresColumn;
     @FXML
@@ -72,9 +76,25 @@ public class MovieListController {
         // --- Columns ---
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         directorColumn.setCellValueFactory(new PropertyValueFactory<>("director"));
+        actorsColumn.setCellValueFactory(cellData -> {
+            var actors = cellData.getValue().getActors();
+            String actorsStr = actors != null ? String.join(", ", actors) : "";
+            return new javafx.beans.property.SimpleStringProperty(actorsStr);
+        });
         genresColumn.setCellValueFactory(cellData -> {
             var genres = cellData.getValue().getGenres();
-            String genresStr = genres != null ? String.join(", ", genres) : "";
+            String genresStr = "";
+            if (genres != null) {
+                genresStr = genres.stream()
+                        .map(s -> {
+                            try {
+                                return MovieGenre.valueOf(s).toVietnamese();
+                            } catch (Exception e) {
+                                return s;
+                            }
+                        })
+                        .collect(Collectors.joining(", "));
+            }
             return new javafx.beans.property.SimpleStringProperty(genresStr);
         });
         premiereColumn.setCellValueFactory(cellData -> {
@@ -86,7 +106,7 @@ public class MovieListController {
         ratedColumn.setCellValueFactory(new PropertyValueFactory<>("rated"));
         languageColumn.setCellValueFactory(cellData -> {
             var lang = cellData.getValue().getLanguage();
-            return new javafx.beans.property.SimpleStringProperty(lang != null ? lang.name() : "");
+            return new javafx.beans.property.SimpleStringProperty(lang != null ? lang.toVietnamese() : "");
         });
 
         // --- Movie list ---
@@ -112,6 +132,11 @@ public class MovieListController {
 
     @FXML
     public void handleClickItem(UUID id) {
+        MovieInformationController controller = (MovieInformationController) screenController.getController("movieInformation");
+        if (controller != null) {
+            controller.setUuid(id);
+            controller.setMovieListController(this);
+        }
         screenController.activate("movieInformation");
     }
 
@@ -127,9 +152,6 @@ public class MovieListController {
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 movieService.deleteAllMovies();
                 refreshData();
-                System.out.println("All movies deleted successfully!");
-            } else {
-                System.out.println("Delete all operation cancelled!");
             }
         } catch (Exception e) {
             e.printStackTrace();
