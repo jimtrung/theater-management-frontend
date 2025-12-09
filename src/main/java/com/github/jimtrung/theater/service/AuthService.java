@@ -115,4 +115,32 @@ public class AuthService {
         authTokenUtil.clearAccessToken();
         authTokenUtil.clearRefreshToken();
     }
+
+    public boolean checkUsername(String username) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/auth/check-username?username=" + username))
+                .GET()
+                .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return Boolean.parseBoolean(response.body());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean checkEmail(String email) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/auth/check-email?email=" + email))
+                .GET()
+                .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return Boolean.parseBoolean(response.body());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

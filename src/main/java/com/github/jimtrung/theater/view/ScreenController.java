@@ -57,5 +57,14 @@ public class ScreenController {
         screens.remove(name);
         controllers.remove(name);
     }
-
+    
+    private final Map<String, Object> context = new HashMap<>();
+    
+    public void setContext(String key, Object value) {
+        context.put(key, value);
+    }
+    
+    public Object getContext(String key) {
+        return context.get(key);
+    }
 }

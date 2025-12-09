@@ -125,4 +125,25 @@ public class ShowtimeService {
 
         client.send(request, HttpResponse.BodyHandlers.ofString());
     }
+    public List<com.github.jimtrung.theater.dto.SeatStatusDTO> getSeatsWithStatus(UUID showtimeId) throws Exception {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/showtimes/" + showtimeId + "/seats"))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + authTokenUtil.loadAccessToken())
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        String body = response.body();
+
+        if (body == null || body.isBlank() || body.startsWith("{")) {
+            return Collections.emptyList();
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+        mapper.registerModule(new JavaTimeModule());
+
+        return mapper.readValue(body, new TypeReference<List<com.github.jimtrung.theater.dto.SeatStatusDTO>>() {});
+    }
 }

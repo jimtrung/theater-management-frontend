@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
@@ -64,7 +65,6 @@ public class ShowtimeListController {
     }
 
     public void handleOnOpen() {
-        // user role check
         User user = null;
         try {
             user = (User) authService.getUser();
@@ -83,6 +83,8 @@ public class ShowtimeListController {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+        ZoneOffset offset = ZoneOffset.ofHours(7);
+
         movieColumn.setCellValueFactory(cellData -> 
             new SimpleStringProperty(movieNames.getOrDefault(cellData.getValue().getMovieId(), "Unknown")));
         
@@ -90,13 +92,13 @@ public class ShowtimeListController {
             new SimpleStringProperty(auditoriumNames.getOrDefault(cellData.getValue().getAuditoriumId(), "Unknown")));
 
         startColumn.setCellValueFactory(cellData -> 
-            new SimpleStringProperty(cellData.getValue().getStartTime().format(timeFormatter)));
+            new SimpleStringProperty(cellData.getValue().getStartTime().withOffsetSameInstant(offset).format(timeFormatter)));
 
         finishColumn.setCellValueFactory(cellData -> 
-            new SimpleStringProperty(cellData.getValue().getEndTime().format(timeFormatter)));
+            new SimpleStringProperty(cellData.getValue().getEndTime().withOffsetSameInstant(offset).format(timeFormatter)));
 
         dateColumn.setCellValueFactory(cellData -> 
-            new SimpleStringProperty(cellData.getValue().getStartTime().format(dateFormatter)));
+            new SimpleStringProperty(cellData.getValue().getStartTime().withOffsetSameInstant(offset).format(dateFormatter)));
             
         // quantityColumn.setCellValueFactory(new PropertyValueFactory<>("")); // Model has no quantity?
         

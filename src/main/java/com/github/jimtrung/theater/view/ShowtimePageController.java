@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class ShowtimePageController {
@@ -30,11 +31,10 @@ public class ShowtimePageController {
     @FXML
     private UserHeaderController userHeaderController;
 
-    @FXML
-    private FlowPane showtimeList;
+    @FXML private FlowPane showtimeList;
+    @FXML private ImageView moviePoster;
+    @FXML private Label movieTitle, movieDuration, movieRated, movieGenre, movieDescription, movieDirector, movieActors;
 
-    @FXML
-    private Button bookedTicketButton;
 
     public void setScreenController(ScreenController controller) {
         this.screenController = controller;
@@ -76,92 +76,90 @@ public class ShowtimePageController {
 
     private void loadShowtimes() {
         if (showtimeList == null) return;
+        
+        UUID movieId = (UUID) screenController.getContext("selectedMovieId");
+        if (movieId == null) return;
 
         showtimeList.getChildren().clear();
 
-        CompletableFuture
-            .supplyAsync(() -> {
-                try {
-                    return showtimeService.getAllShowtimes();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            })
-            .thenAccept(showtimes -> {
-                Platform.runLater(() -> {
-                    if (showtimes == null || showtimes.isEmpty()) {
-                        Label msg = new Label("Không có suất chiếu nào");
-                        msg.setTextFill(Color.WHITE);
-                        msg.setStyle("-fx-font-size: 16;");
-                        showtimeList.getChildren().add(msg);
-                        return;
-                    }
-
-                    for (Showtime s : showtimes) {
-                        showtimeList.getChildren().add(createShowtimeCardAsync(s));
-                    }
-                });
-            });
-    }
-
-    private VBox createShowtimeCardAsync(Showtime showtime) {
-        VBox box = new VBox();
-        box.setSpacing(6);
-        box.setPadding(new Insets(8));
-        box.setStyle("-fx-background-color: #333333; -fx-background-radius: 10;");
-        box.setPrefWidth(220);
-
-        ImageView img = new ImageView();
-        img.setFitWidth(220);
-        img.setFitHeight(260);
-
-        try {
-            img.setImage(new Image("file:resources/movies/" + showtime.getMovieId() + ".jpg"));
-        } catch (Exception e) {
-            img.setImage(new Image("file:resources/movies/not_found.png"));
-        }
-
-        Label title = new Label("Đang tải tên phim...");
-        title.setStyle("-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: white;");
-
-        Label auditorium = new Label("Đang tải phòng...");
-        auditorium.setStyle("-fx-text-fill: #cccccc;");
-
-        Label time = new Label("Giờ chiếu: " + showtime.getStartTime() + " - " + showtime.getEndTime());
-        time.setStyle("-fx-text-fill: #bbbbbb;");
-
-        Label date = new Label("Ngày: " + showtime.getStartTime().getDayOfMonth());
-        date.setStyle("-fx-text-fill: #bbbbbb;");
-
-        int price = (int) (Math.random() * 5 + 65) * 1000;
-        Label priceLabel = new Label("Giá vé: " + price + " đ");
-        priceLabel.setStyle("-fx-text-fill: lightgreen;");
-
-        Button bookBtn = new Button("Đặt vé");
-        bookBtn.setStyle("-fx-background-color: darkred; -fx-text-fill: white; -fx-padding: 6 12;");
-
-        bookBtn.setOnAction(e -> {
-            FXMLLoader bookTicketLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/book_ticket.fxml")));
-            BookTicketController bookTicketController = bookTicketLoader.getController();
-            bookTicketController.setShowtimeId(showtime.getId());
-        });
-
-        box.getChildren().addAll(img, title, auditorium, time, date, priceLabel, bookBtn);
-
         CompletableFuture.runAsync(() -> {
             try {
-                var movie = movieService.getMovieById(showtime.getMovieId());
-                var aud = auditoriumService.getAuditoriumById(showtime.getAuditoriumId());
-
+                // Load Movie Info
+                var movie = movieService.getMovieById(movieId);
+                var showtimes = showtimeService.getAllShowtimes();
+                
                 Platform.runLater(() -> {
-                    if (movie != null) title.setText(movie.getName());
-                    if (aud != null) auditorium.setText("Phòng: " + aud.getName());
+                    if (movie != null) {
+                        try {
+                           moviePoster.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/movies/" + movie.getId() + ".jpg"))));
+                        } catch (Exception e) {
+                           try {
+                               moviePoster.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cat.jpg"))));
+                           } catch (Exception _) {}
+                        }
+                        
+                        movieTitle.setText(movie.getName());
+                        movieDescription.setText(movie.getDescription());
+                        movieDuration.setText(movie.getDuration() + " min");
+                        movieRated.setText(movie.getRated() + "+");
+                        movieDirector.setText("Director: " + movie.getDirector());
+                        movieActors.setText("Actors: " + (movie.getActors() != null ? String.join(", ", movie.getActors()) : ""));
+                        movieGenre.setText("Genre: " + (movie.getGenres() != null ? String.join(", ", movie.getGenres()) : ""));
+                    }
+                    
+                    if (showtimes != null) {
+                        var filtered = showtimes.stream()
+                                .filter(s -> s.getMovieId().equals(movieId))
+                                .sorted((s1, s2) -> s1.getStartTime().compareTo(s2.getStartTime())) // Sort by time
+                                .toList();
+                                
+                        if (filtered.isEmpty()) {
+                            Label msg = new Label("Chưa có lịch chiếu.");
+                            msg.setStyle("-fx-text-fill: white;");
+                            showtimeList.getChildren().add(msg);
+                        } else {
+                            for (Showtime s : filtered) {
+                                showtimeList.getChildren().add(createShowtimeButton(s));
+                            }
+                        }
+                    }
                 });
-
-            } catch (Exception ignored) {}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
+    }
 
-        return box;
+    private Button createShowtimeButton(Showtime showtime) {
+        String timeStr = showtime.getStartTime().toLocalTime().toString();
+        String dateStr = showtime.getStartTime().toLocalDate().toString();
+        
+        Button btn = new Button(dateStr + "\n" + timeStr);
+        btn.setStyle("-fx-background-color: #333; -fx-text-fill: white; -fx-padding: 10 20; -fx-font-weight: bold; -fx-alignment: center;");
+        btn.setPrefWidth(120);
+        btn.setPrefHeight(60);
+        btn.setCursor(javafx.scene.Cursor.HAND);
+        
+        btn.setOnAction(e -> {
+            // Go to Book Ticket (Seat Selection)
+            screenController.setContext("selectedShowtimeId", showtime.getId()); // Store context if needed, or pass via controller setter?
+            // Actually BookTicketController needs showtimeId.
+            // Better to load via FXMLLoader and set it manually if we are pushing controllers?
+            // But ScreenController methodology seems to be activation by name. 
+            // I should use setContext if BookTicketController reads it, or check how ScreenController works. 
+            // The previous BookTicketController modification I made: handleOnOpen checks 'showtimeId' field. 
+            // I need to set that field.
+            
+            // Assuming ScreenController allows generic screen switching OR I need to handle data passing.
+            // Looking at HomePageUser: `screenController.activate("signup")`.
+            // I'll use a hack or standard way:
+            // If internal `BookTicketController` is managed by `ScreenController`, I might need a way to pass data.
+            // I'll use `screenController.setContext` and update `BookTicketController.handleOnOpen` to read it.
+            
+            screenController.setContext("selectedShowtimeId", showtime.getId());
+            screenController.activate("bookTicket"); // verifying name in fxml/screen map... likely "bookTicket" or similar.
+        });
+        
+        return btn;
     }
 }

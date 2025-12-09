@@ -1,15 +1,12 @@
 package com.github.jimtrung.theater;
 
-import com.github.jimtrung.theater.model.Auditorium;
-import com.github.jimtrung.theater.service.*; 
+import com.github.jimtrung.theater.service.*;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
 import com.github.jimtrung.theater.view.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -17,7 +14,6 @@ import java.util.Objects;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        System.setProperty("prism.force.dark", "true");
         StackPane root = new StackPane();
         ScreenController screenController = new ScreenController(root);
         AuthTokenUtil authTokenUtil = new AuthTokenUtil();
@@ -25,6 +21,7 @@ public class Main extends Application {
         MovieService movieService = new MovieService(authTokenUtil);
         AuditoriumService auditoriumService = new AuditoriumService(authTokenUtil);
         ShowtimeService showtimeService = new ShowtimeService(authTokenUtil);
+        TicketService ticketService = new TicketService(authTokenUtil);
 
         try {
             String accessToken = authService.refresh();
@@ -39,7 +36,7 @@ public class Main extends Application {
         HomeController homeController = homeLoader.getController();
         homeController.setScreenController(screenController);
         homeController.setAuthService(authService);
-
+        
         // Sign Up
         FXMLLoader signUpLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/signup.fxml")));
         screenController.addScreen("signup", signUpLoader);
@@ -107,6 +104,9 @@ public class Main extends Application {
         BookTicketController bookTicketController = bookTicketLoader.getController();
         bookTicketController.setScreenController(screenController);
         bookTicketController.setAuthService(authService);
+        bookTicketController.setShowtimeService(showtimeService);
+        bookTicketController.setMovieService(movieService);
+        bookTicketController.setAuditoriumService(auditoriumService);
 
         // Booked Ticket
         FXMLLoader bookedTicketLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/booked_ticket.fxml")));
@@ -122,6 +122,7 @@ public class Main extends Application {
         PayPageController payPageController = payPageLoader.getController();
         payPageController.setScreenController(screenController);
         payPageController.setAuthService(authService);
+        payPageController.setTicketService(ticketService);
 
         // Price
         FXMLLoader priceLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/price.fxml")));
@@ -173,7 +174,6 @@ public class Main extends Application {
         addMovieController.setScreenController(screenController);
         addMovieController.setMovieService(movieService);
         addMovieController.setAuthService(authService);
-        // addMovieController.setMovieListController(movieListController); // Set this later!
 
         // Movie information
         FXMLLoader movieInformationLoader = new FXMLLoader(getClass().getResource("/fxml/admin/movie_information.fxml"));
@@ -189,7 +189,6 @@ public class Main extends Application {
         addAuditoriumController.setScreenController(screenController);
         addAuditoriumController.setAuditoriumService(auditoriumService);
         addAuditoriumController.setAuthService(authService);
-        // addAuditoriumController.setAuditoriumListController(auditoriumListController); // Set this later!
 
         // Auditorium Information
         FXMLLoader auditoriumInformationLoader = new FXMLLoader(getClass().getResource("/fxml/admin/auditorium_information.fxml"));
@@ -226,7 +225,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        System.setProperty("prism.force.dark", "true");
         launch(args);
     }
 }

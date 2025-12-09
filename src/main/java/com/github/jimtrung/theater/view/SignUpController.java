@@ -48,6 +48,9 @@ public class SignUpController {
     private CheckBox showConfirmPasswordCheckBox;
 
     @FXML
+    private Label usernameErrorLabel;
+
+    @FXML
     private Label emailErrorLabel;
 
     @FXML
@@ -80,6 +83,7 @@ public class SignUpController {
         visibleConfirmPasswordField.clear();
         showPasswordCheckBox.setSelected(false);
         
+        usernameErrorLabel.setVisible(false);
         emailErrorLabel.setVisible(false);
         // emailErrorLabel.setManaged(false); // Reserved space
         passwordErrorLabel.setVisible(false);
@@ -105,8 +109,33 @@ public class SignUpController {
         visibleConfirmPasswordField.setManaged(false);
 
         // Real-time Validation Listeners
+        usernameField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) validateUsername(usernameField.getText());
+        });
         emailField.textProperty().addListener((observable, oldValue, newValue) -> validateEmail(newValue));
+        emailField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) validateEmailBackend(emailField.getText());
+        });
         passwordField.textProperty().addListener((observable, oldValue, newValue) -> validatePassword(newValue));
+    }
+
+    private void validateUsername(String username) {
+        if (username.isEmpty()) return;
+        if (authService.checkUsername(username)) {
+            usernameErrorLabel.setText("Tên đăng nhập đã tồn tại!");
+            usernameErrorLabel.setVisible(true);
+        } else {
+            usernameErrorLabel.setVisible(false);
+        }
+    }
+    
+    private void validateEmailBackend(String email) {
+        if (email.isEmpty() || emailErrorLabel.isVisible()) return; // Don't check if empty or regex failed
+        
+        if (authService.checkEmail(email)) {
+            emailErrorLabel.setText("Email đã được sử dụng!");
+            emailErrorLabel.setVisible(true);
+        }
     }
 
     private void validateEmail(String email) {

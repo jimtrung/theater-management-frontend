@@ -152,6 +152,12 @@ public class HomePageUserController {
         Label language = new Label("Language: " + (movie.getLanguage() != null ? movie.getLanguage().toVietnamese() : "Unknown"));
         language.getStyleClass().add("movie-language");
 
+        card.setOnMouseClicked(e -> {
+            screenController.setContext("selectedMovieId", movie.getId());
+            screenController.activate("showtimePage");
+        });
+        card.setCursor(javafx.scene.Cursor.HAND);
+
         card.getChildren().addAll(poster, title, genres, rated, duration, language);
         return card;
     }

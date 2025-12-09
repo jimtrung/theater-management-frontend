@@ -7,55 +7,70 @@
 <?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 
-<ScrollPane xmlns="http://javafx.com/javafx/25"
+<BorderPane fx:controller="com.github.jimtrung.theater.view.ShowtimeInformationController"
+            xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.github.jimtrung.theater.view.ShowtimeInformationController"
-            stylesheets="@/styles/styles.css"
-            fitToWidth="true">
-  <VBox alignment="TOP_CENTER" spacing="30">
+            prefWidth="1200" prefHeight="800"
+            stylesheets="@/styles/styles.css">
 
-    <Label text="Thông Tin Lịch Chiếu" styleClass="title"/>
+  <center>
+    <ScrollPane fitToWidth="true">
+      <VBox alignment="CENTER" spacing="40">
+        <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
 
-    <VBox spacing="16" maxWidth="600" styleClass="card">
-      <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+        <Label text="Thông Tin Lịch Chiếu" styleClass="title"/>
 
-      <VBox spacing="5">
-        <Label text="Tên phim" styleClass="form-label"/>
-        <TextField fx:id="showtimeMovieNameField" editable="false"/>
+        <HBox spacing="40" alignment="CENTER">
+          <!-- Selection Column -->
+          <VBox spacing="30" maxWidth="500" HBox.hgrow="ALWAYS">
+            <VBox spacing="10" styleClass="card">
+              <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+              <Label text="1. Chọn Phim" styleClass="heading"/>
+              <TextField fx:id="searchMovieField" promptText="Tìm kiếm phim..."/>
+              <ListView fx:id="movieListView" prefHeight="200"/>
+            </VBox>
+
+            <VBox spacing="10" styleClass="card">
+              <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+              <Label text="2. Chọn Phòng Chiếu" styleClass="heading"/>
+              <TextField fx:id="searchAuditoriumField" promptText="Tìm kiếm phòng..."/>
+              <ListView fx:id="auditoriumListView" prefHeight="200"/>
+            </VBox>
+          </VBox>
+
+          <!-- Configuration Column -->
+          <VBox spacing="30" maxWidth="400" HBox.hgrow="ALWAYS">
+            <VBox spacing="20" styleClass="card">
+              <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
+              <Label text="3. Thiết Lập Thời Gian" styleClass="heading"/>
+              
+              <VBox spacing="10">
+                <Label text="Ngày chiếu" styleClass="form-label"/>
+                <DatePicker fx:id="showtimeDatePicker" prefWidth="340"/>
+              </VBox>
+
+              <HBox spacing="20">
+                <VBox spacing="10">
+                  <Label text="Giờ bắt đầu" styleClass="form-label"/>
+                  <ComboBox fx:id="startTimePicker" prefWidth="160"/>
+                </VBox>
+
+                <VBox spacing="10">
+                  <Label text="Giờ kết thúc" styleClass="form-label"/>
+                  <ComboBox fx:id="endTimePicker" prefWidth="160"/>
+                </VBox>
+              </HBox>
+            </VBox>
+
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+               <Button text="Xóa" minWidth="100" styleClass="button-danger" onAction="#handleDeleteButton"/>
+               <Pane HBox.hgrow="ALWAYS" />
+               <Button text="Quay lại" minWidth="100" styleClass="button-secondary" onAction="#handleBackButton"/>
+               <Button text="Cập Nhật" minWidth="120" styleClass="button-primary" onAction="#handleUpdateShowtimeButton"/>
+            </HBox>
+          </VBox>
+        </HBox>
       </VBox>
-
-      <VBox spacing="5">
-        <Label text="Phòng chiếu" styleClass="form-label"/>
-        <TextField fx:id="showtimeAuditoriumNameField" editable="false"/>
-      </VBox>
-
-      <VBox spacing="5">
-        <Label text="Số lượng vé" styleClass="form-label"/>
-        <TextField fx:id="showtimeQuantityField" editable="false"/>
-      </VBox>
-
-      <VBox spacing="5">
-        <Label text="Ngày chiếu" styleClass="form-label"/>
-        <TextField fx:id="showtimeDateField" editable="false"/>
-      </VBox>
-
-      <HBox spacing="16">
-        <VBox spacing="5">
-          <Label text="Giờ bắt đầu" styleClass="form-label"/>
-          <TextField fx:id="showtimeStartTimeField" editable="false" prefWidth="120"/>
-        </VBox>
-        <VBox spacing="5">
-          <Label text="Giờ kết thúc" styleClass="form-label"/>
-          <TextField fx:id="showtimeEndTimeField" editable="false" prefWidth="120"/>
-        </VBox>
-      </HBox>
-
-      <HBox spacing="12" alignment="CENTER_RIGHT">
-        <Button text="Quay lại" styleClass="button-secondary" onAction="#handleBackButton"/>
-        <Button text="Xóa" styleClass="button-danger" onAction="#handleDeleteButton"/>
-      </HBox>
-
-    </VBox>
-
-  </VBox>
-</ScrollPane>
+    </ScrollPane>
+  </center>
+</BorderPane>

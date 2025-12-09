@@ -33,6 +33,7 @@
       <VBox spacing="6" maxWidth="400">
         <Label text="Tên đăng nhập" styleClass="form-label"/>
         <TextField fx:id="usernameField" promptText="" styleClass="text-field-large"/>
+        <Label fx:id="usernameErrorLabel" text="" styleClass="error-label" minHeight="20.0" visible="false"/>
       </VBox>
 
       <VBox spacing="6" maxWidth="400">

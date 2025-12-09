@@ -59,24 +59,12 @@
           <TextField fx:id="ticketPrice" editable="false" prefWidth="120"/>
         </VBox>
 
-        <VBox spacing="5">
-          <Label text="Chọn ghế" styleClass="form-label"/>
-          <ComboBox fx:id="ticketSeatSelector"
-                    prefWidth="70">
-            <items>
-              <FXCollections fx:factory="observableArrayList">
-                <String fx:value="A1"/>
-                <String fx:value="A2"/>
-                <String fx:value="A3"/>
-                <String fx:value="B1"/>
-                <String fx:value="B2"/>
-                <String fx:value="B3"/>
-                <String fx:value="C1"/>
-                <String fx:value="C2"/>
-                <String fx:value="C3"/>
-              </FXCollections>
-            </items>
-          </ComboBox>
+        <VBox spacing="5" VBox.vgrow="ALWAYS">
+          <Label text="Sơ đồ ghế" styleClass="form-label"/>
+          <ScrollPane fitToWidth="true" prefHeight="300">
+             <FlowPane fx:id="seatContainer" hgap="10" vgap="10" alignment="CENTER" prefWrapLength="500"/>
+          </ScrollPane>
+          <Label fx:id="selectedSeatsLabel" text="Ghế đã chọn: Chưa có" styleClass="form-label" wrapText="true"/>
         </VBox>
       </HBox>
 
