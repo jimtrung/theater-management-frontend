@@ -139,6 +139,8 @@ public class Main extends Application {
         showtimePageController.setAuthService(authService);
         showtimePageController.setAuthTokenUtil(authTokenUtil);
         showtimePageController.setShowtimeService(showtimeService);
+        showtimePageController.setMovieService(movieService);
+        showtimePageController.setAuditoriumService(auditoriumService);
         
         // Event List
         FXMLLoader eventListLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/event_list.fxml")));

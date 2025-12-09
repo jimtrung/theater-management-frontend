@@ -142,6 +142,7 @@ public class ShowtimeService {
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+        mapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         mapper.registerModule(new JavaTimeModule());
 
         return mapper.readValue(body, new TypeReference<List<com.github.jimtrung.theater.dto.SeatStatusDTO>>() {});

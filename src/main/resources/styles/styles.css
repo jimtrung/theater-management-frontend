@@ -518,3 +518,48 @@
   -fx-padding: 4px 12px;
   -fx-font-weight: bold;
 }
+
+/* =============================================================================
+   SEAT MAP STYLES
+   ============================================================================= */
+.seat-button {
+  -fx-padding: 5px;
+  -fx-background-radius: 6px;
+  -fx-border-radius: 6px;
+  -fx-border-width: 1px;
+  -fx-font-size: 12px;
+  -fx-font-weight: bold;
+  -fx-pref-width: 50px;
+  -fx-pref-height: 40px;
+  -fx-alignment: center;
+}
+
+.seat-available {
+  -fx-background-color: -color-input-bg;
+  -fx-text-fill: -color-text-primary;
+  -fx-border-color: -color-border;
+  -fx-cursor: hand;
+}
+
+.seat-available:hover {
+  -fx-background-color: -color-secondary-bg;
+  -fx-border-color: -color-primary-accent;
+}
+
+.seat-partially-booked {
+    /* Reserved for future use */
+}
+
+.seat-booked {
+  -fx-background-color: -color-secondary-bg;
+  -fx-text-fill: -color-text-muted;
+  -fx-border-color: transparent;
+  -fx-opacity: 0.6;
+}
+
+.seat-selected {
+  -fx-background-color: -color-primary-accent;
+  -fx-text-fill: white;
+  -fx-border-color: -color-primary-accent;
+  -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.4), 8, 0, 0, 0);
+}

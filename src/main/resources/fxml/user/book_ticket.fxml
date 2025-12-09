@@ -13,34 +13,36 @@
             xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.github.jimtrung.theater.view.BookTicketController"
-            stylesheets="@/styles/styles.css">
+            stylesheets="@/styles/styles.css"
+            fitToWidth="true"
+            fitToHeight="true">
 
   <VBox alignment="CENTER" spacing="20">
 
     <Label text="Thông Tin Đặt Vé" styleClass="title"/>
 
-    <VBox spacing="16" prefWidth="600" styleClass="card">
+    <VBox spacing="16" maxWidth="800" styleClass="card" alignment="TOP_CENTER">
       <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
 
       <!-- Các label con -->
-      <VBox spacing="5">
+      <VBox spacing="5" alignment="CENTER_LEFT">
         <Label text="Tên phim" styleClass="form-label"/>
         <TextField fx:id="ticketMovieName" editable="false"/>
       </VBox>
 
-      <VBox spacing="5">
+      <VBox spacing="5" alignment="CENTER_LEFT">
         <Label text="Tên phòng chiếu" styleClass="form-label"/>
         <TextField fx:id="ticketAuditoriumName" editable="false"/>
       </VBox>
 
       <!-- Ngày chiếu -->
-      <VBox spacing="5">
+      <VBox spacing="5" alignment="CENTER_LEFT">
         <Label text="Ngày chiếu phim" styleClass="form-label"/>
         <TextField fx:id="ticketDate" editable="false"/>
       </VBox>
 
       <!-- Giờ bắt đầu + kết thúc -->
-      <HBox spacing="20">
+      <HBox spacing="20" alignment="CENTER_LEFT">
         <VBox spacing="5">
           <Label text="Giờ bắt đầu" styleClass="form-label"/>
           <TextField fx:id="ticketStartTime" editable="false" prefWidth="120"/>
@@ -53,7 +55,7 @@
       </HBox>
 
       <!-- Giá vé + chọn ghế -->
-      <HBox spacing="20">
+      <HBox spacing="20" alignment="TOP_LEFT">
         <VBox spacing="5">
           <Label text="Giá vé" styleClass="form-label"/>
           <TextField fx:id="ticketPrice" editable="false" prefWidth="120"/>
@@ -61,8 +63,8 @@
 
         <VBox spacing="5" VBox.vgrow="ALWAYS">
           <Label text="Sơ đồ ghế" styleClass="form-label"/>
-          <ScrollPane fitToWidth="true" prefHeight="300">
-             <FlowPane fx:id="seatContainer" hgap="10" vgap="10" alignment="CENTER" prefWrapLength="500"/>
+          <ScrollPane fitToWidth="true" prefHeight="300" style="-fx-background-color: transparent;">
+             <FlowPane fx:id="seatContainer" hgap="10" vgap="10" alignment="CENTER" prefWrapLength="600"/>
           </ScrollPane>
           <Label fx:id="selectedSeatsLabel" text="Ghế đã chọn: Chưa có" styleClass="form-label" wrapText="true"/>
         </VBox>
@@ -70,9 +72,10 @@
 
       <!-- Buttons -->
       <HBox alignment="CENTER_RIGHT" spacing="12">
-        <!-- <Button fx:id="backButton"
+        <Button fx:id="backButton"
                 text="Quay lại"
-                onAction="#handleBackButton"/> -->
+                styleClass="button-secondary"
+                onAction="#handleBackButton"/>
 
         <Button fx:id="bookTicketButton"
                 text="Đặt vé"

@@ -66,59 +66,74 @@ public class BookTicketController {
         if (showtimeId == null) {
              try {
                 showtimeId = (UUID) screenController.getContext("selectedShowtimeId");
-             } catch (Exception _) {}
+             } catch (Exception e) {
+                 e.printStackTrace();
+             }
         }
 
-        if (showtimeId != null) {
-            loadSeats();
         if (showtimeId != null) {
             loadSeats();
             loadDetails();
+        } else {
+            System.err.println("Showtime ID is null in BookTicketController");
         }
-        }
+    }
+    
+    @FXML
+    private void handleBackButton() {
+        screenController.activate("showtimePage");
     }
 
     private void loadSeats() {
-        try {
-            List<SeatStatusDTO> seats = showtimeService.getSeatsWithStatus(showtimeId);
-            seatContainer.getChildren().clear();
-            selectedSeats.clear();
-            updateSelectedLabel();
+        seatContainer.getChildren().clear();
+        selectedSeats.clear();
+        updateSelectedLabel();
+        
+        java.util.concurrent.CompletableFuture.runAsync(() -> {
+            try {
+                System.out.println("Loading seats for showtime: " + showtimeId);
+                List<SeatStatusDTO> seats = showtimeService.getSeatsWithStatus(showtimeId);
+                System.out.println("Seats loaded: " + (seats != null ? seats.size() : "null"));
+                
+                if (seats == null || seats.isEmpty()) return;
 
-            seats.sort(Comparator.comparing((SeatStatusDTO d) -> d.seat().getRow())
-                    .thenComparing(d -> d.seat().getNumber()));
+                seats.sort(Comparator.comparing((SeatStatusDTO d) -> d.seat().getRow())
+                        .thenComparing(d -> d.seat().getNumber()));
 
-            for (SeatStatusDTO dto : seats) {
-                Button btn = new Button(dto.seat().getRow() + dto.seat().getNumber());
-                btn.setPrefWidth(50);
-                btn.setPrefHeight(40); // Better touch target
+                javafx.application.Platform.runLater(() -> {
+                    try {
+                        for (SeatStatusDTO dto : seats) {
+                            Button btn = new Button(dto.seat().getRow() + dto.seat().getNumber());
+                            btn.getStyleClass().add("seat-button"); // Base class
 
-                if (dto.isBooked()) {
-                    btn.setDisable(true);
-                    btn.setStyle("-fx-background-color: #cccccc;"); // Fallback
-                    btn.getStyleClass().add("seat-booked");
-                } else {
-                    btn.getStyleClass().add("seat-available");
-                    btn.setOnAction(e -> toggleSeat(btn, dto.seat()));
-                }
-                seatContainer.getChildren().add(btn);
+                            if (dto.isBooked()) {
+                                btn.setDisable(true);
+                                btn.getStyleClass().add("seat-booked");
+                            } else {
+                                btn.getStyleClass().add("seat-available");
+                                btn.setOnAction(e -> toggleSeat(btn, dto.seat()));
+                            }
+                            seatContainer.getChildren().add(btn);
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     private void toggleSeat(Button btn, Seat seat) {
         if (selectedSeats.contains(seat)) {
             selectedSeats.remove(seat);
-            btn.getStyleClass().remove("seat-selected");
+            btn.getStyleClass().removeAll("seat-selected");
             btn.getStyleClass().add("seat-available");
-            btn.setStyle(""); 
         } else {
             selectedSeats.add(seat);
-            btn.getStyleClass().remove("seat-available");
+            btn.getStyleClass().removeAll("seat-available");
             btn.getStyleClass().add("seat-selected");
-            btn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;"); // Highlight
         }
         updateSelectedLabel();
     }
