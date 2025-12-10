@@ -42,7 +42,7 @@ public class ShowtimeListController {
     @FXML private TableColumn<Showtime, String> startColumn;
     @FXML private TableColumn<Showtime, String> finishColumn;
     @FXML private TableColumn<Showtime, String> dateColumn;
-    @FXML private TableColumn<Showtime, Integer> quantityColumn; // Not used in model?
+    @FXML private TableColumn<Showtime, Integer> quantityColumn; // Not yet
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
@@ -100,8 +100,6 @@ public class ShowtimeListController {
         dateColumn.setCellValueFactory(cellData -> 
             new SimpleStringProperty(cellData.getValue().getStartTime().withOffsetSameInstant(offset).format(dateFormatter)));
             
-        // quantityColumn.setCellValueFactory(new PropertyValueFactory<>("")); // Model has no quantity?
-        
         showtimeTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> {
             if (newSel != null) {
                 handleClickItem(newSel.getId());
@@ -111,14 +109,12 @@ public class ShowtimeListController {
 
     public void refreshData() {
         try {
-            // Load lookups
             List<Movie> movies = movieService.getAllMovies();
             movieNames = movies.stream().collect(Collectors.toMap(Movie::getId, Movie::getName));
 
             List<Auditorium> auditoriums = auditoriumService.getAllAuditoriums();
             auditoriumNames = auditoriums.stream().collect(Collectors.toMap(Auditorium::getId, Auditorium::getName));
 
-            // Load showtimes
             List<Showtime> showtimes = showtimeService.getAllShowtimes();
             showtimeList = FXCollections.observableArrayList(showtimes);
             showtimeTable.setItems(showtimeList);

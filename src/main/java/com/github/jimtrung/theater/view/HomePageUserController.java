@@ -5,7 +5,6 @@ import com.github.jimtrung.theater.model.Showtime;
 import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.service.MovieService;
 import com.github.jimtrung.theater.service.ShowtimeService;
-import com.github.jimtrung.theater.util.AuthTokenUtil;
 import com.github.jimtrung.theater.model.MovieGenre;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;

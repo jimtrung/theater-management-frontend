@@ -198,15 +198,10 @@ public class AddShowtimeController {
             }
 
             String date = showtimeDatePicker.getValue().format(DateTimeFormatter.ISO_LOCAL_DATE);
-            String start = date + "T" + startTimePicker.getValue() + ":00Z"; // Simply assuming UTC/User TZ for now, careful
+            String start = date + "T" + startTimePicker.getValue() + ":00Z";
             String end = date + "T" + endTimePicker.getValue() + ":00Z";
 
-            // Better approach using OffsetDateTime
-            ZoneOffset offset = ZoneOffset.ofHours(7); // Vietnam Time? Or use system default.
-            // Actually the backend expects OffsetDateTime.
-            // Let's assume input is local time and we simply attach an offset or treat as UTC.
-            // For simplicity, let's parse using LocalTime and Date then combine.
-            
+            ZoneOffset offset = ZoneOffset.ofHours(7);
             LocalTime startTime = LocalTime.parse(startTimePicker.getValue());
             LocalTime endTime = LocalTime.parse(endTimePicker.getValue());
             

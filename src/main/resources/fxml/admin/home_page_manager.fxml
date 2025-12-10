@@ -48,7 +48,6 @@
             <VBox spacing="15" GridPane.columnIndex="0">
               <children>
 
-                <!-- IMAGE -->
                 <BorderPane prefHeight="400">
                   <center>
                     <ImageView fx:id="cinemaImage" fitHeight="400" preserveRatio="true" pickOnBounds="true"/>

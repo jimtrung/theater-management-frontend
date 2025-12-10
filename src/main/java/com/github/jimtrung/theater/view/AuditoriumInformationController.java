@@ -61,7 +61,6 @@ public class AuditoriumInformationController {
             try {
                 currentAuditorium.setCapacity(Integer.parseInt(auditoriumCapacityField.getText().trim()));
             } catch (NumberFormatException e) {
-                System.out.println("[WARN] - Invalid age limit input. Default to 0");
                 currentAuditorium.setCapacity(0);
             }
 
@@ -70,14 +69,9 @@ public class AuditoriumInformationController {
             Auditorium auditorium = auditoriumService.getAuditoriumById(uuid);
             auditoriumListController.updateAuditorium(auditorium);
 
-//            movieListController.refreshData();
-
-            System.out.println("[INFO] - Auditorium updated successfully: " + currentAuditorium.getName());
-
             screenController.activate("auditoriumList");
 
         } catch (Exception e) {
-            System.out.println("Failed to update movie: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -101,20 +95,12 @@ public class AuditoriumInformationController {
             return;
         }
 
-        System.out.println("Auditorium id was receive: " + uuid);
         currentAuditorium = auditoriumService.getAuditoriumById(uuid);
-
-        if (currentAuditorium == null) {
-            System.out.println("[WARN] - Movie not found with id: " + uuid);
-            return;
-        }
 
         auditoriumNameField.setText(currentAuditorium.getName());
         auditoriumTypeField.setText(currentAuditorium.getType());
         auditoriumCapacityField.setText(String.valueOf(currentAuditorium.getCapacity()));
         auditoriumNoteField.setText(currentAuditorium.getNote());
-
-        System.out.println("[DEBUG] - Auditorium loaded: " + currentAuditorium.getName());
     }
 
     @FXML

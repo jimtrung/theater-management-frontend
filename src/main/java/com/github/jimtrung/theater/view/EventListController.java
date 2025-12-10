@@ -2,6 +2,7 @@ package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.service.AuthService;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 
 public class EventListController {
     private ScreenController screenController;
@@ -27,7 +28,7 @@ public class EventListController {
         if (userHeaderController != null) userHeaderController.handleOnOpen();
         if (eventFlowPane != null) {
             eventFlowPane.getChildren().clear();
-            javafx.scene.control.Label placeholder = new javafx.scene.control.Label("Sự kiện đang được cập nhật...");
+            Label placeholder = new Label("Sự kiện đang được cập nhật...");
             placeholder.setStyle("-fx-text-fill: white; -fx-font-size: 18px;");
             eventFlowPane.getChildren().add(placeholder);
         }

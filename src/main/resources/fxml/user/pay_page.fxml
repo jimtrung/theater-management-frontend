@@ -89,22 +89,13 @@
         <!-- QR CODE -->
         <BorderPane GridPane.rowIndex="0" prefWidth="250" prefHeight="250">
           <center>
-            <ImageView fx:id="ticketQRCode"
-                       fitWidth="250"
-                       fitHeight="250"
-                       preserveRatio="true"
-                       pickOnBounds="true"/>
+            <ImageView fx:id="ticketQRCode" fitWidth="250" fitHeight="250" preserveRatio="true" pickOnBounds="true"/>
           </center>
         </BorderPane>
 
         <!-- Back button -->
-        <Button fx:id="back"
-                GridPane.rowIndex="1"
-                text="Trở lại"
-                prefWidth="120" prefHeight="40"
-                GridPane.halignment="RIGHT"
-                styleClass="button-secondary"
-                onAction="#handleBackButton"/>
+        <Button fx:id="back" GridPane.rowIndex="1" text="Trở lại" prefWidth="120" prefHeight="40" GridPane.halignment="RIGHT"
+                styleClass="button-secondary" onAction="#handleBackButton"/>
       </GridPane>
 
         </GridPane>

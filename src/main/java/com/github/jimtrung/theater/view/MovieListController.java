@@ -2,13 +2,10 @@ package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.model.Movie;
 import com.github.jimtrung.theater.model.MovieGenre;
-import com.github.jimtrung.theater.model.MovieLanguage;
 import com.github.jimtrung.theater.service.MovieService;
-import com.github.jimtrung.theater.util.AuthTokenUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -20,7 +17,6 @@ import java.util.stream.Collectors;
 public class MovieListController {
 
     private ScreenController screenController;
-    private AuthTokenUtil authTokenUtil;
     private MovieService movieService;
     private ObservableList<Movie> movieList;
     private UUID uuid;
@@ -45,13 +41,6 @@ public class MovieListController {
     @FXML
     private TableColumn<Movie, String> languageColumn;
 
-    @FXML
-    private Button closeBtn;
-    @FXML
-    private Button addMovieBtn;
-    @FXML
-    private Button deleteAllBtn;
-
     /* ===== SETTERS ===== */
     public void setMovieService(MovieService movieService) {
         this.movieService = movieService;
@@ -59,10 +48,6 @@ public class MovieListController {
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
-    }
-
-    public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
-        this.authTokenUtil = authTokenUtil;
     }
 
     public TableView<Movie> getMovieTable() {

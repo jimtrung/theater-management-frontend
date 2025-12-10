@@ -43,11 +43,7 @@
             <Label text="PHIM ĐANG CHIẾU" styleClass="section-title"/>
           </HBox>
 
-          <FlowPane fx:id="movieList"
-                    hgap="20"
-                    vgap="20"
-                    alignment="CENTER"/>
-
+          <FlowPane fx:id="movieList" hgap="20" vgap="20" alignment="CENTER"/>
         </VBox>
       </VBox>
     </ScrollPane>

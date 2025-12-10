@@ -61,7 +61,6 @@ public class SignUpController {
         screenController.activate("home");
     }
 
-    // Pattern Validation
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@gmail\\.com$";
     private static final String PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
 
@@ -74,7 +73,6 @@ public class SignUpController {
             if (user.getRole() == UserRole.administrator) screenController.activate("homePageManager");
         }
         
-        // Initial clean up
         usernameField.clear();
         emailField.clear();
         passwordField.clear();
@@ -85,19 +83,14 @@ public class SignUpController {
         
         usernameErrorLabel.setVisible(false);
         emailErrorLabel.setVisible(false);
-        // emailErrorLabel.setManaged(false); // Reserved space
         passwordErrorLabel.setVisible(false);
-        // passwordErrorLabel.setManaged(false); // Reserved space
 
-        // Bindings
         passwordField.textProperty().unbindBidirectional(visiblePasswordField.textProperty());
         passwordField.textProperty().bindBidirectional(visiblePasswordField.textProperty());
         
-        // Note: confirmPasswordField binding
         confirmPasswordField.textProperty().unbindBidirectional(visibleConfirmPasswordField.textProperty());
         confirmPasswordField.textProperty().bindBidirectional(visibleConfirmPasswordField.textProperty());
         
-        // Reset state
         passwordField.setVisible(true);
         passwordField.setManaged(true);
         visiblePasswordField.setVisible(false);
@@ -130,7 +123,7 @@ public class SignUpController {
     }
     
     private void validateEmailBackend(String email) {
-        if (email.isEmpty() || emailErrorLabel.isVisible()) return; // Don't check if empty or regex failed
+        if (email.isEmpty() || emailErrorLabel.isVisible()) return;
         
         if (authService.checkEmail(email)) {
             emailErrorLabel.setText("Email đã được sử dụng!");

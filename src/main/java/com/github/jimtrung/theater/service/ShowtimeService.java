@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.github.jimtrung.theater.dto.SeatStatusDTO;
 import com.github.jimtrung.theater.model.Showtime;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
 
@@ -145,6 +146,6 @@ public class ShowtimeService {
         mapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         mapper.registerModule(new JavaTimeModule());
 
-        return mapper.readValue(body, new TypeReference<List<com.github.jimtrung.theater.dto.SeatStatusDTO>>() {});
+        return mapper.readValue(body, new TypeReference<List<SeatStatusDTO>>() {});
     }
 }

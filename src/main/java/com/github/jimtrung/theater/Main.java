@@ -81,7 +81,6 @@ public class Main extends Application {
         MovieListController movieListController = movieListLoader.getController();
         movieListController.setScreenController(screenController);
         movieListController.setMovieService(movieService);
-        movieListController.setAuthTokenUtil(authTokenUtil);
 
         // AuditoriumList
         FXMLLoader auditoriumListLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/admin/auditorium_list.fxml")));
@@ -89,7 +88,6 @@ public class Main extends Application {
         AuditoriumListController auditoriumListController = auditoriumListLoader.getController();
         auditoriumListController.setScreenController(screenController);
         auditoriumListController.setAuditoriumService(auditoriumService);
-        auditoriumListController.setAuthTokenUtil(authTokenUtil);
 
         // TinTuc
         FXMLLoader tinTucLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/tintuc.fxml")));
@@ -137,11 +135,9 @@ public class Main extends Application {
         ShowtimePageController showtimePageController = showtimePageLoader.getController();
         showtimePageController.setScreenController(screenController);
         showtimePageController.setAuthService(authService);
-        showtimePageController.setAuthTokenUtil(authTokenUtil);
         showtimePageController.setShowtimeService(showtimeService);
         showtimePageController.setMovieService(movieService);
-        showtimePageController.setAuditoriumService(auditoriumService);
-        
+
         // Event List
         FXMLLoader eventListLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/event_list.fxml")));
         screenController.addScreen("eventList", eventListLoader);

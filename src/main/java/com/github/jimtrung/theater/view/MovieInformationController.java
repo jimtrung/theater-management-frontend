@@ -14,8 +14,6 @@ import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.layout.FlowPane;
 import javafx.util.StringConverter;
 
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,7 +42,6 @@ public class MovieInformationController {
         this.movieService = movieService;
     }
 
-    // ===== BUTTON HANDLERS =====
     @FXML
     public void handleBackButton() {
         screenController.activate("movieList");
@@ -81,19 +78,13 @@ public class MovieInformationController {
                     .toList();
             currentMovie.setGenres(selectedGenres);
             
-            // Actors
             currentMovie.setActors(List.copyOf(actorsList));
 
             movieService.updateMovie(uuid, currentMovie);
 
-            // Movie movie = movieService.getMovieById(uuid); // No need to fetch again if we updated the object
-            // But to be safe and get updated_at from backend (if any), we can fetch.
-            // Actually, let's just use currentMovie which has user values. 
-            // Better to fetch to ensure consistency with backend triggers.
-            Movie movie = movieService.getMovieById(uuid); 
+            Movie movie = movieService.getMovieById(uuid);
             movieListController.updateMovie(movie);
 
-            System.out.println("[INFO] - Movie updated successfully: " + currentMovie.getName());
             screenController.activate("movieList");
 
         } catch (Exception e) {
@@ -111,23 +102,15 @@ public class MovieInformationController {
 
     @FXML
     public void handleOnOpen() throws Exception {
-        System.out.println("Movie id received: " + uuid);
         this.currentMovie = movieService.getMovieById(uuid);
-
-        if (currentMovie == null) {
-            System.out.println("[WARN] - Movie not found with id: " + uuid);
-            return;
-        }
 
         movieNameField.setText(currentMovie.getName());
         movieDescriptionField.setText(currentMovie.getDescription());
         movieDirectorField.setText(currentMovie.getDirector() != null ? currentMovie.getDirector() : "");
         
-        // Spinners
         movieDurationSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 500, currentMovie.getDuration(), 10));
         movieRatedSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 18, currentMovie.getRated()));
         
-        // DatePicker
         if (currentMovie.getPremiere() != null) {
             moviePremiereDatePicker.setValue(currentMovie.getPremiere().toLocalDate());
         } else {
@@ -199,9 +182,6 @@ public class MovieInformationController {
             }
         }));
         
-        // Pre-select existing genres
-        genreListView.getSelectionModel().clearSelection();
-        // Pre-select existing genres
         genreListView.getSelectionModel().clearSelection();
         if (currentMovie.getGenres() != null) {
             for (String genreStr : currentMovie.getGenres()) {
@@ -219,8 +199,6 @@ public class MovieInformationController {
                      g.name().toLowerCase().contains(filter) ||
                      g.toVietnamese().toLowerCase().contains(filter));
         });
-
-        System.out.println("[DEBUG] - Movie loaded: " + currentMovie.getName());
     }
 
     private void addActorTag(String name) {
@@ -246,8 +224,6 @@ public class MovieInformationController {
         actorsFlowPane.getChildren().add(tag);
     }
 
-    // ====== FXML BINDINGS ======
-    // ====== FXML BINDINGS ======
     @FXML private TextField movieNameField;
     @FXML private TextArea movieDescriptionField;
     @FXML private TextField movieDirectorField;

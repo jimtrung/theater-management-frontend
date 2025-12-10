@@ -213,7 +213,6 @@ public class AddMovieController {
             movie.setGenres(selectedGenres);
 
             // --- Get actors ---
-            // --- Get actors ---
             if (!actorsList.isEmpty()) {
                 movie.setActors(List.copyOf(actorsList));
             } else {

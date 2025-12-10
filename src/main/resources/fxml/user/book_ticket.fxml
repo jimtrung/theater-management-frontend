@@ -24,7 +24,6 @@
     <VBox spacing="16" maxWidth="800" styleClass="card" alignment="TOP_CENTER">
       <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
 
-      <!-- Các label con -->
       <VBox spacing="5" alignment="CENTER_LEFT">
         <Label text="Tên phim" styleClass="form-label"/>
         <TextField fx:id="ticketMovieName" editable="false"/>

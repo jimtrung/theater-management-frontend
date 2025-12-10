@@ -89,7 +89,6 @@ public class ShowtimeInformationController {
         loadMovies();
         loadAuditoriums();
         loadTimes();
-        
         loadShowtimeData();
     }
 

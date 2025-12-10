@@ -39,30 +39,20 @@
             </padding>
 
             <Label text="* Đối với phim có thời lượng từ 150 phút trở xuống: giảm 10.000 VNĐ / vé"/>
-
             <Label text="Giá vé đối với các đối tượng khán giả ưu tiên:"/>
-
             <Label
                 text="- Giảm 20%: Trẻ em (dưới 16 tuổi), người cao tuổi (từ đủ 60 tuổi), người có công với cách mạng, người có hoàn cảnh đặc biệt khó khăn"
                 wrapText="true"/>
-
             <Label text="- Giảm 50%: Người khuyết tật nặng"/>
             <Label text="- Giảm 100%: Người khuyết tật đặc biệt nặng, trẻ em dưới 0.7m đi kèm người lớn" wrapText="true"/>
             <Label text="Điều kiện áp dụng:"/>
             <Label text="- Chỉ áp dụng khi mua vé tại quầy"/>
-
             <Label text="- Phải xuất trình giấy tờ khi mua vé"/>
-
             <Label text="Lưu ý:"/>
-
             <Label text="- Trẻ em dưới 13 tuổi không được xem phim kết thúc sau 22h"/>
-
             <Label text="- Trẻ em dưới 16 tuổi không được xem phim kết thúc sau 23h"/>
-
             <Label text="- Giá vé ngày lễ: Tết, 30/4, 1/5, 2/9, 14/2, 8/3, 24/12"/>
-
             <Label text="TTCPQG không hoàn tiền vé đã thanh toán online."/>
-
             <Label text="Xin cảm ơn – Chúc quý khách xem phim vui vẻ!"/>
           </VBox>
         </VBox>

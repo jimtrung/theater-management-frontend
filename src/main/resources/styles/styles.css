@@ -1,44 +1,23 @@
-/* ============================================================================
-   JAVAFX DARK THEME - Exact WPF Color Palette from App.xaml
-   ============================================================================ */
-
-/* Global Root Style */
 .root {
-  /* Exact WPF Color Palette */
   -color-primary-bg: #0F1419;
-  /* PrimaryBackground */
   -color-secondary-bg: #1A1F2E;
-  /* SecondaryBackground */
   -color-card-bg: #1E2433;
-  /* CardBackground */
   -color-input-bg: #252D3D;
-  /* InputBackground */
 
   -color-primary-accent: #3B82F6;
-  /* PrimaryAccent */
   -color-primary-hover: #2563EB;
-  /* PrimaryHover */
 
   -color-success: #10B981;
-  /* Success */
   -color-danger: #EF4444;
-  /* Danger */
   -color-warning: #F59E0B;
-  /* Warning */
 
   -color-text-primary: #F9FAFB;
-  /* PrimaryText */
   -color-text-secondary: #9CA3AF;
-  /* SecondaryText */
   -color-text-muted: #6B7280;
-  /* MutedText */
 
   -color-border: #374151;
-  /* Border */
   -color-divider: #1F2937;
-  /* Divider */
 
-  /* JavaFX Base Overrides */
   -fx-background-color: -color-primary-bg;
   -fx-font-family: 'Segoe UI', 'Roboto', sans-serif;
   -fx-font-size: 14px;
@@ -51,11 +30,6 @@
   -fx-faint-focus-color: rgba(59, 130, 246, 0.4);
 }
 
-/* =============================================================================
-   TYPOGRAPHY STYLES (matching WPF App.xaml)
-   ============================================================================= */
-
-/* Title Style - 32px, Bold, Center */
 .title {
   -fx-font-size: 32px;
   -fx-font-weight: bold;
@@ -64,7 +38,6 @@
   -fx-padding: 0 0 20 0;
 }
 
-/* Heading Style - 20px, SemiBold */
 .heading {
   -fx-font-size: 20px;
   -fx-font-weight: 600;
@@ -72,7 +45,6 @@
   -fx-padding: 0 0 12 0;
 }
 
-/* Form Label Style - 14px, Medium */
 .form-label {
   -fx-font-size: 14px;
   -fx-font-weight: 500;
@@ -80,9 +52,6 @@
   -fx-padding: 0 0 6 0;
 }
 
-/* =============================================================================
-   CARD STYLE (matching WPF Border with card style)
-   ============================================================================= */
 .card {
   -fx-background-color: -color-card-bg;
   -fx-border-color: -color-border;
@@ -93,31 +62,20 @@
   -fx-padding: 24px;
 }
 
-/* =============================================================================
-   Design Refresh Styles (Premium Look)
-   ============================================================================= */
-
-/* Gradient Background for Auth/Home Pages */
 .root-gradient {
   -fx-background-color: linear-gradient(to bottom right, #0F1419, #1A1F2E);
 }
 
-/* Modern Card Style (Elevated, subtle border) */
 .card-modern {
   -fx-background-color: rgba(30, 36, 51, 0.95);
-  /* Slightly transparent card bg */
   -fx-border-color: rgba(255, 255, 255, 0.1);
-  /* Subtle white border */
   -fx-border-width: 1px;
   -fx-background-radius: 16px;
   -fx-border-radius: 16px;
   -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 30, 0, 0, 10);
-  /* Deeper shadow */
   -fx-padding: 40px;
-  /* Default generous padding */
 }
 
-/* Auth Branding Title */
 .auth-branding {
   -fx-font-size: 16px;
   -fx-font-weight: bold;
@@ -126,16 +84,11 @@
   -fx-alignment: center;
 }
 
-/* Taller inputs (Adjusted: Shorter per request) */
 .text-field-large {
   -fx-padding: 10px 14px;
   -fx-font-size: 14px;
 }
 
-
-/* =============================================================================
-   NAVIGATION BUTTON STYLE (matching WPF NavButtonStyle)
-   ============================================================================= */
 .nav-button {
   -fx-background-color: transparent;
   -fx-text-fill: -color-text-primary;
@@ -151,9 +104,6 @@
   -fx-background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* =============================================================================
-   TEXT INPUT STYLES (matching WPF form-input)
-   ============================================================================= */
 .text-field,
 .password-field,
 .text-area {
@@ -175,11 +125,6 @@
   -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.4), 8, 0, 0, 0);
 }
 
-/* =============================================================================
-   BUTTON STYLES (matching WPF button styles)
-   ============================================================================= */
-
-/* Base Button */
 .button {
   -fx-font-size: 14px;
   -fx-font-weight: 600;
@@ -189,7 +134,6 @@
   -fx-cursor: hand;
 }
 
-/* Primary Button (button-primary) */
 .button-primary,
 .button.primary {
   -fx-background-color: -color-primary-accent;
@@ -208,7 +152,6 @@
   -fx-background-color: #1D4ED8;
 }
 
-/* Secondary Button (button-secondary) */
 .button-secondary,
 .button.secondary {
   -fx-background-color: -color-secondary-bg;
@@ -228,7 +171,6 @@
   -fx-background-color: #1A202C;
 }
 
-/* Danger Button (button-danger) */
 .button-danger,
 .button.danger {
   -fx-background-color: -color-danger;
@@ -247,7 +189,6 @@
   -fx-background-color: #B91C1C;
 }
 
-/* Success Button (button-success) */
 .button-success,
 .button.success {
   -fx-background-color: -color-success;
@@ -266,9 +207,6 @@
   -fx-background-color: #047857;
 }
 
-/* =============================================================================
-   DATA TABLE STYLE (matching WPF data-grid-dark)
-   ============================================================================= */
 .table-view {
   -fx-background-color: -color-card-bg;
   -fx-border-color: -color-border;
@@ -312,9 +250,6 @@
   -fx-text-fill: white;
 }
 
-/* =============================================================================
-   LIST VIEW STYLE (matching WPF list-view-dark)
-   ============================================================================= */
 .list-view {
   -fx-background-color: -color-input-bg;
   -fx-border-color: -color-border;
@@ -335,9 +270,6 @@
   -fx-background-color: -color-secondary-bg;
 }
 
-/* =============================================================================
-   CHECKBOX STYLE (matching WPF checkbox-dark)
-   ============================================================================= */
 .check-box {
   -fx-text-fill: -color-text-primary;
 }
@@ -362,9 +294,6 @@
   -fx-border-color: -color-primary-accent;
 }
 
-/* =============================================================================
-   RADIO BUTTON STYLE (matching WPF radio-dark)
-   ============================================================================= */
 .radio-button {
   -fx-text-fill: -color-text-primary;
 }
@@ -389,9 +318,6 @@
   -fx-border-color: -color-primary-accent;
 }
 
-/* =============================================================================
-   SCROLLBAR STYLES
-   ============================================================================= */
 .scroll-bar {
   -fx-background-color: transparent;
 }
@@ -413,9 +339,6 @@
   -fx-pref-height: 10px;
 }
 
-/* =============================================================================
-   SCROLL PANE
-   ============================================================================= */
 .scroll-pane {
   -fx-background-color: transparent;
 }
@@ -424,9 +347,6 @@
   -fx-background-color: transparent;
 }
 
-/* =============================================================================
-   NEWS CARD STYLES (for TinTuc page)
-   ============================================================================= */
 .news-card {
   -fx-background-color: -color-card-bg;
   -fx-background-radius: 10px;
@@ -456,9 +376,6 @@
   -fx-padding: 5px 0 0 0;
 }
 
-/* =============================================================================
-   BANNER AND SECTION STYLES
-   ============================================================================= */
 .banner-title {
   -fx-font-size: 40px;
   -fx-font-weight: bold;
@@ -488,9 +405,6 @@
   -fx-pref-width: 300px;
 }
 
-/* =============================================================================
-   HEADER STYLE
-   ============================================================================= */
 .header-bar {
   -fx-background-color: rgba(26, 31, 46, 0.95);
   -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0, 0, 2);
@@ -498,12 +412,8 @@
   -fx-border-width: 0 0 1px 0;
 }
 
-/* =============================================================================
-   PROFILE STATUS BADGES
-   ============================================================================= */
 .status-verified {
   -fx-background-color: rgba(16, 185, 129, 0.15);
-  /* Green background */
   -fx-text-fill: -color-success;
   -fx-background-radius: 15px;
   -fx-padding: 4px 12px;
@@ -512,16 +422,12 @@
 
 .status-unverified {
   -fx-background-color: rgba(239, 68, 68, 0.15);
-  /* Red background */
   -fx-text-fill: -color-danger;
   -fx-background-radius: 15px;
   -fx-padding: 4px 12px;
   -fx-font-weight: bold;
 }
 
-/* =============================================================================
-   SEAT MAP STYLES
-   ============================================================================= */
 .seat-button {
   -fx-padding: 5px;
   -fx-background-radius: 6px;
@@ -547,7 +453,6 @@
 }
 
 .seat-partially-booked {
-    /* Reserved for future use */
 }
 
 .seat-booked {

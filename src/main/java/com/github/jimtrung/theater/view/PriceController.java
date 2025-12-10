@@ -1,11 +1,7 @@
 package com.github.jimtrung.theater.view;
 
-import com.github.jimtrung.theater.model.User;
 import com.github.jimtrung.theater.service.AuthService;
-import com.github.jimtrung.theater.util.AuthTokenUtil;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 
 public class PriceController {
     private ScreenController screenController;

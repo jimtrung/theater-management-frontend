@@ -43,11 +43,9 @@ public class SignInController {
         
         if (usernameErrorLabel != null) {
              usernameErrorLabel.setVisible(false);
-             // usernameErrorLabel.setManaged(false); // Reserved space
         }
         if (passwordErrorLabel != null) {
              passwordErrorLabel.setVisible(false);
-             // passwordErrorLabel.setManaged(false); // Reserved space
         }
 
         passwordField.textProperty().unbindBidirectional(visiblePasswordField.textProperty());
@@ -63,7 +61,6 @@ public class SignInController {
 
         usernameField.clear();
         
-        // Validation Listeners
         usernameField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null || newValue.trim().isEmpty()) {
                 usernameErrorLabel.setText("Vui lòng nhập tên đăng nhập");

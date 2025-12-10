@@ -21,9 +21,7 @@
       </padding>
 
       <Label text="NATIONAL CINEMA CENTER" styleClass="auth-branding"/>
-
       <Label text="Quản Lý Rạp Chiếu Phim" styleClass="title"/>
-
       <Label text="Chào mừng đến với Trung Tâm Chiếu Phim Quốc Gia" styleClass="welcome-subtitle"/>
 
       <VBox spacing="12" alignment="CENTER" maxWidth="400">

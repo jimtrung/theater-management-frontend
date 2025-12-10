@@ -10,23 +10,18 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class ShowtimePageController {
     private ScreenController screenController;
-    private AuthTokenUtil authTokenUtil;
     private AuthService authService;
     private MovieService movieService;
     private ShowtimeService showtimeService;
-    private AuditoriumService auditoriumService;
 
     @FXML
     private UserHeaderController userHeaderController;
@@ -41,10 +36,6 @@ public class ShowtimePageController {
         if (userHeaderController != null) userHeaderController.setScreenController(controller);
     }
 
-    public void setAuthTokenUtil(AuthTokenUtil util) {
-        this.authTokenUtil = util;
-    }
-
     public void setAuthService(AuthService service) {
         this.authService = service;
         if (userHeaderController != null) userHeaderController.setAuthService(service);
@@ -56,10 +47,6 @@ public class ShowtimePageController {
 
     public void setShowtimeService(ShowtimeService service) {
         this.showtimeService = service;
-    }
-
-    public void setAuditoriumService(AuditoriumService service) {
-        this.auditoriumService = service;
     }
 
     public void handleOnOpen() {
@@ -84,7 +71,6 @@ public class ShowtimePageController {
 
         CompletableFuture.runAsync(() -> {
             try {
-                // Load Movie Info
                 var movie = movieService.getMovieById(movieId);
                 var showtimes = showtimeService.getAllShowtimes();
                 
@@ -141,23 +127,10 @@ public class ShowtimePageController {
         btn.setCursor(javafx.scene.Cursor.HAND);
         
         btn.setOnAction(e -> {
-            // Go to Book Ticket (Seat Selection)
-            screenController.setContext("selectedShowtimeId", showtime.getId()); // Store context if needed, or pass via controller setter?
-            // Actually BookTicketController needs showtimeId.
-            // Better to load via FXMLLoader and set it manually if we are pushing controllers?
-            // But ScreenController methodology seems to be activation by name. 
-            // I should use setContext if BookTicketController reads it, or check how ScreenController works. 
-            // The previous BookTicketController modification I made: handleOnOpen checks 'showtimeId' field. 
-            // I need to set that field.
-            
-            // Assuming ScreenController allows generic screen switching OR I need to handle data passing.
-            // Looking at HomePageUser: `screenController.activate("signup")`.
-            // I'll use a hack or standard way:
-            // If internal `BookTicketController` is managed by `ScreenController`, I might need a way to pass data.
-            // I'll use `screenController.setContext` and update `BookTicketController.handleOnOpen` to read it.
-            
             screenController.setContext("selectedShowtimeId", showtime.getId());
-            screenController.activate("bookTicket"); // verifying name in fxml/screen map... likely "bookTicket" or similar.
+
+            screenController.setContext("selectedShowtimeId", showtime.getId());
+            screenController.activate("bookTicket");
         });
         
         return btn;

@@ -2,7 +2,9 @@ package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.dto.SeatStatusDTO;
 import com.github.jimtrung.theater.model.Seat;
+import com.github.jimtrung.theater.service.AuditoriumService;
 import com.github.jimtrung.theater.service.AuthService;
+import com.github.jimtrung.theater.service.MovieService;
 import com.github.jimtrung.theater.service.ShowtimeService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -47,11 +49,11 @@ public class BookTicketController {
         this.showtimeService = showtimeService;
     }
     
-    private com.github.jimtrung.theater.service.MovieService movieService;
-    private com.github.jimtrung.theater.service.AuditoriumService auditoriumService;
+    private MovieService movieService;
+    private AuditoriumService auditoriumService;
     
-    public void setMovieService(com.github.jimtrung.theater.service.MovieService s) { this.movieService = s; }
-    public void setAuditoriumService(com.github.jimtrung.theater.service.AuditoriumService s) { this.auditoriumService = s; }
+    public void setMovieService(MovieService s) { this.movieService = s; }
+    public void setAuditoriumService(AuditoriumService s) { this.auditoriumService = s; }
 
     private com.github.jimtrung.theater.model.Showtime currentShowtime;
     private com.github.jimtrung.theater.model.Movie currentMovie;
@@ -71,12 +73,8 @@ public class BookTicketController {
              }
         }
 
-        if (showtimeId != null) {
-            loadSeats();
-            loadDetails();
-        } else {
-            System.err.println("Showtime ID is null in BookTicketController");
-        }
+        loadSeats();
+        loadDetails();
     }
     
     @FXML
@@ -91,10 +89,8 @@ public class BookTicketController {
         
         java.util.concurrent.CompletableFuture.runAsync(() -> {
             try {
-                System.out.println("Loading seats for showtime: " + showtimeId);
                 List<SeatStatusDTO> seats = showtimeService.getSeatsWithStatus(showtimeId);
-                System.out.println("Seats loaded: " + (seats != null ? seats.size() : "null"));
-                
+
                 if (seats == null || seats.isEmpty()) return;
 
                 seats.sort(Comparator.comparing((SeatStatusDTO d) -> d.seat().getRow())

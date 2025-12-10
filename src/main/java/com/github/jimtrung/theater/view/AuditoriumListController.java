@@ -18,7 +18,6 @@ import java.util.UUID;
 public class AuditoriumListController {
 
     private ScreenController screenController;
-    private AuthTokenUtil authTokenUtil;
     private AuditoriumService auditoriumService;
     private ObservableList<Auditorium> auditoriumList;
     private UUID uuid;
@@ -30,10 +29,6 @@ public class AuditoriumListController {
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
-    }
-
-    public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
-        this.authTokenUtil = authTokenUtil;
     }
 
     public TableView<Auditorium> getAuditoriumTable() {
@@ -55,17 +50,6 @@ public class AuditoriumListController {
     @FXML
     private TableColumn<Auditorium, String> noteColumn;
 
-//    @FXML TableColumn<Movie, UUID> idColumn;
-
-    @FXML
-    private Button closeBtn;
-
-    @FXML
-    private Button addAuditoriumBtn;
-
-    @FXML
-    private Button deleteAllBtn;
-
     @FXML
     public void handleOnOpen() {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -79,8 +63,6 @@ public class AuditoriumListController {
         auditoriumTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 Auditorium auditorium = (Auditorium) newSelection;
-                System.out.println("Auditorium id was clicked: " + auditorium.getId());
-                System.out.println("Auditorium name was clicked: " + auditorium.getName());
                 uuid = auditorium.getId();
             }
             handleClickItem(uuid);
@@ -98,13 +80,9 @@ public class AuditoriumListController {
     public void handleClickItem(UUID id) {
         try {
             AuditoriumInformationController controller = (AuditoriumInformationController) screenController.getController("auditoriumInformation");
-            if (controller != null) {
-                controller.setUuid(id);
-                controller.setAuditoriumListController(this);
-                screenController.activate("auditoriumInformation");
-            } else {
-                System.out.println("Error: AuditoriumInformationController not found.");
-            }
+            controller.setUuid(id);
+            controller.setAuditoriumListController(this);
+            screenController.activate("auditoriumInformation");
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -120,13 +98,8 @@ public class AuditoriumListController {
 
         Optional<ButtonType> result = alert.showAndWait();
 
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            auditoriumService.deleteAllAuditoriums();
-            refreshData();
-        }
-        else {
-            System.out.println("Delete all operation cancelled !");
-        }
+        auditoriumService.deleteAllAuditoriums();
+        refreshData();
     }
 
     public void refreshData() {

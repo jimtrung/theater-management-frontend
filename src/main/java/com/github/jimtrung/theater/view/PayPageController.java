@@ -45,10 +45,6 @@ public class PayPageController {
                  ticketShowDate.setText(cart.get("date").toString());
                  ticketSeatName.setText((String) cart.get("seatNames"));
                  ticketPrice.setText(cart.get("totalPrice") + " VNĐ");
-                 
-                 // Generate QR Code (Simulation)
-                 // Just use a random QR based on seat names hash or something.
-                 // For now, assume generic.
              }
         } catch (Exception e) { e.printStackTrace(); }
     }
