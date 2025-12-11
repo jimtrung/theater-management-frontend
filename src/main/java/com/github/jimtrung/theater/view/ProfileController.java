@@ -29,9 +29,9 @@ public class ProfileController {
             response = authService.getUser();
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Fetch error");
+            alert.setTitle("Lỗi kết nối");
             alert.setHeaderText(null);
-            alert.setContentText("Failed to fetch user");
+            alert.setContentText("Không thể lấy thông tin người dùng");
             alert.showAndWait();
             e.printStackTrace();
             return;
@@ -51,7 +51,7 @@ public class ProfileController {
         } else if (response instanceof ErrorResponse errRes){
             screenController.activate("home");
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Fetch error");
+            alert.setTitle("Lỗi kết nối");
             alert.setHeaderText(null);
             alert.setContentText(errRes.message());
             alert.showAndWait();

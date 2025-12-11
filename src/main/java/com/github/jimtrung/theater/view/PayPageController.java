@@ -5,8 +5,10 @@ import com.github.jimtrung.theater.service.TicketService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-
+import javafx.scene.control.Alert;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import javafx.application.Platform;
 
 public class PayPageController {
     private ScreenController screenController;
@@ -54,17 +56,35 @@ public class PayPageController {
         try {
              @SuppressWarnings("unchecked")
              java.util.Map<String, Object> cart = (java.util.Map<String, Object>) screenController.getContext("cart");
+             if (cart == null) return;
+
              java.util.UUID showtimeId = (java.util.UUID) cart.get("showtimeId");
              @SuppressWarnings("unchecked")
              java.util.List<java.util.UUID> seatIds = (java.util.List<java.util.UUID>) cart.get("seatIds");
              
              com.github.jimtrung.theater.dto.BookingRequest req = new com.github.jimtrung.theater.dto.BookingRequest(showtimeId, seatIds);
-             ticketService.bookTickets(req);
-             
-             javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
-             alert.setContentText("Đặt vé thành công!");
-             alert.showAndWait();
-             screenController.activate("home");
+
+             // Run booking asynchronously
+             CompletableFuture.runAsync(() -> {
+                 try {
+                     ticketService.bookTickets(req);
+                     
+                     Platform.runLater(() -> {
+                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                         alert.setContentText("Đặt vé thành công!");
+                         alert.showAndWait();
+                         screenController.activate("home");
+                     });
+                 } catch (Exception e) {
+                     e.printStackTrace();
+                     Platform.runLater(() -> {
+                         Alert alert = new Alert(Alert.AlertType.ERROR);
+                         alert.setContentText("Lỗi: " + e.getMessage());
+                         alert.showAndWait();
+                     });
+                 }
+             });
+
         } catch (Exception e) {
              e.printStackTrace();
              javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);

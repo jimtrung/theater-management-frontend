@@ -28,15 +28,15 @@
              <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
              <ImageView fx:id="moviePoster" fitWidth="220" fitHeight="330" preserveRatio="true" styleClass="poster"/>
              <VBox spacing="15" HBox.hgrow="ALWAYS">
-                <Label fx:id="movieTitle" text="Movie Title" styleClass="title" wrapText="true"/>
+                <Label fx:id="movieTitle" text="Tên phim" styleClass="title" wrapText="true"/>
                 <HBox spacing="15">
-                   <Label fx:id="movieDuration" text="Duration" styleClass="badge"/>
-                   <Label fx:id="movieRated" text="Rated" styleClass="badge"/>
+                   <Label fx:id="movieDuration" text="Thời lượng" styleClass="badge"/>
+                   <Label fx:id="movieRated" text="Độ tuổi" styleClass="badge"/>
                 </HBox>
-                <Label fx:id="movieGenre" text="Genre" style="-fx-text-fill: #aaaaaa; -fx-font-size: 14px;"/>
-                <Label fx:id="movieDescription" text="Description..." wrapText="true" style="-fx-text-fill: white; -fx-font-size: 14px;" VBox.vgrow="ALWAYS"/>
-                <Label fx:id="movieDirector" text="Director: " style="-fx-text-fill: #cccccc;"/>
-                <Label fx:id="movieActors" text="Actors: " style="-fx-text-fill: #cccccc;" wrapText="true"/>
+                <Label fx:id="movieGenre" text="Thể loại" style="-fx-text-fill: #aaaaaa; -fx-font-size: 14px;"/>
+                <Label fx:id="movieDescription" text="Mô tả..." wrapText="true" style="-fx-text-fill: white; -fx-font-size: 14px;" VBox.vgrow="ALWAYS"/>
+                <Label fx:id="movieDirector" text="Đạo diễn: " style="-fx-text-fill: #cccccc;"/>
+                <Label fx:id="movieActors" text="Diễn viên: " style="-fx-text-fill: #cccccc;" wrapText="true"/>
              </VBox>
           </HBox>
 

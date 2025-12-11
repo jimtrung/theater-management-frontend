@@ -25,6 +25,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.github.jimtrung.theater.dto.ShowtimeRevenueDTO;
+
 public class ShowtimeListController {
     private ScreenController screenController;
     private AuthService authService;
@@ -42,7 +44,11 @@ public class ShowtimeListController {
     @FXML private TableColumn<Showtime, String> startColumn;
     @FXML private TableColumn<Showtime, String> finishColumn;
     @FXML private TableColumn<Showtime, String> dateColumn;
-    @FXML private TableColumn<Showtime, Integer> quantityColumn; // Not yet
+    @FXML private TableColumn<Showtime, Integer> quantityColumn;
+    @FXML private TableColumn<Showtime, String> revenueColumn;
+
+    private Map<UUID, Long> soldTicketsMap = new HashMap<>();
+    private Map<UUID, Long> revenueMap = new HashMap<>();
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
@@ -86,10 +92,10 @@ public class ShowtimeListController {
         ZoneOffset offset = ZoneOffset.ofHours(7);
 
         movieColumn.setCellValueFactory(cellData -> 
-            new SimpleStringProperty(movieNames.getOrDefault(cellData.getValue().getMovieId(), "Unknown")));
+            new SimpleStringProperty(movieNames.getOrDefault(cellData.getValue().getMovieId(), "Không xác định")));
         
         auditoriumColumn.setCellValueFactory(cellData -> 
-            new SimpleStringProperty(auditoriumNames.getOrDefault(cellData.getValue().getAuditoriumId(), "Unknown")));
+            new SimpleStringProperty(auditoriumNames.getOrDefault(cellData.getValue().getAuditoriumId(), "Không xác định")));
 
         startColumn.setCellValueFactory(cellData -> 
             new SimpleStringProperty(cellData.getValue().getStartTime().withOffsetSameInstant(offset).format(timeFormatter)));
@@ -100,6 +106,12 @@ public class ShowtimeListController {
         dateColumn.setCellValueFactory(cellData -> 
             new SimpleStringProperty(cellData.getValue().getStartTime().withOffsetSameInstant(offset).format(dateFormatter)));
             
+        quantityColumn.setCellValueFactory(cellData -> 
+            new javafx.beans.property.SimpleObjectProperty<>(soldTicketsMap.getOrDefault(cellData.getValue().getId(), 0L).intValue()));
+            
+        revenueColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(String.format("%,d VNĐ", revenueMap.getOrDefault(cellData.getValue().getId(), 0L))));
+
         showtimeTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> {
             if (newSel != null) {
                 handleClickItem(newSel.getId());
@@ -116,8 +128,17 @@ public class ShowtimeListController {
             auditoriumNames = auditoriums.stream().collect(Collectors.toMap(Auditorium::getId, Auditorium::getName));
 
             List<Showtime> showtimes = showtimeService.getAllShowtimes();
+            
+            // Fetch stats
+            List<ShowtimeRevenueDTO> stats = showtimeService.getShowtimeStats();
+            soldTicketsMap = stats.stream().collect(Collectors.toMap(ShowtimeRevenueDTO::showtimeId, ShowtimeRevenueDTO::soldTickets));
+            revenueMap = stats.stream().collect(Collectors.toMap(ShowtimeRevenueDTO::showtimeId, ShowtimeRevenueDTO::revenue));
+
             showtimeList = FXCollections.observableArrayList(showtimes);
             showtimeTable.setItems(showtimeList);
+            
+            // Force refresh columns
+            showtimeTable.refresh();
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -148,9 +169,9 @@ public class ShowtimeListController {
     public void handleDeleteAllButton() {
         try {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Delete confirmation");
+            alert.setTitle("Xác nhận xóa");
             alert.setHeaderText(null);
-            alert.setContentText("Are you sure you want to delete all showtimes?");
+            alert.setContentText("Bạn có chắc chắn muốn xóa tất cả các suất chiếu không?");
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {

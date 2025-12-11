@@ -34,7 +34,7 @@
           </VBox>
         </StackPane>
 
-        <VBox spacing="30">
+        <VBox spacing="30" alignment="TOP_CENTER">
           <padding>
             <Insets top="40" right="40" bottom="40" left="40"/>
           </padding>
@@ -43,7 +43,7 @@
             <Label text="PHIM ĐANG CHIẾU" styleClass="section-title"/>
           </HBox>
 
-          <FlowPane fx:id="movieList" hgap="20" vgap="20" alignment="CENTER"/>
+          <FlowPane fx:id="movieList" hgap="20" vgap="20" alignment="CENTER" maxWidth="1600"/>
         </VBox>
       </VBox>
     </ScrollPane>

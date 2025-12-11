@@ -129,9 +129,9 @@ public class MovieListController {
     public void handleDeleteAllButton() {
         try {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Delete confirmation");
+            alert.setTitle("Xác nhận xóa");
             alert.setHeaderText(null);
-            alert.setContentText("Are you sure you want to delete all movies?");
+            alert.setContentText("Bạn có chắc chắn muốn xóa tất cả phim không?");
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {

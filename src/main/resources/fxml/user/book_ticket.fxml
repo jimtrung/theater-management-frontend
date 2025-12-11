@@ -23,6 +23,14 @@
 
     <VBox spacing="16" maxWidth="800" styleClass="card" alignment="TOP_CENTER">
       <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
+      
+      <HBox spacing="30" alignment="TOP_CENTER">
+        <!-- Movie Poster -->
+        <VBox alignment="TOP_CENTER">
+           <ImageView fx:id="moviePoster" fitWidth="150" fitHeight="220" preserveRatio="true"/>
+        </VBox>
+        
+        <VBox spacing="16" HBox.hgrow="ALWAYS">
 
       <VBox spacing="5" alignment="CENTER_LEFT">
         <Label text="Tên phim" styleClass="form-label"/>
@@ -52,6 +60,8 @@
           <TextField fx:id="ticketEndTime" editable="false" prefWidth="120"/>
         </VBox>
       </HBox>
+      </VBox> <!-- End of Details VBox -->
+      </HBox> <!-- End of Top HBox -->
 
       <!-- Giá vé + chọn ghế -->
       <HBox spacing="20" alignment="TOP_LEFT">

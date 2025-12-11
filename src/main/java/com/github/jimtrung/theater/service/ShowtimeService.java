@@ -6,8 +6,10 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.jimtrung.theater.dto.SeatStatusDTO;
+import com.github.jimtrung.theater.dto.ShowtimeRevenueDTO;
 import com.github.jimtrung.theater.model.Showtime;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -147,5 +149,26 @@ public class ShowtimeService {
         mapper.registerModule(new JavaTimeModule());
 
         return mapper.readValue(body, new TypeReference<List<SeatStatusDTO>>() {});
+    }
+    public List<ShowtimeRevenueDTO> getShowtimeStats() throws Exception {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/tickets/stats/showtime"))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + authTokenUtil.loadAccessToken())
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        String body = response.body();
+
+        if (body == null || body.isBlank() || body.startsWith("{")) {
+            return Collections.emptyList();
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        return mapper.readValue(body, new TypeReference<List<ShowtimeRevenueDTO>>() {});
     }
 }

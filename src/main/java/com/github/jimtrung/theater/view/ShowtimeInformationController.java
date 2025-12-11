@@ -131,7 +131,7 @@ public class ShowtimeInformationController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Error loading showtime data: " + e.getMessage());
+            showAlert("Lỗi tải dữ liệu suất chiếu: " + e.getMessage());
         }
     }
 
@@ -229,7 +229,7 @@ public class ShowtimeInformationController {
             screenController.activate("showtimeList");
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Error deleting showtime: " + e.getMessage());
+            showAlert("Lỗi xóa suất chiếu: " + e.getMessage());
         }
     }
 
@@ -240,7 +240,7 @@ public class ShowtimeInformationController {
                 showtimeDatePicker.getValue() == null || 
                 startTimePicker.getValue() == null || endTimePicker.getValue() == null) {
                 
-                showAlert("Please fill all fields!");
+                showAlert("Vui lòng điền đầy đủ thông tin!");
                 return;
             }
 
@@ -248,7 +248,7 @@ public class ShowtimeInformationController {
             LocalTime endTime = LocalTime.parse(endTimePicker.getValue());
             
             if (!endTime.isAfter(startTime)) {
-                showAlert("End time must be after start time!");
+                showAlert("Thời gian kết thúc phải sau thời gian bắt đầu!");
                 return;
             }
 
@@ -272,13 +272,13 @@ public class ShowtimeInformationController {
             
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Error updating showtime: " + e.getMessage());
+            showAlert("Lỗi cập nhật suất chiếu: " + e.getMessage());
         }
     }
 
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
+        alert.setTitle("Lỗi");
         alert.setContentText(message);
         alert.show();
     }

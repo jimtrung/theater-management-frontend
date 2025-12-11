@@ -193,7 +193,7 @@ public class AddShowtimeController {
                 showtimeDatePicker.getValue() == null || 
                 startTimePicker.getValue() == null || endTimePicker.getValue() == null) {
                 
-                showAlert("Please fill all fields!");
+                showAlert("Vui lòng điền đầy đủ thông tin!");
                 return;
             }
 
@@ -206,8 +206,19 @@ public class AddShowtimeController {
             LocalTime endTime = LocalTime.parse(endTimePicker.getValue());
             
             if (!endTime.isAfter(startTime)) {
-                showAlert("End time must be after start time!");
+                showAlert("Thời gian kết thúc phải sau thời gian bắt đầu!");
                 return;
+            }
+
+            if (showtimeDatePicker.getValue().isBefore(java.time.LocalDate.now())) {
+                showAlert("Ngày chiếu không được ở trong quá khứ!");
+                return;
+            }
+            if (showtimeDatePicker.getValue().isEqual(java.time.LocalDate.now())) {
+                if (startTime.isBefore(LocalTime.now())) {
+                    showAlert("Thời gian bắt đầu đã qua!");
+                    return;
+                }
             }
 
             OffsetDateTime startOdt = OffsetDateTime.of(showtimeDatePicker.getValue(), startTime, offset);
@@ -229,13 +240,13 @@ public class AddShowtimeController {
             
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Error adding showtime: " + e.getMessage());
+            showAlert("Lỗi thêm suất chiếu: " + e.getMessage());
         }
     }
 
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
+        alert.setTitle("Lỗi");
         alert.setContentText(message);
         alert.show();
     }

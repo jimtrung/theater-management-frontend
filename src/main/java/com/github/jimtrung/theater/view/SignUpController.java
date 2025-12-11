@@ -102,13 +102,25 @@ public class SignUpController {
         visibleConfirmPasswordField.setManaged(false);
 
         // Real-time Validation Listeners
-        usernameField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) validateUsername(usernameField.getText());
+        javafx.animation.PauseTransition usernamePause = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(0.5));
+        usernamePause.setOnFinished(e -> validateUsername(usernameField.getText()));
+        usernameField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                usernamePause.playFromStart();
+            }
         });
-        emailField.textProperty().addListener((observable, oldValue, newValue) -> validateEmail(newValue));
-        emailField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) validateEmailBackend(emailField.getText());
+
+        javafx.animation.PauseTransition emailPause = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(0.5));
+        emailPause.setOnFinished(e -> {
+            validateEmail(emailField.getText());
+            validateEmailBackend(emailField.getText());
         });
+        emailField.textProperty().addListener((observable, oldValue, newValue) -> {
+             if (newValue != null) {
+                 emailPause.playFromStart();
+             }
+        });
+        
         passwordField.textProperty().addListener((observable, oldValue, newValue) -> validatePassword(newValue));
     }
 
@@ -162,7 +174,7 @@ public class SignUpController {
 
             if (response instanceof ErrorResponse errRes) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Sign up error");
+                alert.setTitle("Lỗi đăng ký");
                 alert.setHeaderText(null);
                 alert.setContentText(errRes.message());
                 alert.showAndWait();
@@ -171,9 +183,9 @@ public class SignUpController {
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Sign up error");
+            alert.setTitle("Lỗi đăng ký");
             alert.setHeaderText(null);
-            alert.setContentText("Failed to sign up\n");
+            alert.setContentText("Đăng ký thất bại\n");
             alert.showAndWait();
             return;
         }
@@ -189,12 +201,24 @@ public class SignUpController {
             visiblePasswordField.setManaged(true);
             passwordField.setVisible(false);
             passwordField.setManaged(false);
+
+            visibleConfirmPasswordField.setText(confirmPasswordField.getText());
+            visibleConfirmPasswordField.setVisible(true);
+            visibleConfirmPasswordField.setManaged(true);
+            confirmPasswordField.setVisible(false);
+            confirmPasswordField.setManaged(false);
         } else {
             passwordField.setText(visiblePasswordField.getText());
             passwordField.setVisible(true);
             passwordField.setManaged(true);
             visiblePasswordField.setVisible(false);
             visiblePasswordField.setManaged(false);
+
+            confirmPasswordField.setText(visibleConfirmPasswordField.getText());
+            confirmPasswordField.setVisible(true);
+            confirmPasswordField.setManaged(true);
+            visibleConfirmPasswordField.setVisible(false);
+            visibleConfirmPasswordField.setManaged(false);
         }
     }
 }

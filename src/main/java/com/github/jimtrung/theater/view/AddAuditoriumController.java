@@ -60,9 +60,9 @@ public class AddAuditoriumController {
 
         if (isEmpty(auditoriumCapacityField)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Input error");
+            alert.setTitle("Lỗi nhập liệu");
             alert.setHeaderText(null);
-            alert.setContentText("Please enter complete information");
+            alert.setContentText("Vui lòng nhập đầy đủ thông tin");
             alert.showAndWait();
             return;
         }
@@ -73,9 +73,9 @@ public class AddAuditoriumController {
         try {
             if (hasNullField(auditorium)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Input error");
+                alert.setTitle("Lỗi nhập liệu");
                 alert.setHeaderText(null);
-                alert.setContentText("Please enter complete information");
+                alert.setContentText("Vui lòng nhập đầy đủ thông tin");
                 alert.showAndWait();
                 return;
             }

@@ -155,7 +155,7 @@ public class AddMovieController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            showError("Failed to load genres: " + e.getMessage());
+            showError("Lỗi tải thể loại: " + e.getMessage());
         }
         
         // Load languages
@@ -182,7 +182,7 @@ public class AddMovieController {
                     movieLanguageComboBox.getValue() == null ||
                     movieDirectorField.getText().trim().isEmpty() ||
                     moviePremiereDatePicker.getValue() == null) {
-                showError("Please enter complete information");
+                showError("Vui lòng nhập đầy đủ thông tin");
                 return;
             }
 
@@ -227,13 +227,13 @@ public class AddMovieController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            showError("An error occurred: " + e.getMessage());
+            showError("Đã xảy ra lỗi: " + e.getMessage());
         }
     }
 
     private void showError(String msg) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
+        alert.setTitle("Lỗi");
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();

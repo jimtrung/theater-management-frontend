@@ -92,14 +92,15 @@ public class AuditoriumListController {
     @FXML
     public void handleDeleteAllButton() throws Exception {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete confirmation");
+        alert.setTitle("Xác nhận xóa");
         alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to delete all movie ?");
+        alert.setContentText("Bạn có chắc chắn muốn xóa tất cả phòng chiếu không?");
 
         Optional<ButtonType> result = alert.showAndWait();
-
-        auditoriumService.deleteAllAuditoriums();
-        refreshData();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            auditoriumService.deleteAllAuditoriums();
+            refreshData();
+        }
     }
 
     public void refreshData() {

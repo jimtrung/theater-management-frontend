@@ -77,11 +77,15 @@ public class ShowtimePageController {
                 Platform.runLater(() -> {
                     if (movie != null) {
                         try {
-                           moviePoster.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/movies/" + movie.getId() + ".jpg"))));
+                           moviePoster.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/movies/" + movie.getId() + ".jpg"))));
                         } catch (Exception e) {
                            try {
-                               moviePoster.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cat.jpg"))));
-                           } catch (Exception _) {}
+                               moviePoster.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/movies/not_found.png"))));
+                           } catch (Exception ex) {
+                               try {
+                                   moviePoster.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cat.jpg"))));
+                               } catch (Exception _) {}
+                           }
                         }
                         
                         movieTitle.setText(movie.getName());
@@ -94,8 +98,10 @@ public class ShowtimePageController {
                     }
                     
                     if (showtimes != null) {
+                        java.time.OffsetDateTime now = java.time.OffsetDateTime.now();
                         var filtered = showtimes.stream()
                                 .filter(s -> s.getMovieId().equals(movieId))
+                                .filter(s -> s.getStartTime().isAfter(now)) 
                                 .sorted((s1, s2) -> s1.getStartTime().compareTo(s2.getStartTime())) // Sort by time
                                 .toList();
                                 
@@ -117,8 +123,10 @@ public class ShowtimePageController {
     }
 
     private Button createShowtimeButton(Showtime showtime) {
-        String timeStr = showtime.getStartTime().toLocalTime().toString();
-        String dateStr = showtime.getStartTime().toLocalDate().toString();
+        // Fix: Convert to +7 timezone
+        java.time.OffsetDateTime localTime = showtime.getStartTime().withOffsetSameInstant(java.time.ZoneOffset.ofHours(7));
+        String timeStr = localTime.toLocalTime().toString();
+        String dateStr = localTime.toLocalDate().toString();
         
         Button btn = new Button(dateStr + "\n" + timeStr);
         btn.setStyle("-fx-background-color: #333; -fx-text-fill: white; -fx-padding: 10 20; -fx-font-weight: bold; -fx-alignment: center;");

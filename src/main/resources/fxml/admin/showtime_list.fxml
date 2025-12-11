@@ -28,6 +28,7 @@
         <TableColumn fx:id="finishColumn" text="Giờ kết thúc"/>
         <TableColumn fx:id="dateColumn" text="Ngày chiếu"/>
         <TableColumn fx:id="quantityColumn" text="Số lượng vé"/>
+        <TableColumn fx:id="revenueColumn" text="Doanh thu"/>
       </columns>
     </TableView>
 

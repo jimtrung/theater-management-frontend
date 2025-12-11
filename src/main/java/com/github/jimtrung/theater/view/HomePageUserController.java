@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import java.time.OffsetDateTime;
 
 import java.util.List;
 import java.util.Objects;
@@ -60,7 +61,10 @@ public class HomePageUserController {
         try {
             movies = movieService.getAllMovies();
             List<Showtime> showtimes = showtimeService.getAllShowtimes();
+            
+            java.time.OffsetDateTime now = OffsetDateTime.now();
             Set<UUID> movieIdsWithShowtimes = showtimes.stream()
+                    .filter(s -> s.getStartTime().isAfter(now))
                     .map(Showtime::getMovieId)
                     .collect(Collectors.toSet());
 
@@ -71,9 +75,9 @@ public class HomePageUserController {
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
+            alert.setTitle("Lỗi");
             alert.setHeaderText(null);
-            alert.setContentText("Failed to fetch movies");
+            alert.setContentText("Không thể tải danh sách phim");
             alert.showAndWait();
             return;
         }
@@ -116,11 +120,22 @@ public class HomePageUserController {
     private VBox createMovieCard(Movie movie) {
         VBox card = new VBox(6);
         card.setAlignment(Pos.TOP_CENTER);
+        card.setPrefWidth(250);
+        card.setMaxWidth(250);
         card.getStyleClass().add("movie-card");
 
-        ImageView poster = new ImageView(
-                new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cat.jpg")))
-        );
+        ImageView poster = new ImageView();
+        try {
+            poster.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/movies/" + movie.getId() + ".jpg"))));
+        } catch (Exception e) {
+            try {
+                poster.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/movies/not_found.png"))));
+            } catch (Exception ex) {
+                try {
+                    poster.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cat.jpg"))));
+                } catch (Exception _) {}
+            }
+        }
         poster.setFitWidth(204);
         poster.setFitHeight(230);
         poster.setPreserveRatio(false);
@@ -142,13 +157,13 @@ public class HomePageUserController {
         Label genres = new Label(genresText);
         genres.getStyleClass().add("movie-genre");
 
-        Label rated = new Label("Rated: " + movie.getRated() + "+");
+        Label rated = new Label("Độ tuổi: " + movie.getRated() + "+");
         rated.getStyleClass().add("movie-age");
 
-        Label duration = new Label(movie.getDuration() + " min");
+        Label duration = new Label(movie.getDuration() + " phút");
         duration.getStyleClass().add("movie-duration");
 
-        Label language = new Label("Language: " + (movie.getLanguage() != null ? movie.getLanguage().toVietnamese() : "Unknown"));
+        Label language = new Label("Ngôn ngữ: " + (movie.getLanguage() != null ? movie.getLanguage().toVietnamese() : "Không xác định"));
         language.getStyleClass().add("movie-language");
 
         card.setOnMouseClicked(e -> {

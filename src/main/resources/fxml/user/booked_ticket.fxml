@@ -34,7 +34,7 @@
         </StackPane>
         
         <StackPane>
-          <Text text="Booked Tickets Page - Coming Soon"/>
+          <Text text="Trang vé đã đặt - Sắp ra mắt"/>
         </StackPane>
       </VBox>
     </ScrollPane>

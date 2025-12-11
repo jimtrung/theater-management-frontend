@@ -27,8 +27,6 @@
 
   <HBox spacing="8" styleClass="nav-buttons">
     <Button text="Trang Chủ" styleClass="nav-button" onAction="#handleHomeButton"/>
-    <Button text="Lịch Chiếu" styleClass="nav-button" onAction="#handleShowTimesButton"/>
-    <Button text="Các vé đã đặt" styleClass="nav-button" onAction="#handleBookedTicketButton"/>
     <Button text="Tin Tức" styleClass="nav-button" onAction="#handleNewsButton"/>
     <Button text="Khuyến Mãi" styleClass="nav-button" onAction="#handlePromotionButton"/>
     <Button text="Giá Vé" styleClass="nav-button" onAction="#handlePriceButton"/>

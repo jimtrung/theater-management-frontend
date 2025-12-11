@@ -16,7 +16,7 @@
   <VBox alignment="CENTER" spacing="20">
     <Label text="Thông tin phòng chiếu" styleClass="title"/>
 
-    <VBox prefWidth="400" spacing="10" styleClass="card">
+    <VBox maxWidth="400" spacing="10" styleClass="card" alignment="CENTER">
       <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
 
       <VBox spacing="6">

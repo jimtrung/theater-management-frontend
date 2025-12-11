@@ -52,12 +52,12 @@
             <Label text="Ngày khởi chiếu" styleClass="form-label"/>
             <DatePicker fx:id="moviePremiereDatePicker"/>
           </VBox>
-
-          <VBox HBox.hgrow="ALWAYS">
+        </HBox>
+        
+        <VBox spacing="5">
             <Label text="Ngôn ngữ" styleClass="form-label"/>
             <ComboBox fx:id="movieLanguageComboBox" prefWidth="150" promptText="Chọn ngôn ngữ"/>
-          </VBox>
-        </HBox>
+        </VBox>
         
         <VBox HBox.hgrow="ALWAYS">
           <Label text="Mô tả" styleClass="form-label"/>

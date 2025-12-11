@@ -20,7 +20,7 @@
         <Insets top="80" right="80" bottom="80" left="80"/>
       </padding>
 
-      <Label text="NATIONAL CINEMA CENTER" styleClass="auth-branding"/>
+      <Label text="TRUNG TÂM CHIẾU PHIM QUỐC GIA" styleClass="auth-branding"/>
 
       <Label text="Chào Mừng Trở Lại" styleClass="title"/>
 

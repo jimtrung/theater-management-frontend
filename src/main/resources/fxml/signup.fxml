@@ -20,7 +20,7 @@
         <Insets top="80" right="80" bottom="80" left="80"/>
       </padding>
 
-      <Label text="NATIONAL CINEMA CENTER" styleClass="auth-branding"/>
+      <Label text="TRUNG TÂM CHIẾU PHIM QUỐC GIA" styleClass="auth-branding"/>
 
       <Label text="Tạo Tài Khoản" styleClass="title"/>
 
@@ -64,7 +64,7 @@
       </VBox>
 
       <HBox alignment="CENTER_LEFT" maxWidth="400">
-        <CheckBox fx:id="showPasswordCheckBox" text="Hiển thị mật khẩu"/>
+        <CheckBox fx:id="showPasswordCheckBox" text="Hiển thị mật khẩu" onAction="#TogglePasswordVisibility"/>
       </HBox>
 
       <VBox spacing="12" alignment="CENTER">

@@ -113,9 +113,16 @@ public class SignInController {
             Object response = authService.signIn(user);
             if (response instanceof ErrorResponse errRes) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Sign in error");
+                alert.setTitle("Lỗi đăng nhập");
                 alert.setHeaderText(null);
-                alert.setContentText(errRes.message());
+                String msg = errRes.message();
+                if (msg.contains("Bad credentials") || msg.contains("User not found")) {
+                    alert.setContentText("Tên đăng nhập hoặc mật khẩu không chính xác!");
+                } else if (msg.contains("User account is locked")) {
+                    alert.setContentText("Tài khoản đã bị khóa!");
+                } else {
+                    alert.setContentText("Đăng nhập thất bại: " + msg);
+                }
                 alert.showAndWait();
                 return;
             }
@@ -131,9 +138,9 @@ public class SignInController {
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Sign in error");
+                alert.setTitle("Lỗi đăng nhập");
             alert.setHeaderText(null);
-            alert.setContentText("Failed to sign in");
+            alert.setContentText("Đăng nhập thất bại");
             alert.showAndWait();
             return;
         }

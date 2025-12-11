@@ -24,7 +24,6 @@
         <ColumnConstraints percentWidth="40"/>
       </columnConstraints>
 
-      <!-- LEFT SIDE - Ticket info -->
       <GridPane GridPane.columnIndex="0" hgap="10" vgap="12">
         <rowConstraints>
           <RowConstraints/>
@@ -36,66 +35,60 @@
           <RowConstraints/>
         </rowConstraints>
 
-        <!-- Tên phim -->
         <HBox spacing="10" GridPane.rowIndex="0">
           <Label text="Tên phim:" styleClass="form-label"/>
           <Label fx:id="ticketMovieName"/>
         </HBox>
 
-        <!-- Phòng -->
         <HBox spacing="10" GridPane.rowIndex="1">
           <Label text="Phòng:" styleClass="form-label"/>
           <Label fx:id="ticketAuditoriumName"/>
         </HBox>
 
-        <!-- Giờ bắt đầu -->
         <HBox spacing="10" GridPane.rowIndex="2">
           <Label text="Giờ bắt đầu:" styleClass="form-label"/>
           <Label fx:id="ticketStartTime"/>
         </HBox>
 
-        <!-- Giờ kết thúc -->
         <HBox spacing="10" GridPane.rowIndex="3">
           <Label text="Giờ kết thúc:" styleClass="form-label"/>
           <Label fx:id="ticketEndTime"/>
         </HBox>
 
-        <!-- Ngày chiếu -->
         <HBox spacing="10" GridPane.rowIndex="4">
           <Label text="Ngày chiếu:" styleClass="form-label"/>
           <Label fx:id="ticketShowDate"/>
         </HBox>
 
-        <!-- Ghế -->
         <HBox spacing="10" GridPane.rowIndex="5">
           <Label text="Số ghế:" styleClass="form-label"/>
           <Label fx:id="ticketSeatName"/>
         </HBox>
 
-        <!-- Giá vé -->
         <HBox spacing="10" GridPane.rowIndex="6">
           <Label text="Giá vé:" styleClass="form-label"/>
           <Label fx:id="ticketPrice"/>
         </HBox>
       </GridPane>
 
-      <!-- RIGHT SIDE - QR + Back button -->
       <GridPane GridPane.columnIndex="1" vgap="20">
         <rowConstraints>
           <RowConstraints vgrow="ALWAYS"/>
           <RowConstraints/>
         </rowConstraints>
 
-        <!-- QR CODE -->
         <BorderPane GridPane.rowIndex="0" prefWidth="250" prefHeight="250">
           <center>
-            <ImageView fx:id="ticketQRCode" fitWidth="250" fitHeight="250" preserveRatio="true" pickOnBounds="true"/>
+            <ImageView fx:id="ticketQRCode" fitWidth="250" fitHeight="250" preserveRatio="true" pickOnBounds="true"> 
+              <Image url="@/images/QR.jpg"/>
+            </ImageView>
           </center>
         </BorderPane>
 
-        <!-- Back button -->
-        <Button fx:id="back" GridPane.rowIndex="1" text="Trở lại" prefWidth="120" prefHeight="40" GridPane.halignment="RIGHT"
-                styleClass="button-secondary" onAction="#handleBackButton"/>
+        <HBox spacing="10" GridPane.rowIndex="1" alignment="CENTER_RIGHT">
+            <Button text="Xác nhận thanh toán" prefWidth="200" prefHeight="40" styleClass="button-primary" onAction="#confirmPayment"/>
+            <Button fx:id="back" text="Trở lại" prefWidth="120" prefHeight="40" styleClass="button-secondary" onAction="#handleBackButton"/>
+        </HBox>
       </GridPane>
 
         </GridPane>

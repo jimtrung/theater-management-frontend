@@ -67,16 +67,6 @@ public class UserHeaderController {
     }
 
     @FXML
-    private void handleShowTimesButton() {
-        if (screenController != null) screenController.activate("showtimePage");
-    }
-
-    @FXML
-    private void handleBookedTicketButton() {
-        if (screenController != null) screenController.activate("bookedTicket");
-    }
-
-    @FXML
     private void handleNewsButton() {
         if (screenController != null) screenController.activate("tintuc");
     }

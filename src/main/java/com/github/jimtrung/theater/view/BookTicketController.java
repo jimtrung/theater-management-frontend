@@ -28,6 +28,7 @@ public class BookTicketController {
 
     @FXML private FlowPane seatContainer;
     @FXML private Label selectedSeatsLabel;
+    @FXML private javafx.scene.image.ImageView moviePoster;
     
     @FXML private TextField ticketMovieName;
     @FXML private TextField ticketAuditoriumName;
@@ -157,8 +158,8 @@ public class BookTicketController {
         
         java.util.Map<String, Object> cart = new java.util.HashMap<>();
         cart.put("showtimeId", showtimeId);
-        cart.put("movieName", currentMovie != null ? currentMovie.getName() : "Unknown");
-        cart.put("auditoriumName", currentAuditorium != null ? currentAuditorium.getName() : "Unknown");
+        cart.put("movieName", currentMovie != null ? currentMovie.getName() : "Không xác định");
+        cart.put("auditoriumName", currentAuditorium != null ? currentAuditorium.getName() : "Không xác định");
         cart.put("startTime", currentShowtime != null ? currentShowtime.getStartTime().toLocalTime() : "");
         cart.put("endTime", currentShowtime != null ? currentShowtime.getEndTime().toLocalTime() : "");
         cart.put("date", currentShowtime != null ? currentShowtime.getStartTime().toLocalDate() : "");
@@ -186,8 +187,21 @@ public class BookTicketController {
                     currentMovie = movieService.getMovieById(currentShowtime.getMovieId());
                     currentAuditorium = auditoriumService.getAuditoriumById(currentShowtime.getAuditoriumId());
                     
-                    javafx.application.Platform.runLater(() -> {
-                         if (currentMovie != null) ticketMovieName.setText(currentMovie.getName());
+                     javafx.application.Platform.runLater(() -> {
+                         if (currentMovie != null) {
+                             ticketMovieName.setText(currentMovie.getName());
+                             try {
+                                 moviePoster.setImage(new javafx.scene.image.Image(java.util.Objects.requireNonNull(getClass().getResourceAsStream("/images/movies/" + currentMovie.getId() + ".jpg"))));
+                             } catch (Exception e) {
+                                 try {
+                                     moviePoster.setImage(new javafx.scene.image.Image(java.util.Objects.requireNonNull(getClass().getResourceAsStream("/images/movies/not_found.png"))));
+                                 } catch (Exception ex) {
+                                    try {
+                                        moviePoster.setImage(new javafx.scene.image.Image(java.util.Objects.requireNonNull(getClass().getResourceAsStream("/images/cat.jpg"))));
+                                    } catch (Exception _) {}
+                                 } 
+                             }
+                         }
                          if (currentAuditorium != null) ticketAuditoriumName.setText(currentAuditorium.getName());
                          ticketStartTime.setText(currentShowtime.getStartTime().toLocalTime().toString());
                          ticketEndTime.setText(currentShowtime.getEndTime().toLocalTime().toString());
