@@ -33,9 +33,20 @@
           </VBox>
         </StackPane>
         
-        <StackPane>
-          <Text text="Trang vé đã đặt - Sắp ra mắt"/>
-        </StackPane>
+        <VBox spacing="10" style="-fx-padding: 20;">
+            <Label text="Vé đã đặt (Chưa thanh toán)" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+            
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <CheckBox fx:id="selectAllCheckBox" text="Chọn tất cả" onAction="#handleSelectAll"/>
+            </HBox>
+
+            <FlowPane fx:id="ticketListContainer" hgap="10" vgap="10" prefWrapLength="800"/>
+            
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button text="Xóa vé" onAction="#handleDelete" styleClass="button-danger"/>
+                <Button text="Thanh toán" onAction="#handlePay" styleClass="button-primary"/>
+            </HBox>
+        </VBox>
       </VBox>
     </ScrollPane>
   </center>

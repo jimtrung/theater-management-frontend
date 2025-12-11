@@ -105,6 +105,7 @@ public class Main extends Application {
         bookTicketController.setShowtimeService(showtimeService);
         bookTicketController.setMovieService(movieService);
         bookTicketController.setAuditoriumService(auditoriumService);
+        bookTicketController.setTicketService(ticketService);
 
         // Booked Ticket
         FXMLLoader bookedTicketLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/booked_ticket.fxml")));
@@ -113,6 +114,10 @@ public class Main extends Application {
         bookedTicketController.setScreenController(screenController);
         bookedTicketController.setAuthService(authService);
         bookedTicketController.setAuthTokenUtil(authTokenUtil);
+        bookedTicketController.setTicketService(ticketService);
+        bookedTicketController.setShowtimeService(showtimeService);
+        bookedTicketController.setMovieService(movieService);
+        bookedTicketController.setAuditoriumService(auditoriumService);
 
         // Pay Page
         FXMLLoader payPageLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/pay_page.fxml")));

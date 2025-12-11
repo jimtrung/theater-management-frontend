@@ -19,6 +19,13 @@
         <Button fx:id="closeBtn" text="Đóng" styleClass="button-secondary" onAction="#handleCloseButton"/>
       </HBox>
 
+      <HBox spacing="10" alignment="CENTER_LEFT">
+          <TextField fx:id="searchField" promptText="Tìm kiếm (Tên, Đạo diễn...)" prefWidth="250"/>
+          <DatePicker fx:id="datePicker" promptText="Ngày khởi chiếu"/>
+          <ComboBox fx:id="languageComboBox" promptText="Ngôn ngữ" prefWidth="150"/>
+          <Button text="Xóa bộ lọc" onAction="#handleClearFilters"/>
+      </HBox>
+
       <TableView fx:id="movieTable">
         <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
         <columns>
@@ -34,6 +41,7 @@
       </TableView>
 
       <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button fx:id="deleteFilteredBtn" text="Xóa theo bộ lọc" styleClass="button-warning" onAction="#handleDeleteFilteredButton"/>
         <Button fx:id="deleteAllBtn" text="Xóa Tất Cả" styleClass="button-danger" onAction="#handleDeleteAllButton"/>
         <Button fx:id="addMovieBtn" text="Thêm Phim" styleClass="button-primary" onAction="#handleAddMovieButton"/>
       </HBox>

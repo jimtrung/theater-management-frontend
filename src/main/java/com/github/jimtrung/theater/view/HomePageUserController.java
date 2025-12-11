@@ -55,6 +55,10 @@ public class HomePageUserController {
     public void handleOnOpen() {
         if (userHeaderController != null) userHeaderController.handleOnOpen();
 
+        if (screenController.getContext("selectedMovieId") != null) {
+            screenController.setContext("selectedMovieId", null);
+        }
+
         movieList.getChildren().clear();
 
         List<Movie> movies;

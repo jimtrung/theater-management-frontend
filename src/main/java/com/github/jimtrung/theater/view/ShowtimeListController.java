@@ -50,6 +50,12 @@ public class ShowtimeListController {
     private Map<UUID, Long> soldTicketsMap = new HashMap<>();
     private Map<UUID, Long> revenueMap = new HashMap<>();
 
+    @FXML private TextField searchField;
+    @FXML private DatePicker datePicker;
+    
+    // FilteredList
+    private javafx.collections.transformation.FilteredList<Showtime> filteredData;
+
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
     }
@@ -82,6 +88,11 @@ public class ShowtimeListController {
         }
 
         initializeColumns();
+        
+        // Listeners
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> updateFilter());
+        datePicker.valueProperty().addListener((obs, oldVal, newVal) -> updateFilter());
+
         refreshData();
     }
 
@@ -135,13 +146,82 @@ public class ShowtimeListController {
             revenueMap = stats.stream().collect(Collectors.toMap(ShowtimeRevenueDTO::showtimeId, ShowtimeRevenueDTO::revenue));
 
             showtimeList = FXCollections.observableArrayList(showtimes);
-            showtimeTable.setItems(showtimeList);
+            
+            // Wrap in FilteredList
+            filteredData = new javafx.collections.transformation.FilteredList<>(showtimeList, p -> true);
+            
+            // Wrap in SortedList
+            javafx.collections.transformation.SortedList<Showtime> sortedData = new javafx.collections.transformation.SortedList<>(filteredData);
+            sortedData.comparatorProperty().bind(showtimeTable.comparatorProperty());
+            
+            showtimeTable.setItems(sortedData);
             
             // Force refresh columns
             showtimeTable.refresh();
             
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    
+    private void updateFilter() {
+        filteredData.setPredicate(showtime -> {
+            // 1. Search Text
+            String lowerCaseFilter = searchField.getText() == null ? "" : searchField.getText().toLowerCase();
+            if (!lowerCaseFilter.isEmpty()) {
+                String mName = movieNames.getOrDefault(showtime.getMovieId(), "").toLowerCase();
+                String aName = auditoriumNames.getOrDefault(showtime.getAuditoriumId(), "").toLowerCase();
+                if (!mName.contains(lowerCaseFilter) && !aName.contains(lowerCaseFilter)) {
+                    return false;
+                }
+            }
+            
+            // 2. Date
+            if (datePicker.getValue() != null) {
+                ZoneOffset offset = ZoneOffset.ofHours(7);
+                if (!showtime.getStartTime().withOffsetSameInstant(offset).toLocalDate().isEqual(datePicker.getValue())) {
+                    return false;
+                }
+            }
+            
+            return true;
+        });
+    }
+    
+    @FXML
+    public void handleClearFilters() {
+        searchField.setText("");
+        datePicker.setValue(null);
+    }
+    
+    @FXML
+    public void handleDeleteFilteredButton() {
+        if (filteredData == null || filteredData.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Không có lịch chiếu nào trong danh sách lọc để xóa.");
+            alert.showAndWait();
+            return;
+        }
+
+        try {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Xác nhận xóa");
+            alert.setHeaderText(null);
+            alert.setContentText("Bạn có chắc chắn muốn xóa " + filteredData.size() + " lịch chiếu đang hiển thị không?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                List<Showtime> toDelete = new java.util.ArrayList<>(filteredData);
+                for (Showtime s : toDelete) {
+                    showtimeService.deleteShowtimeById(s.getId());
+                }
+                refreshData();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+             Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setContentText("Lỗi khi xóa: " + e.getMessage());
+            error.showAndWait();
         }
     }
 

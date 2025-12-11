@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
 
+import java.util.Stack;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ public class ScreenController {
     private final Map<String, Parent> screens = new HashMap<>();
     private final Map<String, Object> controllers = new HashMap<>();
     private final StackPane root;
+    private final Stack<String> screenHistory = new Stack<>();
 
     public Object getController(String name) {
         return controllers.get(name);
@@ -29,6 +31,10 @@ public class ScreenController {
     }
 
     public void activate(String name) {
+        if (screenHistory.isEmpty() || !screenHistory.peek().equals(name)) {
+            screenHistory.push(name);
+        }
+        
         Parent screen = screens.get(name);
         if (screen != null) {
             root.getChildren().setAll(screen);
@@ -46,6 +52,14 @@ public class ScreenController {
             }
         } else {
             System.out.println("Screen not found: " + name);
+        }
+    }
+    
+    public void goBack() {
+        if (screenHistory.size() > 1) {
+            screenHistory.pop();
+            String previousScreenName = screenHistory.peek();
+            activate(previousScreenName);
         }
     }
 

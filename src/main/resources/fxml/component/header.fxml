@@ -42,6 +42,7 @@
 
   <HBox spacing="10" fx:id="userInfo" visible="false" managed="false" alignment="CENTER">
     <Label fx:id="usernameLabel" text="Username"/>
+    <Button fx:id="bookedTicketButton" text="Vé đã đặt" styleClass="nav-button" onAction="#handleBookedTicketButton"/>
     <Button fx:id="profileButton" text="Hồ Sơ" styleClass="nav-button" onAction="#handleProfileButton"/>
     <Button fx:id="logoutButton" text="Đăng Xuất" styleClass="nav-button" onAction="#handleLogoutButton"/>
   </HBox>

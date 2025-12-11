@@ -19,6 +19,12 @@
       <Button fx:id="closeBtn" text="Đóng" styleClass="button-secondary" onAction="#handleCloseButton"/>
     </HBox>
 
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField" promptText="Tìm kiếm (Phim, Phòng...)" prefWidth="250"/>
+        <DatePicker fx:id="datePicker" promptText="Ngày chiếu"/>
+        <Button text="Xóa bộ lọc" onAction="#handleClearFilters"/>
+    </HBox>
+
     <TableView fx:id="showtimeTable">
       <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/></columnResizePolicy>
       <columns>
@@ -33,6 +39,7 @@
     </TableView>
 
     <HBox spacing="10" alignment="CENTER_RIGHT">
+      <Button text="Xóa theo bộ lọc" styleClass="button-warning" onAction="#handleDeleteFilteredButton"/>
       <Button text="Xóa Tất Cả" styleClass="button-danger" onAction="#handleDeleteAllButton"/>
       <Button text="Thêm Lịch Chiếu" styleClass="button-primary" onAction="#handleAddShowtimeButton"/>
     </HBox>

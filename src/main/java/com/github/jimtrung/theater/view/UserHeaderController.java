@@ -102,6 +102,11 @@ public class UserHeaderController {
     }
 
     @FXML
+    private void handleBookedTicketButton() {
+        if (screenController != null) screenController.activate("bookedTicket");
+    }
+
+    @FXML
     private void handleLogoutButton() {
         if (authService != null) {
             authService.logout();
