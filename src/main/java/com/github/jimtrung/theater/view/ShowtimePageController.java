@@ -12,6 +12,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import java.time.ZoneOffset;
+import java.time.OffsetDateTime;
+import javafx.scene.Cursor;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -23,9 +26,7 @@ public class ShowtimePageController {
     private MovieService movieService;
     private ShowtimeService showtimeService;
 
-    @FXML
-    private UserHeaderController userHeaderController;
-
+    @FXML private UserHeaderController userHeaderController;
     @FXML private FlowPane showtimeList;
     @FXML private ImageView moviePoster;
     @FXML private Label movieTitle, movieDuration, movieRated, movieGenre, movieDescription, movieDirector, movieActors;
@@ -57,7 +58,6 @@ public class ShowtimePageController {
 
     private void handleLogout() {
         authService.logout();
-
         screenController.activate("home");
     }
 
@@ -98,11 +98,11 @@ public class ShowtimePageController {
                     }
                     
                     if (showtimes != null) {
-                        java.time.OffsetDateTime now = java.time.OffsetDateTime.now();
+                        OffsetDateTime now = OffsetDateTime.now();
                         var filtered = showtimes.stream()
                                 .filter(s -> s.getMovieId().equals(movieId))
                                 .filter(s -> s.getStartTime().isAfter(now)) 
-                                .sorted((s1, s2) -> s1.getStartTime().compareTo(s2.getStartTime())) // Sort by time
+                                .sorted((s1, s2) -> s1.getStartTime().compareTo(s2.getStartTime()))
                                 .toList();
                                 
                         if (filtered.isEmpty()) {
@@ -123,8 +123,7 @@ public class ShowtimePageController {
     }
 
     private Button createShowtimeButton(Showtime showtime) {
-        // Fix: Convert to +7 timezone
-        java.time.OffsetDateTime localTime = showtime.getStartTime().withOffsetSameInstant(java.time.ZoneOffset.ofHours(7));
+        OffsetDateTime localTime = showtime.getStartTime().withOffsetSameInstant(ZoneOffset.ofHours(7));
         String timeStr = localTime.toLocalTime().toString();
         String dateStr = localTime.toLocalDate().toString();
         
@@ -132,11 +131,9 @@ public class ShowtimePageController {
         btn.setStyle("-fx-background-color: #333; -fx-text-fill: white; -fx-padding: 10 20; -fx-font-weight: bold; -fx-alignment: center;");
         btn.setPrefWidth(120);
         btn.setPrefHeight(60);
-        btn.setCursor(javafx.scene.Cursor.HAND);
+        btn.setCursor(Cursor.HAND);
         
         btn.setOnAction(e -> {
-            screenController.setContext("selectedShowtimeId", showtime.getId());
-
             screenController.setContext("selectedShowtimeId", showtime.getId());
             screenController.activate("bookTicket");
         });

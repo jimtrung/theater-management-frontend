@@ -66,18 +66,19 @@ public class BookTicketController {
     private Movie currentMovie;
     private Auditorium currentAuditorium;
 
-
     public void setShowtimeId(UUID showtimeId) {
         this.showtimeId = showtimeId;
     }
 
     public void handleOnOpen() {
-        if (showtimeId == null) {
-             try {
-                showtimeId = (UUID) screenController.getContext("selectedShowtimeId");
-             } catch (Exception e) {
-                 e.printStackTrace();
-             }
+        try {
+            UUID contextId = (UUID) screenController.getContext("selectedShowtimeId");
+            if (contextId != null) {
+                this.showtimeId = contextId;
+                screenController.setContext("selectedShowtimeId", null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         loadSeats();
@@ -107,7 +108,7 @@ public class BookTicketController {
                     try {
                         for (SeatStatusDTO dto : seats) {
                             Button btn = new Button(dto.seat().getRow() + dto.seat().getNumber());
-                            btn.getStyleClass().add("seat-button"); // Base class
+                            btn.getStyleClass().add("seat-button");
 
                             if (dto.isBooked()) {
                                 btn.setDisable(true);
@@ -162,7 +163,6 @@ public class BookTicketController {
             return;
         }
 
-        // Prompt Pay Now or Pay Later
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Xác nhận đặt vé");
         alert.setHeaderText("Bạn muốn thanh toán ngay hay thanh toán sau?");
@@ -183,7 +183,6 @@ public class BookTicketController {
              List<UUID> seatIds = selectedSeats.stream().map(Seat::getId).collect(Collectors.toList());
              BookingRequest req = new BookingRequest(showtimeId, seatIds);
 
-             // Create tickets (PENDING)
              List<Ticket> tickets = ticketService.bookTickets(req);
              
              if (result.get() == buttonPayLater) {

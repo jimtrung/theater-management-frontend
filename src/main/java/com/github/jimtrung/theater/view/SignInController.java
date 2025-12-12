@@ -12,6 +12,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
+import java.util.concurrent.CompletableFuture;
 
 import java.awt.*;
 
@@ -63,10 +64,9 @@ public class SignInController {
         
         usernameField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null || newValue.trim().isEmpty()) {
-                usernameErrorLabel.setText("Vui lòng nhập tên đăng nhập");
-                usernameErrorLabel.setVisible(true);
-            } else {
                 usernameErrorLabel.setVisible(false);
+            } else {
+                validateUsername(newValue);
             }
         });
         
@@ -78,6 +78,25 @@ public class SignInController {
                 passwordErrorLabel.setVisible(false);
             }
         });
+    }
+
+    private void validateUsername(String username) {
+        usernameErrorLabel.setText("Đang kiểm tra...");
+        usernameErrorLabel.setVisible(true);
+        usernameErrorLabel.setStyle("-fx-text-fill: gray;");
+
+        CompletableFuture.supplyAsync(() -> authService.checkUsername(username))
+            .thenAccept(exists -> javafx.application.Platform.runLater(() -> {
+                if (!exists) {
+                    usernameErrorLabel.setText("Tài khoản không tồn tại!");
+                    usernameErrorLabel.setVisible(true);
+                    usernameErrorLabel.setStyle("-fx-text-fill: red;");
+                } else {
+                    usernameErrorLabel.setText("Tài khoản hợp lệ.");
+                    usernameErrorLabel.setVisible(true);
+                    usernameErrorLabel.setStyle("-fx-text-fill: green;");
+                }
+            }));
     }
 
     @FXML

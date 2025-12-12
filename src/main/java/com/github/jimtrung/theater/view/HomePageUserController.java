@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import java.time.OffsetDateTime;
+import javafx.scene.Cursor;
 
 import java.util.List;
 import java.util.Objects;
@@ -66,7 +67,7 @@ public class HomePageUserController {
             movies = movieService.getAllMovies();
             List<Showtime> showtimes = showtimeService.getAllShowtimes();
             
-            java.time.OffsetDateTime now = OffsetDateTime.now();
+            OffsetDateTime now = OffsetDateTime.now();
             Set<UUID> movieIdsWithShowtimes = showtimes.stream()
                     .filter(s -> s.getStartTime().isAfter(now))
                     .map(Showtime::getMovieId)
@@ -174,7 +175,7 @@ public class HomePageUserController {
             screenController.setContext("selectedMovieId", movie.getId());
             screenController.activate("showtimePage");
         });
-        card.setCursor(javafx.scene.Cursor.HAND);
+        card.setCursor(Cursor.HAND);
 
         card.getChildren().addAll(poster, title, genres, rated, duration, language);
         return card;
