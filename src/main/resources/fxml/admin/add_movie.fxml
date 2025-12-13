@@ -21,7 +21,7 @@
     <GridPane alignment="CENTER" hgap="40" vgap="20">
       <columnConstraints>
         <ColumnConstraints prefWidth="350"/>
-        <ColumnConstraints prefWidth="2"/> <!-- Separator or space -->
+        <ColumnConstraints prefWidth="2"/>
         <ColumnConstraints prefWidth="350"/>
       </columnConstraints>
 

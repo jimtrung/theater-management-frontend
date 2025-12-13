@@ -6,7 +6,7 @@ import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.service.TicketService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import com.github.jimtrung.theater.util.AlertHelper;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
@@ -85,26 +85,21 @@ public class PayPageController {
                      }
                      
                      Platform.runLater(() -> {
-                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                         alert.setContentText("Thanh toán thành công! Vé đã được gửi đến email của bạn.");
-                         alert.showAndWait();
+                         AlertHelper.showInfo("Thông báo", "Thanh toán thành công! Vé đã được gửi đến email của bạn.");
                          screenController.activate("home");
                      });
                  } catch (Exception e) {
                      e.printStackTrace();
                      Platform.runLater(() -> {
-                         Alert alert = new Alert(Alert.AlertType.ERROR);
-                         alert.setContentText("Lỗi: " + e.getMessage());
-                         alert.showAndWait();
+                         AlertHelper.showError("Lỗi", "Lỗi: " + e.getMessage());
                      });
                  }
              });
 
         } catch (Exception e) {
              e.printStackTrace();
-             Alert alert = new Alert(Alert.AlertType.ERROR);
-             alert.setContentText("Lỗi: " + e.getMessage());
-             alert.showAndWait();
+             e.printStackTrace();
+             AlertHelper.showError("Lỗi", "Lỗi: " + e.getMessage());
         }
     }
 

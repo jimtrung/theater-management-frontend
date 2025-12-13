@@ -63,7 +63,7 @@
 }
 
 .root-gradient {
-  -fx-background-color: linear-gradient(to bottom right, #0F1419, #1A1F2E);
+  -fx-background-color: -color-primary-bg;
 }
 
 .card-modern {

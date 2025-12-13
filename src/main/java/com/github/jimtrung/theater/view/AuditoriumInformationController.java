@@ -15,21 +15,14 @@ public class AuditoriumInformationController {
     private ScreenController screenController;
     private AuthService authService;
     private AuditoriumService auditoriumService;
-    private AuditoriumListController auditoriumListController;
     private UUID uuid;
     private Auditorium currentAuditorium;
-
-    public void setAuditoriumListController(AuditoriumListController auditoriumListController) {
-        this.auditoriumListController = auditoriumListController;
-    }
 
     public void setAuditoriumService(AuditoriumService auditoriumService) {
         this.auditoriumService = auditoriumService;
     }
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
+
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
@@ -39,9 +32,17 @@ public class AuditoriumInformationController {
         this.authService = authService;
     }
 
+    @FXML private TextField auditoriumNameField;
+    @FXML private TextField auditoriumTypeField;
+    @FXML private TextField auditoriumCapacityField;
+    @FXML private TextArea auditoriumNoteField;
+
     @FXML
     public void handleBackButton() {
-        auditoriumListController.getAuditoriumTable().getSelectionModel().clearSelection();
+        AuditoriumListController listController = (AuditoriumListController) screenController.getController("auditoriumList");
+        if (listController != null) {
+            listController.getAuditoriumTable().getSelectionModel().clearSelection();
+        }
         screenController.removeScreen("auditoriumInformation");
         screenController.activate("auditoriumList");
     }
@@ -66,8 +67,11 @@ public class AuditoriumInformationController {
 
             auditoriumService.updateAuditorium(uuid, currentAuditorium);
 
-            Auditorium auditorium = auditoriumService.getAuditoriumById(uuid);
-            auditoriumListController.updateAuditorium(auditorium);
+            Auditorium auditorioum = auditoriumService.getAuditoriumById(uuid);
+            AuditoriumListController listController = (AuditoriumListController) screenController.getController("auditoriumList");
+            if (listController != null) {
+                listController.updateAuditorium(auditorioum);
+            }
 
             screenController.activate("auditoriumList");
 
@@ -79,7 +83,10 @@ public class AuditoriumInformationController {
     @FXML
     public void handleDeleteButton () throws Exception {
         auditoriumService.deleteAuditoriumById(uuid);
-        auditoriumListController.refreshData();
+        AuditoriumListController listController = (AuditoriumListController) screenController.getController("auditoriumList");
+        if (listController != null) {
+            listController.refreshData();
+        }
         screenController.activate("auditoriumList");
     }
 
@@ -95,6 +102,7 @@ public class AuditoriumInformationController {
             return;
         }
 
+        this.uuid = (UUID) screenController.getContext("selectedAuditoriumId");
         currentAuditorium = auditoriumService.getAuditoriumById(uuid);
 
         auditoriumNameField.setText(currentAuditorium.getName());
@@ -102,18 +110,6 @@ public class AuditoriumInformationController {
         auditoriumCapacityField.setText(String.valueOf(currentAuditorium.getCapacity()));
         auditoriumNoteField.setText(currentAuditorium.getNote());
     }
-
-    @FXML
-    private TextField auditoriumNameField;
-
-    @FXML
-    private TextField auditoriumTypeField;
-
-    @FXML
-    private TextField auditoriumCapacityField;
-
-    @FXML
-    private TextArea auditoriumNoteField;
 }
 
 

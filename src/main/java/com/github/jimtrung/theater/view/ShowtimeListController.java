@@ -12,10 +12,9 @@ import com.github.jimtrung.theater.model.UserRole;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -33,28 +32,6 @@ public class ShowtimeListController {
     private ShowtimeService showtimeService;
     private MovieService movieService;
     private AuditoriumService auditoriumService;
-
-    private ObservableList<Showtime> showtimeList;
-    private Map<UUID, String> movieNames = new HashMap<>();
-    private Map<UUID, String> auditoriumNames = new HashMap<>();
-
-    @FXML private TableView<Showtime> showtimeTable;
-    @FXML private TableColumn<Showtime, String> movieColumn;
-    @FXML private TableColumn<Showtime, String> auditoriumColumn;
-    @FXML private TableColumn<Showtime, String> startColumn;
-    @FXML private TableColumn<Showtime, String> finishColumn;
-    @FXML private TableColumn<Showtime, String> dateColumn;
-    @FXML private TableColumn<Showtime, Integer> quantityColumn;
-    @FXML private TableColumn<Showtime, String> revenueColumn;
-
-    private Map<UUID, Long> soldTicketsMap = new HashMap<>();
-    private Map<UUID, Long> revenueMap = new HashMap<>();
-
-    @FXML private TextField searchField;
-    @FXML private DatePicker datePicker;
-    
-    // FilteredList
-    private javafx.collections.transformation.FilteredList<Showtime> filteredData;
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
@@ -76,6 +53,21 @@ public class ShowtimeListController {
         this.auditoriumService = auditoriumService;
     }
 
+    @FXML private TableView<Showtime> showtimeTable;
+    @FXML private TableColumn<Showtime, String> movieColumn;
+    @FXML private TableColumn<Showtime, String> auditoriumColumn;
+    @FXML private TableColumn<Showtime, String> startColumn;
+    @FXML private TableColumn<Showtime, String> finishColumn;
+    @FXML private TableColumn<Showtime, String> dateColumn;
+    @FXML private TableColumn<Showtime, Integer> quantityColumn;
+    @FXML private TableColumn<Showtime, String> revenueColumn;
+
+    private Map<UUID, Long> soldTicketsMap = new HashMap<>();
+    private Map<UUID, Long> revenueMap = new HashMap<>();
+    private ObservableList<Showtime> showtimeList;
+    private Map<UUID, String> movieNames = new HashMap<>();
+    private Map<UUID, String> auditoriumNames = new HashMap<>();
+
     public void handleOnOpen() {
         User user = null;
         try {
@@ -89,10 +81,6 @@ public class ShowtimeListController {
 
         initializeColumns();
         
-        // Listeners
-        searchField.textProperty().addListener((obs, oldVal, newVal) -> updateFilter());
-        datePicker.valueProperty().addListener((obs, oldVal, newVal) -> updateFilter());
-
         refreshData();
     }
 
@@ -147,81 +135,16 @@ public class ShowtimeListController {
 
             showtimeList = FXCollections.observableArrayList(showtimes);
             
-            // Wrap in FilteredList
-            filteredData = new javafx.collections.transformation.FilteredList<>(showtimeList, p -> true);
-            
             // Wrap in SortedList
-            javafx.collections.transformation.SortedList<Showtime> sortedData = new javafx.collections.transformation.SortedList<>(filteredData);
+            javafx.collections.transformation.SortedList<Showtime> sortedData = new javafx.collections.transformation.SortedList<>(showtimeList);
             sortedData.comparatorProperty().bind(showtimeTable.comparatorProperty());
             
             showtimeTable.setItems(sortedData);
             
-            // Force refresh columns
             showtimeTable.refresh();
             
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-    
-    private void updateFilter() {
-        filteredData.setPredicate(showtime -> {
-            // 1. Search Text
-            String lowerCaseFilter = searchField.getText() == null ? "" : searchField.getText().toLowerCase();
-            if (!lowerCaseFilter.isEmpty()) {
-                String mName = movieNames.getOrDefault(showtime.getMovieId(), "").toLowerCase();
-                String aName = auditoriumNames.getOrDefault(showtime.getAuditoriumId(), "").toLowerCase();
-                if (!mName.contains(lowerCaseFilter) && !aName.contains(lowerCaseFilter)) {
-                    return false;
-                }
-            }
-            
-            // 2. Date
-            if (datePicker.getValue() != null) {
-                ZoneOffset offset = ZoneOffset.ofHours(7);
-                if (!showtime.getStartTime().withOffsetSameInstant(offset).toLocalDate().isEqual(datePicker.getValue())) {
-                    return false;
-                }
-            }
-            
-            return true;
-        });
-    }
-    
-    @FXML
-    public void handleClearFilters() {
-        searchField.setText("");
-        datePicker.setValue(null);
-    }
-    
-    @FXML
-    public void handleDeleteFilteredButton() {
-        if (filteredData == null || filteredData.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Không có lịch chiếu nào trong danh sách lọc để xóa.");
-            alert.showAndWait();
-            return;
-        }
-
-        try {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Xác nhận xóa");
-            alert.setHeaderText(null);
-            alert.setContentText("Bạn có chắc chắn muốn xóa " + filteredData.size() + " lịch chiếu đang hiển thị không?");
-
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                List<Showtime> toDelete = new java.util.ArrayList<>(filteredData);
-                for (Showtime s : toDelete) {
-                    showtimeService.deleteShowtimeById(s.getId());
-                }
-                refreshData();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-             Alert error = new Alert(Alert.AlertType.ERROR);
-            error.setContentText("Lỗi khi xóa: " + e.getMessage());
-            error.showAndWait();
         }
     }
 
@@ -237,12 +160,8 @@ public class ShowtimeListController {
 
     @FXML
     public void handleClickItem(UUID id) {
-        ShowtimeInformationController controller = (ShowtimeInformationController) screenController.getController("showtimeInformation");
-        if (controller != null) {
-            controller.setUuid(id);
-            controller.setShowtimeListController(this);
-            screenController.activate("showtimeInformation");
-        }
+        screenController.setContext("selectedShowtimeId", id);
+        screenController.activate("showtimeInformation");
     }
     
     @FXML

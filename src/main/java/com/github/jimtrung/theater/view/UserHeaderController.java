@@ -8,22 +8,6 @@ import com.github.jimtrung.theater.model.User;
 import com.github.jimtrung.theater.service.AuthService;
 
 public class UserHeaderController {
-
-    @FXML
-    private HBox authButtons;
-
-    @FXML
-    private HBox userInfo;
-
-    @FXML
-    private Label usernameLabel;
-
-    @FXML
-    private Button profileButton;
-
-    @FXML
-    private Button logoutButton;
-
     private ScreenController screenController;
     private AuthService authService;
 
@@ -34,6 +18,12 @@ public class UserHeaderController {
     public void setAuthService(AuthService authService) {
         this.authService = authService;
     }
+
+    @FXML private HBox authButtons;
+    @FXML private HBox userInfo;
+    @FXML private Label usernameLabel;
+    @FXML private Button profileButton;
+    @FXML private Button logoutButton;
 
     public void handleOnOpen() {
         checkAuthStatus();
@@ -108,9 +98,7 @@ public class UserHeaderController {
 
     @FXML
     private void handleLogoutButton() {
-        if (authService != null) {
-            authService.logout();
-        }
+        authService.logout();
         checkAuthStatus();
         if (screenController != null) screenController.activate("home");
     }

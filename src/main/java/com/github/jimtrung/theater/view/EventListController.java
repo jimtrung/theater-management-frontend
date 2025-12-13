@@ -3,6 +3,7 @@ package com.github.jimtrung.theater.view;
 import com.github.jimtrung.theater.service.AuthService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
 
 public class EventListController {
     private ScreenController screenController;
@@ -12,7 +13,7 @@ public class EventListController {
     private UserHeaderController userHeaderController;
 
     @FXML
-    private javafx.scene.layout.FlowPane eventFlowPane;
+    private FlowPane eventFlowPane;
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;

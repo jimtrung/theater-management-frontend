@@ -19,20 +19,8 @@ import java.util.UUID;
 
 
 public class MovieInformationController {
-
     private ScreenController screenController;
     private MovieService movieService;
-    private MovieListController movieListController;
-    private UUID uuid;
-    private Movie currentMovie;
-
-    public void setMovieListController(MovieListController movieListController) {
-        this.movieListController = movieListController;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
@@ -42,66 +30,30 @@ public class MovieInformationController {
         this.movieService = movieService;
     }
 
+    @FXML private TextField movieNameField;
+    @FXML private TextArea movieDescriptionField;
+    @FXML private TextField movieDirectorField;
+    @FXML private FlowPane actorsFlowPane;
+    @FXML private TextField actorInputField;
+    @FXML private TextField searchGenreField;
+    @FXML private ListView<MovieGenre> genreListView;
+    @FXML private DatePicker moviePremiereDatePicker;
+    @FXML private Spinner<Integer> movieDurationSpinner;
+    @FXML private ComboBox<MovieLanguage> movieLanguageComboBox;
+    @FXML private Spinner<Integer> movieRatedSpinner;
+
+    private final ObservableList<String> actorsList = FXCollections.observableArrayList();
+    private UUID uuid;
+    private Movie currentMovie;
+
     @FXML
     public void handleBackButton() {
         screenController.activate("movieList");
     }
 
     @FXML
-    public void handleEditButton() {
-        try {
-            if (currentMovie == null) {
-                currentMovie = new Movie();
-                currentMovie.setId(uuid);
-            }
-            
-            currentMovie.setName(movieNameField.getText().trim());
-            currentMovie.setDescription(movieDescriptionField.getText().trim());
-            currentMovie.setLanguage(movieLanguageComboBox.getValue());
-            currentMovie.setDirector(movieDirectorField.getText().trim());
-            
-            currentMovie.setDuration(movieDurationSpinner.getValue());
-            currentMovie.setRated(movieRatedSpinner.getValue());
-
-            // Parse premiere date
-            if (moviePremiereDatePicker.getValue() != null) {
-                currentMovie.setPremiere(moviePremiereDatePicker.getValue().atStartOfDay().atOffset(java.time.ZoneOffset.UTC));
-            } else {
-                currentMovie.setPremiere(null);
-            }
-
-            // Genres
-            List<String> selectedGenres = genreListView.getSelectionModel()
-                    .getSelectedItems()
-                    .stream()
-                    .map(Enum::name)
-                    .toList();
-            currentMovie.setGenres(selectedGenres);
-            
-            currentMovie.setActors(List.copyOf(actorsList));
-
-            movieService.updateMovie(uuid, currentMovie);
-
-            Movie movie = movieService.getMovieById(uuid);
-            movieListController.updateMovie(movie);
-
-            screenController.activate("movieList");
-
-        } catch (Exception e) {
-            System.out.println("Failed to update movie: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    public void handleDeleteButton() throws Exception {
-        movieService.deleteMovieById(uuid);
-        movieListController.refreshData();
-        screenController.activate("movieList");
-    }
-
-    @FXML
     public void handleOnOpen() throws Exception {
+        this.uuid = (UUID) screenController.getContext("selectedMovieId");
         this.currentMovie = movieService.getMovieById(uuid);
 
         movieNameField.setText(currentMovie.getName());
@@ -201,6 +153,63 @@ public class MovieInformationController {
         });
     }
 
+    @FXML
+    public void handleEditButton() {
+        try {
+            if (currentMovie == null) {
+                currentMovie = new Movie();
+                currentMovie.setId(uuid);
+            }
+            
+            currentMovie.setName(movieNameField.getText().trim());
+            currentMovie.setDescription(movieDescriptionField.getText().trim());
+            currentMovie.setLanguage(movieLanguageComboBox.getValue());
+            currentMovie.setDirector(movieDirectorField.getText().trim());
+            
+            currentMovie.setDuration(movieDurationSpinner.getValue());
+            currentMovie.setRated(movieRatedSpinner.getValue());
+
+            // Parse premiere date
+            if (moviePremiereDatePicker.getValue() != null) {
+                currentMovie.setPremiere(moviePremiereDatePicker.getValue().atStartOfDay().atOffset(java.time.ZoneOffset.UTC));
+            } else {
+                currentMovie.setPremiere(null);
+            }
+
+            // Genres
+            List<String> selectedGenres = genreListView.getSelectionModel()
+                    .getSelectedItems()
+                    .stream()
+                    .map(Enum::name)
+                    .toList();
+            currentMovie.setGenres(selectedGenres);
+            
+            currentMovie.setActors(List.copyOf(actorsList));
+
+            movieService.updateMovie(uuid, currentMovie);
+
+            MovieListController listController = (MovieListController) screenController.getController("movieList");
+            if (listController != null) {
+                listController.updateMovie(movieService.getMovieById(uuid));
+            }
+
+            screenController.activate("movieList");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void handleDeleteButton() throws Exception {
+        movieService.deleteMovieById(uuid);
+        MovieListController listController = (MovieListController) screenController.getController("movieList");
+        if (listController != null) {
+            listController.refreshData();
+        }
+        screenController.activate("movieList");
+    }
+
     private void addActorTag(String name) {
         actorsList.add(name);
 
@@ -223,20 +232,4 @@ public class MovieInformationController {
         tag.getChildren().addAll(label, closeBtn);
         actorsFlowPane.getChildren().add(tag);
     }
-
-    @FXML private TextField movieNameField;
-    @FXML private TextArea movieDescriptionField;
-    @FXML private TextField movieDirectorField;
-    
-    @FXML private FlowPane actorsFlowPane;
-    @FXML private TextField actorInputField;
-    private final ObservableList<String> actorsList = FXCollections.observableArrayList();
-
-    @FXML private TextField searchGenreField;
-    @FXML private ListView<MovieGenre> genreListView;
-
-    @FXML private DatePicker moviePremiereDatePicker;
-    @FXML private Spinner<Integer> movieDurationSpinner;
-    @FXML private ComboBox<MovieLanguage> movieLanguageComboBox;
-    @FXML private Spinner<Integer> movieRatedSpinner;
 }

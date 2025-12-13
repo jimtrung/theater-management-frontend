@@ -2,11 +2,8 @@ package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.model.Showtime;
 import com.github.jimtrung.theater.service.*;
-import com.github.jimtrung.theater.util.AuthTokenUtil;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
@@ -26,12 +23,6 @@ public class ShowtimePageController {
     private MovieService movieService;
     private ShowtimeService showtimeService;
 
-    @FXML private UserHeaderController userHeaderController;
-    @FXML private FlowPane showtimeList;
-    @FXML private ImageView moviePoster;
-    @FXML private Label movieTitle, movieDuration, movieRated, movieGenre, movieDescription, movieDirector, movieActors;
-
-
     public void setScreenController(ScreenController controller) {
         this.screenController = controller;
         if (userHeaderController != null) userHeaderController.setScreenController(controller);
@@ -49,6 +40,11 @@ public class ShowtimePageController {
     public void setShowtimeService(ShowtimeService service) {
         this.showtimeService = service;
     }
+
+    @FXML private UserHeaderController userHeaderController;
+    @FXML private FlowPane showtimeList;
+    @FXML private ImageView moviePoster;
+    @FXML private Label movieTitle, movieDuration, movieRated, movieGenre, movieDescription, movieDirector, movieActors;
 
     public void handleOnOpen() {
         if (userHeaderController != null) userHeaderController.handleOnOpen();

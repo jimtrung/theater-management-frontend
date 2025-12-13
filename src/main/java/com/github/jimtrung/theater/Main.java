@@ -59,7 +59,7 @@ public class Main extends Application {
         profileController.setScreenController(screenController);
         profileController.setAuthService(authService);
 
-        // HomePageManager
+        // Admin - HomePageManager
         FXMLLoader homePageManagerLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/admin/home_page_manager.fxml")));
         screenController.addScreen("homePageManager", homePageManagerLoader);
         HomePageManagerController homePageManagerController = homePageManagerLoader.getController();
@@ -101,7 +101,6 @@ public class Main extends Application {
         screenController.addScreen("bookTicket", bookTicketLoader);
         BookTicketController bookTicketController = bookTicketLoader.getController();
         bookTicketController.setScreenController(screenController);
-        bookTicketController.setAuthService(authService);
         bookTicketController.setShowtimeService(showtimeService);
         bookTicketController.setMovieService(movieService);
         bookTicketController.setAuditoriumService(auditoriumService);
@@ -112,8 +111,6 @@ public class Main extends Application {
         screenController.addScreen("bookedTicket", bookedTicketLoader);
         BookedTicketController bookedTicketController = bookedTicketLoader.getController();
         bookedTicketController.setScreenController(screenController);
-        bookedTicketController.setAuthService(authService);
-        bookedTicketController.setAuthTokenUtil(authTokenUtil);
         bookedTicketController.setTicketService(ticketService);
         bookedTicketController.setShowtimeService(showtimeService);
         bookedTicketController.setMovieService(movieService);
@@ -218,11 +215,6 @@ public class Main extends Application {
         stage.setTitle("National Cinema Center");
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
         stage.setScene(scene);
-
-        // Late bindings
-        addMovieController.setMovieListController(movieListController);
-        addAuditoriumController.setAuditoriumListController(auditoriumListController);
-        addShowtimeController.setShowtimeListController(showtimeListController);
 
         stage.show();
     }

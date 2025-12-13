@@ -8,7 +8,7 @@ import com.github.jimtrung.theater.service.ShowtimeService;
 import com.github.jimtrung.theater.model.MovieGenre;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
+import com.github.jimtrung.theater.util.AlertHelper;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,6 +32,8 @@ public class HomePageUserController {
     private MovieService movieService;
     private ShowtimeService showtimeService;
 
+    @FXML private FlowPane movieList;
+
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
         if (userHeaderController != null) userHeaderController.setScreenController(screenController);
@@ -50,8 +52,6 @@ public class HomePageUserController {
         this.showtimeService = showtimeService;
     }
 
-    @FXML
-    private FlowPane movieList;
 
     public void handleOnOpen() {
         if (userHeaderController != null) userHeaderController.handleOnOpen();
@@ -79,11 +79,7 @@ public class HomePageUserController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Lỗi");
-            alert.setHeaderText(null);
-            alert.setContentText("Không thể tải danh sách phim");
-            alert.showAndWait();
+            AlertHelper.showError("Lỗi", "Không thể tải danh sách phim");
             return;
         }
 
@@ -113,7 +109,6 @@ public class HomePageUserController {
     @FXML
     public void handleLogOutButton() {
         authService.logout();
-
         screenController.activate("home");
     }
 

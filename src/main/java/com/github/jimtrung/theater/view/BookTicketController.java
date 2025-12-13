@@ -8,13 +8,13 @@ import com.github.jimtrung.theater.model.Seat;
 import com.github.jimtrung.theater.model.Showtime;
 import com.github.jimtrung.theater.model.Ticket;
 import com.github.jimtrung.theater.service.AuditoriumService;
-import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.service.MovieService;
 import com.github.jimtrung.theater.service.ShowtimeService;
 import com.github.jimtrung.theater.service.TicketService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import com.github.jimtrung.theater.util.AlertHelper;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -25,15 +25,24 @@ import java.util.stream.Collectors;
 
 public class BookTicketController {
     private ScreenController screenController;
-    private AuthService authService;
     private ShowtimeService showtimeService;
-    private UUID showtimeId;
-    private Set<Seat> selectedSeats = new HashSet<>();
+    private MovieService movieService;
+    private AuditoriumService auditoriumService;
+    private TicketService ticketService;
+
+    public void setScreenController(ScreenController screenController) {
+        this.screenController = screenController;
+    }
+    public void setShowtimeService(ShowtimeService showtimeService) {
+        this.showtimeService = showtimeService;
+    }
+    public void setMovieService(MovieService s) { this.movieService = s; }
+    public void setAuditoriumService(AuditoriumService s) { this.auditoriumService = s; }
+    public void setTicketService(TicketService s) { this.ticketService = s; }
 
     @FXML private FlowPane seatContainer;
     @FXML private Label selectedSeatsLabel;
     @FXML private ImageView moviePoster;
-    
     @FXML private TextField ticketMovieName;
     @FXML private TextField ticketAuditoriumName;
     @FXML private TextField ticketDate;
@@ -41,34 +50,11 @@ public class BookTicketController {
     @FXML private TextField ticketEndTime;
     @FXML private TextField ticketPrice;
 
-
-    public void setScreenController(ScreenController screenController) {
-        this.screenController = screenController;
-    }
-
-    public void setAuthService(AuthService authService) {
-        this.authService = authService;
-    }
-
-    public void setShowtimeService(ShowtimeService showtimeService) {
-        this.showtimeService = showtimeService;
-    }
-    
-    private MovieService movieService;
-    private AuditoriumService auditoriumService;
-    private TicketService ticketService;
-    
-    public void setMovieService(MovieService s) { this.movieService = s; }
-    public void setAuditoriumService(AuditoriumService s) { this.auditoriumService = s; }
-    public void setTicketService(TicketService s) { this.ticketService = s; }
-
+    private final Set<Seat> selectedSeats = new HashSet<>();
+    private UUID showtimeId;
     private Showtime currentShowtime;
     private Movie currentMovie;
     private Auditorium currentAuditorium;
-
-    public void setShowtimeId(UUID showtimeId) {
-        this.showtimeId = showtimeId;
-    }
 
     public void handleOnOpen() {
         try {
@@ -157,10 +143,10 @@ public class BookTicketController {
     @FXML
     private void handleBookTicket() {
         if (selectedSeats.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Vui lòng chọn ghế!");
-            alert.showAndWait();
+        if (selectedSeats.isEmpty()) {
+            AlertHelper.showWarning("Cảnh báo", "Vui lòng chọn ghế!");
             return;
+        }
         }
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -186,9 +172,7 @@ public class BookTicketController {
              List<Ticket> tickets = ticketService.bookTickets(req);
              
              if (result.get() == buttonPayLater) {
-                 Alert success = new Alert(Alert.AlertType.INFORMATION);
-                 success.setContentText("Đặt vé thành công! Vé đã được lưu vào 'Vé đã đặt'.");
-                 success.showAndWait();
+                 AlertHelper.showInfo("Thông báo", "Đặt vé thành công! Vé đã được lưu vào 'Vé đã đặt'.");
                  screenController.activate("bookedTicket");
              } else {
                  // Pay Now
@@ -216,9 +200,7 @@ public class BookTicketController {
 
         } catch (Exception e) {
              e.printStackTrace();
-             Alert error = new Alert(Alert.AlertType.ERROR);
-             error.setContentText("Đặt vé thất bại: " + e.getMessage());
-             error.showAndWait();
+             AlertHelper.showError("Lỗi", "Đặt vé thất bại: " + e.getMessage());
         }
     }
 

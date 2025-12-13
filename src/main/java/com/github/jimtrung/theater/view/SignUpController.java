@@ -5,7 +5,7 @@ import com.github.jimtrung.theater.model.User;
 import com.github.jimtrung.theater.model.UserRole;
 import com.github.jimtrung.theater.service.AuthService;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import com.github.jimtrung.theater.util.AlertHelper;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
@@ -23,46 +23,26 @@ public class SignUpController {
         this.authService = authService;
     }
 
-    @FXML
-    private TextField usernameField;
+    @FXML private TextField usernameField;
+    @FXML private TextField emailField;
+    @FXML private PasswordField passwordField;
+    @FXML private TextField visiblePasswordField;
+    @FXML private CheckBox showPasswordCheckBox;
+    @FXML private PasswordField confirmPasswordField;
+    @FXML private TextField visibleConfirmPasswordField;
+    @FXML private CheckBox showConfirmPasswordCheckBox;
+    @FXML private Label usernameErrorLabel;
+    @FXML private Label emailErrorLabel;
+    @FXML private Label passwordErrorLabel;
 
-    @FXML
-    private TextField emailField;
-
-    @FXML
-    private PasswordField passwordField;
-
-    @FXML
-    private TextField visiblePasswordField;
-
-    @FXML
-    private CheckBox showPasswordCheckBox;
-    
-    @FXML
-    private PasswordField confirmPasswordField;
-
-    @FXML
-    private TextField visibleConfirmPasswordField;
-
-    @FXML
-    private CheckBox showConfirmPasswordCheckBox;
-
-    @FXML
-    private Label usernameErrorLabel;
-
-    @FXML
-    private Label emailErrorLabel;
-
-    @FXML
-    private Label passwordErrorLabel;
+    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@gmail\\.com$";
+    private static final String PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
 
     @FXML
     public void handleBackButton() {
         screenController.activate("home");
     }
 
-    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@gmail\\.com$";
-    private static final String PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
 
     public void handleOnOpen() {
         User user = null;
@@ -173,20 +153,12 @@ public class SignUpController {
             response = authService.signUp(user);
 
             if (response instanceof ErrorResponse errRes) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Lỗi đăng ký");
-                alert.setHeaderText(null);
-                alert.setContentText(errRes.message());
-                alert.showAndWait();
+                AlertHelper.showError("Lỗi đăng ký", errRes.message());
                 return;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Lỗi đăng ký");
-            alert.setHeaderText(null);
-            alert.setContentText("Đăng ký thất bại\n");
-            alert.showAndWait();
+            AlertHelper.showError("Lỗi đăng ký", "Đăng ký thất bại\n");
             return;
         }
 
