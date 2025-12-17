@@ -14,19 +14,7 @@ import java.util.List;
 import com.github.jimtrung.theater.service.AuthService;
 
 public class TinTucController {
-
     private ScreenController screenController;
-
-    @FXML
-    private FlowPane newsGrid;
-
-    @FXML
-    private UserHeaderController userHeaderController;
-
-    private final int ITEMS_PER_PAGE = 8;
-    private int currentPage = 0;
-
-    private final List<Object[]> newsList = new ArrayList<>();
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
@@ -37,11 +25,18 @@ public class TinTucController {
         if (userHeaderController != null) userHeaderController.setAuthService(authService);
     }
 
+    @FXML private FlowPane newsGrid;
+    @FXML private UserHeaderController userHeaderController;
+
+    private final int ITEMS_PER_PAGE = 8;
+    private int currentPage = 0;
+
+    private final List<Object[]> newsList = new ArrayList<>();
+
     public void handleOnOpen() {
         if (userHeaderController != null) userHeaderController.handleOnOpen();
 
         loadData();
-
         showPage(currentPage);
     }
 

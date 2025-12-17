@@ -128,7 +128,7 @@ public class ShowtimeService {
 
         client.send(request, HttpResponse.BodyHandlers.ofString());
     }
-    public List<com.github.jimtrung.theater.dto.SeatStatusDTO> getSeatsWithStatus(UUID showtimeId) throws Exception {
+    public List<SeatStatusDTO> getSeatsWithStatus(UUID showtimeId) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/showtimes/" + showtimeId + "/seats"))
                 .header("Content-Type", "application/json")

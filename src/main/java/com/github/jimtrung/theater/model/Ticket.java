@@ -11,8 +11,10 @@ public class Ticket {
   private Integer price;
   private OffsetDateTime createdAt;
   private OffsetDateTime updatedAt;
+  private String status;
 
-  public Ticket(UUID id, UUID userId, UUID showtimeId, UUID seatId, Integer price, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
+  public Ticket() {}
+  public Ticket(UUID id, UUID userId, UUID showtimeId, UUID seatId, Integer price, OffsetDateTime createdAt, OffsetDateTime updatedAt, String status) {
     this.id = id;
     this.userId = userId;
     this.showtimeId = showtimeId;
@@ -20,6 +22,7 @@ public class Ticket {
     this.price = price;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+    this.status = status;
   }
 
   public UUID getId() { return id; }
@@ -42,4 +45,7 @@ public class Ticket {
 
   public OffsetDateTime getUpdatedAt() { return updatedAt; }
   public void setUpdatedAt(OffsetDateTime updatedAt) { this.updatedAt = updatedAt; }
+
+  public String getStatus() { return status; }
+  public void setStatus(String status) { this.status = status; }
 }

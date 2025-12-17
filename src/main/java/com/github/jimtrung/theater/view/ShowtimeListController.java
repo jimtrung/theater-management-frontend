@@ -12,10 +12,9 @@ import com.github.jimtrung.theater.model.UserRole;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -33,22 +32,6 @@ public class ShowtimeListController {
     private ShowtimeService showtimeService;
     private MovieService movieService;
     private AuditoriumService auditoriumService;
-
-    private ObservableList<Showtime> showtimeList;
-    private Map<UUID, String> movieNames = new HashMap<>();
-    private Map<UUID, String> auditoriumNames = new HashMap<>();
-
-    @FXML private TableView<Showtime> showtimeTable;
-    @FXML private TableColumn<Showtime, String> movieColumn;
-    @FXML private TableColumn<Showtime, String> auditoriumColumn;
-    @FXML private TableColumn<Showtime, String> startColumn;
-    @FXML private TableColumn<Showtime, String> finishColumn;
-    @FXML private TableColumn<Showtime, String> dateColumn;
-    @FXML private TableColumn<Showtime, Integer> quantityColumn;
-    @FXML private TableColumn<Showtime, String> revenueColumn;
-
-    private Map<UUID, Long> soldTicketsMap = new HashMap<>();
-    private Map<UUID, Long> revenueMap = new HashMap<>();
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
@@ -70,6 +53,21 @@ public class ShowtimeListController {
         this.auditoriumService = auditoriumService;
     }
 
+    @FXML private TableView<Showtime> showtimeTable;
+    @FXML private TableColumn<Showtime, String> movieColumn;
+    @FXML private TableColumn<Showtime, String> auditoriumColumn;
+    @FXML private TableColumn<Showtime, String> startColumn;
+    @FXML private TableColumn<Showtime, String> finishColumn;
+    @FXML private TableColumn<Showtime, String> dateColumn;
+    @FXML private TableColumn<Showtime, Integer> quantityColumn;
+    @FXML private TableColumn<Showtime, String> revenueColumn;
+
+    private Map<UUID, Long> soldTicketsMap = new HashMap<>();
+    private Map<UUID, Long> revenueMap = new HashMap<>();
+    private ObservableList<Showtime> showtimeList;
+    private Map<UUID, String> movieNames = new HashMap<>();
+    private Map<UUID, String> auditoriumNames = new HashMap<>();
+
     public void handleOnOpen() {
         User user = null;
         try {
@@ -82,6 +80,7 @@ public class ShowtimeListController {
         }
 
         initializeColumns();
+        
         refreshData();
     }
 
@@ -135,9 +134,13 @@ public class ShowtimeListController {
             revenueMap = stats.stream().collect(Collectors.toMap(ShowtimeRevenueDTO::showtimeId, ShowtimeRevenueDTO::revenue));
 
             showtimeList = FXCollections.observableArrayList(showtimes);
-            showtimeTable.setItems(showtimeList);
             
-            // Force refresh columns
+            // Wrap in SortedList
+            javafx.collections.transformation.SortedList<Showtime> sortedData = new javafx.collections.transformation.SortedList<>(showtimeList);
+            sortedData.comparatorProperty().bind(showtimeTable.comparatorProperty());
+            
+            showtimeTable.setItems(sortedData);
+            
             showtimeTable.refresh();
             
         } catch (Exception e) {
@@ -157,12 +160,8 @@ public class ShowtimeListController {
 
     @FXML
     public void handleClickItem(UUID id) {
-        ShowtimeInformationController controller = (ShowtimeInformationController) screenController.getController("showtimeInformation");
-        if (controller != null) {
-            controller.setUuid(id);
-            controller.setShowtimeListController(this);
-            screenController.activate("showtimeInformation");
-        }
+        screenController.setContext("selectedShowtimeId", id);
+        screenController.activate("showtimeInformation");
     }
     
     @FXML

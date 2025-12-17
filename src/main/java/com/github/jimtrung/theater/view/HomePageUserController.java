@@ -8,13 +8,14 @@ import com.github.jimtrung.theater.service.ShowtimeService;
 import com.github.jimtrung.theater.model.MovieGenre;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
+import com.github.jimtrung.theater.util.AlertHelper;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import java.time.OffsetDateTime;
+import javafx.scene.Cursor;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +31,8 @@ public class HomePageUserController {
     private AuthService authService;
     private MovieService movieService;
     private ShowtimeService showtimeService;
+
+    @FXML private FlowPane movieList;
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
@@ -49,11 +52,13 @@ public class HomePageUserController {
         this.showtimeService = showtimeService;
     }
 
-    @FXML
-    private FlowPane movieList;
 
     public void handleOnOpen() {
         if (userHeaderController != null) userHeaderController.handleOnOpen();
+
+        if (screenController.getContext("selectedMovieId") != null) {
+            screenController.setContext("selectedMovieId", null);
+        }
 
         movieList.getChildren().clear();
 
@@ -62,7 +67,7 @@ public class HomePageUserController {
             movies = movieService.getAllMovies();
             List<Showtime> showtimes = showtimeService.getAllShowtimes();
             
-            java.time.OffsetDateTime now = OffsetDateTime.now();
+            OffsetDateTime now = OffsetDateTime.now();
             Set<UUID> movieIdsWithShowtimes = showtimes.stream()
                     .filter(s -> s.getStartTime().isAfter(now))
                     .map(Showtime::getMovieId)
@@ -74,11 +79,7 @@ public class HomePageUserController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Lỗi");
-            alert.setHeaderText(null);
-            alert.setContentText("Không thể tải danh sách phim");
-            alert.showAndWait();
+            AlertHelper.showError("Lỗi", "Không thể tải danh sách phim");
             return;
         }
 
@@ -108,7 +109,6 @@ public class HomePageUserController {
     @FXML
     public void handleLogOutButton() {
         authService.logout();
-
         screenController.activate("home");
     }
 
@@ -170,7 +170,7 @@ public class HomePageUserController {
             screenController.setContext("selectedMovieId", movie.getId());
             screenController.activate("showtimePage");
         });
-        card.setCursor(javafx.scene.Cursor.HAND);
+        card.setCursor(Cursor.HAND);
 
         card.getChildren().addAll(poster, title, genres, rated, duration, language);
         return card;

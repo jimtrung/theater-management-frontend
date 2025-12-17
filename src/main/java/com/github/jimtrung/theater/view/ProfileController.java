@@ -3,10 +3,10 @@ package com.github.jimtrung.theater.view;
 import com.github.jimtrung.theater.dto.ErrorResponse;
 import com.github.jimtrung.theater.model.User;
 import com.github.jimtrung.theater.service.AuthService;
+import com.github.jimtrung.theater.util.AlertHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.PasswordField;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import java.time.format.DateTimeFormatter;
 import java.time.ZoneId;
@@ -23,16 +23,17 @@ public class ProfileController {
         this.authService = authService;
     }
 
+    @FXML private TextField usernameField;
+    @FXML private TextField emailField;
+    @FXML private Label verifiedField;
+    @FXML private TextField createdAtField;
+
     public void handleOnOpen() {
         Object response = null;
         try {
             response = authService.getUser();
         } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Lỗi kết nối");
-            alert.setHeaderText(null);
-            alert.setContentText("Không thể lấy thông tin người dùng");
-            alert.showAndWait();
+            AlertHelper.showError("Lỗi kết nối", "Không thể lấy thông tin người dùng");
             e.printStackTrace();
             return;
         }
@@ -40,8 +41,7 @@ public class ProfileController {
         if (response instanceof User userInfo) {
             usernameField.setText(userInfo.getUsername());
             emailField.setText(userInfo.getEmail());
-            // passwordField.setText(userInfo.getPassword()); // Not present in FXML
-            
+
             boolean isVerified = userInfo.getVerified();
             verifiedField.setText(isVerified ? "Đã xác thực" : "Chưa xác thực");
             verifiedField.getStyleClass().removeAll("status-verified", "status-unverified");
@@ -50,28 +50,14 @@ public class ProfileController {
             createdAtField.setText(userInfo.getCreatedAt().atZoneSameInstant(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
         } else if (response instanceof ErrorResponse errRes){
             screenController.activate("home");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Lỗi kết nối");
-            alert.setHeaderText(null);
-            alert.setContentText(errRes.message());
-            alert.showAndWait();
+            AlertHelper.showError("Lỗi kết nối", errRes.message());
         }
     }
 
     @FXML
-    private TextField usernameField;
-
-    @FXML
-    private TextField emailField;
-
-    @FXML
-    private javafx.scene.control.Label verifiedField;
-
-    @FXML
-    private TextField createdAtField;
-
-    @FXML
-    public void handleBackButton(ActionEvent event) { screenController.activate("home"); }
+    public void handleBackButton(ActionEvent event) {
+        screenController.activate("home");
+    }
 
     @FXML
     public void handleEditButton(ActionEvent event) {
@@ -80,7 +66,6 @@ public class ProfileController {
     @FXML
     public void handleLogOutButton(ActionEvent event) {
         authService.logout();
-
         screenController.activate("home");
     }
 }

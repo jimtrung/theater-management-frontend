@@ -63,7 +63,7 @@
 }
 
 .root-gradient {
-  -fx-background-color: linear-gradient(to bottom right, #0F1419, #1A1F2E);
+  -fx-background-color: -color-primary-bg;
 }
 
 .card-modern {
@@ -452,8 +452,7 @@
   -fx-border-color: -color-primary-accent;
 }
 
-.seat-partially-booked {
-}
+.seat-partially-booked {}
 
 .seat-booked {
   -fx-background-color: -color-secondary-bg;
@@ -481,10 +480,27 @@
 }
 
 .movie-card:hover {
-  -fx-background-color: #252D3D; /* Slightly lighter than card-bg */
+  -fx-background-color: #252D3D;
+  /* Slightly lighter than card-bg */
   -fx-effect: dropshadow(three-pass-box, rgba(59, 130, 246, 0.3), 15, 0, 0, 5);
   -fx-border-color: -color-primary-accent;
   -fx-scale-x: 1.02;
   -fx-scale-y: 1.02;
 }
 
+.transparent-scroll-pane {
+  -fx-background-color: transparent;
+  -fx-control-inner-background: transparent;
+  -fx-background-insets: 0;
+  -fx-padding: 0;
+  -fx-border-width: 0;
+}
+
+.transparent-scroll-pane>.viewport {
+  -fx-background-color: transparent;
+}
+
+.transparent-scroll-pane:focused {
+  -fx-background-color: transparent;
+  -fx-background-insets: 0;
+}

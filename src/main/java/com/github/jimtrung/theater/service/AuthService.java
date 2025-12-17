@@ -107,15 +107,6 @@ public class AuthService {
         return response.body();
     }
 
-    public boolean isLoggedIn() {
-        return authTokenUtil.loadAccessToken() != null;
-    }
-
-    public void logout() {
-        authTokenUtil.clearAccessToken();
-        authTokenUtil.clearRefreshToken();
-    }
-
     public boolean checkUsername(String username) {
         try {
             HttpRequest request = HttpRequest.newBuilder()
@@ -142,5 +133,14 @@ public class AuthService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public boolean isLoggedIn() {
+        return authTokenUtil.loadAccessToken() != null;
+    }
+
+    public void logout() {
+        authTokenUtil.clearAccessToken();
+        authTokenUtil.clearRefreshToken();
     }
 }

@@ -7,11 +7,12 @@ import com.github.jimtrung.theater.model.UserRole;
 import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import com.github.jimtrung.theater.util.AlertHelper;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
+import java.util.concurrent.CompletableFuture;
 
 import java.awt.*;
 
@@ -31,6 +32,13 @@ public class SignInController {
     public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) {
         this.authTokenUtil = authTokenUtil;
     }
+
+    @FXML private TextField usernameField;
+    @FXML private PasswordField passwordField;
+    @FXML private TextField visiblePasswordField;
+    @FXML private CheckBox showPasswordCheckBox;
+    @FXML private Label usernameErrorLabel;
+    @FXML private Label passwordErrorLabel;
 
     public void handleOnOpen() {
         User user = null;
@@ -63,10 +71,9 @@ public class SignInController {
         
         usernameField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null || newValue.trim().isEmpty()) {
-                usernameErrorLabel.setText("Vui lòng nhập tên đăng nhập");
-                usernameErrorLabel.setVisible(true);
-            } else {
                 usernameErrorLabel.setVisible(false);
+            } else {
+                validateUsername(newValue);
             }
         });
         
@@ -80,23 +87,24 @@ public class SignInController {
         });
     }
 
-    @FXML
-    private TextField usernameField;
+    private void validateUsername(String username) {
+        usernameErrorLabel.setText("Đang kiểm tra...");
+        usernameErrorLabel.setVisible(true);
+        usernameErrorLabel.setStyle("-fx-text-fill: gray;");
 
-    @FXML
-    private PasswordField passwordField;
-
-    @FXML
-    private TextField visiblePasswordField;
-
-    @FXML
-    private CheckBox showPasswordCheckBox;
-    
-    @FXML
-    private Label usernameErrorLabel;
-
-    @FXML
-    private Label passwordErrorLabel;
+        CompletableFuture.supplyAsync(() -> authService.checkUsername(username))
+            .thenAccept(exists -> javafx.application.Platform.runLater(() -> {
+                if (!exists) {
+                    usernameErrorLabel.setText("Tài khoản không tồn tại!");
+                    usernameErrorLabel.setVisible(true);
+                    usernameErrorLabel.setStyle("-fx-text-fill: red;");
+                } else {
+                    usernameErrorLabel.setText("Tài khoản hợp lệ.");
+                    usernameErrorLabel.setVisible(true);
+                    usernameErrorLabel.setStyle("-fx-text-fill: green;");
+                }
+            }));
+    }
 
     @FXML
     public void handleBackButton() {
@@ -112,18 +120,14 @@ public class SignInController {
         try {
             Object response = authService.signIn(user);
             if (response instanceof ErrorResponse errRes) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Lỗi đăng nhập");
-                alert.setHeaderText(null);
                 String msg = errRes.message();
                 if (msg.contains("Bad credentials") || msg.contains("User not found")) {
-                    alert.setContentText("Tên đăng nhập hoặc mật khẩu không chính xác!");
+                    AlertHelper.showError("Lỗi đăng nhập", "Tên đăng nhập hoặc mật khẩu không chính xác!");
                 } else if (msg.contains("User account is locked")) {
-                    alert.setContentText("Tài khoản đã bị khóa!");
+                    AlertHelper.showError("Lỗi đăng nhập", "Tài khoản đã bị khóa!");
                 } else {
-                    alert.setContentText("Đăng nhập thất bại: " + msg);
+                    AlertHelper.showError("Lỗi đăng nhập", "Đăng nhập thất bại: " + msg);
                 }
-                alert.showAndWait();
                 return;
             }
 
@@ -137,11 +141,7 @@ public class SignInController {
             showPasswordCheckBox.setSelected(false);
         } catch (Exception e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Lỗi đăng nhập");
-            alert.setHeaderText(null);
-            alert.setContentText("Đăng nhập thất bại");
-            alert.showAndWait();
+            AlertHelper.showError("Lỗi đăng nhập", "Đăng nhập thất bại");
             return;
         }
 

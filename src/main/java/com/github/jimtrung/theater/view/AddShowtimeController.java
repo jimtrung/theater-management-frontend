@@ -3,10 +3,11 @@ package com.github.jimtrung.theater.view;
 import com.github.jimtrung.theater.model.User;
 import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.model.UserRole;
+import com.github.jimtrung.theater.util.NullCheckerUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-
+import com.github.jimtrung.theater.util.AlertHelper;
 import com.github.jimtrung.theater.model.Auditorium;
 import com.github.jimtrung.theater.model.Movie;
 import com.github.jimtrung.theater.model.Showtime;
@@ -16,16 +17,13 @@ import com.github.jimtrung.theater.service.ShowtimeService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListCell;
 
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class AddShowtimeController {
     private ScreenController screenController;
@@ -33,7 +31,7 @@ public class AddShowtimeController {
     private MovieService movieService;
     private AuditoriumService auditoriumService;
     private ShowtimeService showtimeService;
-    private ShowtimeListController showtimeListController;
+
 
     private Movie selectedMovie;
     private Auditorium selectedAuditorium;
@@ -66,11 +64,10 @@ public class AddShowtimeController {
         this.showtimeService = showtimeService;
     }
 
-    public void setShowtimeListController(ShowtimeListController showtimeListController) {
-        this.showtimeListController = showtimeListController;
-    }
+
 
     public void handleOnOpen() {
+        // Kiểm tra thông tin người dùng
         User user = null;
         try {
             user = (User) authService.getUser();
@@ -81,20 +78,11 @@ public class AddShowtimeController {
             return;
         }
 
+        // Clear thông tin cũ và load thông tin mới
         clearFields();
         loadMovies();
         loadAuditoriums();
         loadTimes();
-    }
-
-    private void clearFields() {
-        searchMovieField.clear();
-        searchAuditoriumField.clear();
-        showtimeDatePicker.setValue(null);
-        startTimePicker.getSelectionModel().clearSelection();
-        endTimePicker.getSelectionModel().clearSelection();
-        selectedMovie = null;
-        selectedAuditorium = null;
     }
 
     private void loadTimes() {
@@ -114,7 +102,7 @@ public class AddShowtimeController {
             FilteredList<Movie> filteredMovies = new FilteredList<>(movies, p -> true);
             
             movieListView.setItems(filteredMovies);
-            movieListView.setCellFactory(param -> new javafx.scene.control.ListCell<>() {
+            movieListView.setCellFactory(param -> new ListCell<>() {
                 @Override
                 protected void updateItem(Movie item, boolean empty) {
                     super.updateItem(item, empty);
@@ -148,7 +136,7 @@ public class AddShowtimeController {
             FilteredList<Auditorium> filteredAuditoriums = new FilteredList<>(auditoriums, p -> true);
 
             auditoriumListView.setItems(filteredAuditoriums);
-            auditoriumListView.setCellFactory(param -> new javafx.scene.control.ListCell<>() {
+            auditoriumListView.setCellFactory(param -> new ListCell<>() {
                 @Override
                 protected void updateItem(Auditorium item, boolean empty) {
                     super.updateItem(item, empty);
@@ -177,11 +165,6 @@ public class AddShowtimeController {
     }
 
     @FXML
-    private void handleShowMovies() {
-        // Obsolete?
-    }
-
-    @FXML
     private void handleBackButton() {
         screenController.activate("showtimeList");
     }
@@ -189,34 +172,22 @@ public class AddShowtimeController {
     @FXML
     private void handleAddShowtimeButton() {
         try {
-            if (selectedMovie == null || selectedAuditorium == null || 
-                showtimeDatePicker.getValue() == null || 
-                startTimePicker.getValue() == null || endTimePicker.getValue() == null) {
-                
-                showAlert("Vui lòng điền đầy đủ thông tin!");
-                return;
-            }
-
-            String date = showtimeDatePicker.getValue().format(DateTimeFormatter.ISO_LOCAL_DATE);
-            String start = date + "T" + startTimePicker.getValue() + ":00Z";
-            String end = date + "T" + endTimePicker.getValue() + ":00Z";
-
             ZoneOffset offset = ZoneOffset.ofHours(7);
             LocalTime startTime = LocalTime.parse(startTimePicker.getValue());
             LocalTime endTime = LocalTime.parse(endTimePicker.getValue());
             
             if (!endTime.isAfter(startTime)) {
-                showAlert("Thời gian kết thúc phải sau thời gian bắt đầu!");
+                AlertHelper.showError("Lỗi", "Thời gian kết thúc phải sau thời gian bắt đầu!");
                 return;
             }
 
             if (showtimeDatePicker.getValue().isBefore(java.time.LocalDate.now())) {
-                showAlert("Ngày chiếu không được ở trong quá khứ!");
+                AlertHelper.showError("Lỗi", "Ngày chiếu không được ở trong quá khứ!");
                 return;
             }
             if (showtimeDatePicker.getValue().isEqual(java.time.LocalDate.now())) {
                 if (startTime.isBefore(LocalTime.now())) {
-                    showAlert("Thời gian bắt đầu đã qua!");
+                    AlertHelper.showError("Lỗi", "Thời gian bắt đầu đã qua!");
                     return;
                 }
             }
@@ -230,24 +201,30 @@ public class AddShowtimeController {
             showtime.setStartTime(startOdt);
             showtime.setEndTime(endOdt);
 
-            showtimeService.insertShowtime(showtime);
-            
-            if (showtimeListController != null) {
-                showtimeListController.refreshData();
+            if (NullCheckerUtil.hasNullField(showtime)) {
+                AlertHelper.showError("Lỗi", "Vui lòng điền đầy đủ thông tin!");
+                return;
             }
-            
+
+            showtimeService.insertShowtime(showtime);
+            ShowtimeListController listController = (ShowtimeListController) screenController.getController("showtimeList");
+            if (listController != null) {
+                listController.refreshData();
+            }
             screenController.activate("showtimeList");
-            
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Lỗi thêm suất chiếu: " + e.getMessage());
+            AlertHelper.showError("Lỗi", "Lỗi thêm suất chiếu: " + e.getMessage());
         }
     }
 
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Lỗi");
-        alert.setContentText(message);
-        alert.show();
+    private void clearFields() {
+        searchMovieField.clear();
+        searchAuditoriumField.clear();
+        showtimeDatePicker.setValue(null);
+        startTimePicker.getSelectionModel().clearSelection();
+        endTimePicker.getSelectionModel().clearSelection();
+        selectedMovie = null;
+        selectedAuditorium = null;
     }
 }

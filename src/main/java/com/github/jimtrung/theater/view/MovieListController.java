@@ -5,43 +5,25 @@ import com.github.jimtrung.theater.model.MovieGenre;
 import com.github.jimtrung.theater.service.MovieService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
+import javafx.beans.property.SimpleStringProperty;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import com.github.jimtrung.theater.util.AlertHelper;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import javafx.collections.transformation.SortedList;
 
 public class MovieListController {
 
     private ScreenController screenController;
     private MovieService movieService;
-    private ObservableList<Movie> movieList;
-    private UUID uuid;
 
-    @FXML
-    private TableView<Movie> movieTable;
-
-    @FXML
-    private TableColumn<Movie, String> nameColumn;
-    @FXML
-    private TableColumn<Movie, String> directorColumn;
-    @FXML
-    private TableColumn<Movie, String> actorsColumn;
-    @FXML
-    private TableColumn<Movie, String> genresColumn;
-    @FXML
-    private TableColumn<Movie, String> premiereColumn;
-    @FXML
-    private TableColumn<Movie, Integer> durationColumn;
-    @FXML
-    private TableColumn<Movie, Integer> ratedColumn;
-    @FXML
-    private TableColumn<Movie, String> languageColumn;
-
-    /* ===== SETTERS ===== */
     public void setMovieService(MovieService movieService) {
         this.movieService = movieService;
     }
@@ -50,11 +32,23 @@ public class MovieListController {
         this.screenController = screenController;
     }
 
+    @FXML private TableView<Movie> movieTable;
+    @FXML private TableColumn<Movie, String> nameColumn;
+    @FXML private TableColumn<Movie, String> directorColumn;
+    @FXML private TableColumn<Movie, String> actorsColumn;
+    @FXML private TableColumn<Movie, String> genresColumn;
+    @FXML private TableColumn<Movie, String> premiereColumn;
+    @FXML private TableColumn<Movie, Integer> durationColumn;
+    @FXML private TableColumn<Movie, Integer> ratedColumn;
+    @FXML private TableColumn<Movie, String> languageColumn;
+
+    private UUID uuid;
+    private ObservableList<Movie> movieList;
+
     public TableView<Movie> getMovieTable() {
         return movieTable;
     }
 
-    /* ===== INITIALIZE ===== */
     public void handleOnOpen() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -64,7 +58,7 @@ public class MovieListController {
         actorsColumn.setCellValueFactory(cellData -> {
             var actors = cellData.getValue().getActors();
             String actorsStr = actors != null ? String.join(", ", actors) : "";
-            return new javafx.beans.property.SimpleStringProperty(actorsStr);
+            return new SimpleStringProperty(actorsStr);
         });
         genresColumn.setCellValueFactory(cellData -> {
             var genres = cellData.getValue().getGenres();
@@ -80,36 +74,37 @@ public class MovieListController {
                         })
                         .collect(Collectors.joining(", "));
             }
-            return new javafx.beans.property.SimpleStringProperty(genresStr);
+            return new SimpleStringProperty(genresStr);
         });
         premiereColumn.setCellValueFactory(cellData -> {
             var premiere = cellData.getValue().getPremiere();
             String dateStr = premiere != null ? premiere.format(formatter) : "";
-            return new javafx.beans.property.SimpleStringProperty(dateStr);
+            return new SimpleStringProperty(dateStr);
         });
         durationColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
         ratedColumn.setCellValueFactory(new PropertyValueFactory<>("rated"));
         languageColumn.setCellValueFactory(cellData -> {
             var lang = cellData.getValue().getLanguage();
-            return new javafx.beans.property.SimpleStringProperty(lang != null ? lang.toVietnamese() : "");
+            return new SimpleStringProperty(lang != null ? lang.toVietnamese() : "");
         });
 
-        // --- Movie list ---
         movieList = FXCollections.observableArrayList();
-        movieTable.setItems(movieList);
+        
+        SortedList<Movie> sortedData = new SortedList<>(movieList);
+        sortedData.comparatorProperty().bind(movieTable.comparatorProperty());
+        
+        movieTable.setItems(sortedData);
 
-        // --- Row selection ---
         movieTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> {
             if (newSel != null) {
                 uuid = newSel.getId();
-                System.out.println("🎬 Selected movie: " + newSel.getName() + " | ID: " + uuid);
                 handleClickItem(uuid);
             }
         });
 
         refreshData();
     }
-
+    
     @FXML
     public void handleAddMovieButton() {
         screenController.activate("addMovie");
@@ -117,23 +112,14 @@ public class MovieListController {
 
     @FXML
     public void handleClickItem(UUID id) {
-        MovieInformationController controller = (MovieInformationController) screenController.getController("movieInformation");
-        if (controller != null) {
-            controller.setUuid(id);
-            controller.setMovieListController(this);
-        }
+        screenController.setContext("selectedMovieId", id);
         screenController.activate("movieInformation");
     }
 
     @FXML
     public void handleDeleteAllButton() {
         try {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Xác nhận xóa");
-            alert.setHeaderText(null);
-            alert.setContentText("Bạn có chắc chắn muốn xóa tất cả phim không?");
-
-            Optional<ButtonType> result = alert.showAndWait();
+            Optional<ButtonType> result = AlertHelper.showConfirmation("Xác nhận xóa", "Bạn có chắc chắn muốn xóa tất cả phim không?");
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 movieService.deleteAllMovies();
                 refreshData();
@@ -148,7 +134,6 @@ public class MovieListController {
         screenController.activate("homePageManager");
     }
 
-    /* ===== HELPERS ===== */
     public void refreshData() {
         if (movieService != null && movieList != null) {
             try {

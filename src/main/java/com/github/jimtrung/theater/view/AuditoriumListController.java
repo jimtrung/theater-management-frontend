@@ -1,17 +1,15 @@
 package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.model.Auditorium;
-import com.github.jimtrung.theater.model.Movie;
 import com.github.jimtrung.theater.service.AuditoriumService;
-import com.github.jimtrung.theater.service.MovieService;
-import com.github.jimtrung.theater.util.AuthTokenUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,21 +33,12 @@ public class AuditoriumListController {
         return auditoriumTable;
     }
 
-    @FXML
-    private TableView auditoriumTable;
-
-    @FXML
-    private TableColumn<Auditorium, String> nameColumn;
-
-    @FXML
-    private TableColumn<Auditorium, String> typeColumn;
-
-    @FXML
-    private TableColumn<Auditorium, Integer> capacityColumn;
-
-    @FXML
-    private TableColumn<Auditorium, String> noteColumn;
-
+    @FXML private TableView auditoriumTable;
+    @FXML private TableColumn<Auditorium, String> nameColumn;
+    @FXML private TableColumn<Auditorium, String> typeColumn;
+    @FXML private TableColumn<Auditorium, Integer> capacityColumn;
+    @FXML private TableColumn<Auditorium, String> noteColumn;
+    
     @FXML
     public void handleOnOpen() {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -58,7 +47,11 @@ public class AuditoriumListController {
         noteColumn.setCellValueFactory(new PropertyValueFactory<>("note"));
 
         auditoriumList = FXCollections.observableArrayList();
-        auditoriumTable.setItems(auditoriumList);
+        
+        javafx.collections.transformation.SortedList<Auditorium> sortedData = new javafx.collections.transformation.SortedList<>(auditoriumList);
+        sortedData.comparatorProperty().bind(auditoriumTable.comparatorProperty());
+        
+        auditoriumTable.setItems(sortedData);
 
         auditoriumTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -79,9 +72,7 @@ public class AuditoriumListController {
     @FXML
     public void handleClickItem(UUID id) {
         try {
-            AuditoriumInformationController controller = (AuditoriumInformationController) screenController.getController("auditoriumInformation");
-            controller.setUuid(id);
-            controller.setAuditoriumListController(this);
+            screenController.setContext("selectedAuditoriumId", id);
             screenController.activate("auditoriumInformation");
         }
         catch (Exception e) {

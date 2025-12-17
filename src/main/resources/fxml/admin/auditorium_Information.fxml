@@ -11,7 +11,8 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.github.jimtrung.theater.view.AuditoriumInformationController"
             stylesheets="@/styles/styles.css"
-            fitToWidth="true">
+            fitToWidth="true"
+            fitToHeight="true">
 
   <VBox alignment="CENTER" spacing="20">
     <Label text="Thông tin phòng chiếu" styleClass="title"/>

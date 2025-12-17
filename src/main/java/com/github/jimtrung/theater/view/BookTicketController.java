@@ -1,35 +1,48 @@
 package com.github.jimtrung.theater.view;
 
+import com.github.jimtrung.theater.dto.BookingRequest;
 import com.github.jimtrung.theater.dto.SeatStatusDTO;
+import com.github.jimtrung.theater.model.Auditorium;
+import com.github.jimtrung.theater.model.Movie;
 import com.github.jimtrung.theater.model.Seat;
+import com.github.jimtrung.theater.model.Showtime;
+import com.github.jimtrung.theater.model.Ticket;
 import com.github.jimtrung.theater.service.AuditoriumService;
-import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.service.MovieService;
 import com.github.jimtrung.theater.service.ShowtimeService;
+import com.github.jimtrung.theater.service.TicketService;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import com.github.jimtrung.theater.util.AlertHelper;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class BookTicketController {
     private ScreenController screenController;
-    private AuthService authService;
     private ShowtimeService showtimeService;
-    private UUID showtimeId;
-    private Set<Seat> selectedSeats = new HashSet<>();
+    private MovieService movieService;
+    private AuditoriumService auditoriumService;
+    private TicketService ticketService;
+
+    public void setScreenController(ScreenController screenController) {
+        this.screenController = screenController;
+    }
+    public void setShowtimeService(ShowtimeService showtimeService) {
+        this.showtimeService = showtimeService;
+    }
+    public void setMovieService(MovieService s) { this.movieService = s; }
+    public void setAuditoriumService(AuditoriumService s) { this.auditoriumService = s; }
+    public void setTicketService(TicketService s) { this.ticketService = s; }
 
     @FXML private FlowPane seatContainer;
     @FXML private Label selectedSeatsLabel;
-    @FXML private javafx.scene.image.ImageView moviePoster;
-    
+    @FXML private ImageView moviePoster;
     @FXML private TextField ticketMovieName;
     @FXML private TextField ticketAuditoriumName;
     @FXML private TextField ticketDate;
@@ -37,41 +50,21 @@ public class BookTicketController {
     @FXML private TextField ticketEndTime;
     @FXML private TextField ticketPrice;
 
-
-    public void setScreenController(ScreenController screenController) {
-        this.screenController = screenController;
-    }
-
-    public void setAuthService(AuthService authService) {
-        this.authService = authService;
-    }
-
-    public void setShowtimeService(ShowtimeService showtimeService) {
-        this.showtimeService = showtimeService;
-    }
-    
-    private MovieService movieService;
-    private AuditoriumService auditoriumService;
-    
-    public void setMovieService(MovieService s) { this.movieService = s; }
-    public void setAuditoriumService(AuditoriumService s) { this.auditoriumService = s; }
-
-    private com.github.jimtrung.theater.model.Showtime currentShowtime;
-    private com.github.jimtrung.theater.model.Movie currentMovie;
-    private com.github.jimtrung.theater.model.Auditorium currentAuditorium;
-
-
-    public void setShowtimeId(UUID showtimeId) {
-        this.showtimeId = showtimeId;
-    }
+    private final Set<Seat> selectedSeats = new HashSet<>();
+    private UUID showtimeId;
+    private Showtime currentShowtime;
+    private Movie currentMovie;
+    private Auditorium currentAuditorium;
 
     public void handleOnOpen() {
-        if (showtimeId == null) {
-             try {
-                showtimeId = (UUID) screenController.getContext("selectedShowtimeId");
-             } catch (Exception e) {
-                 e.printStackTrace();
-             }
+        try {
+            UUID contextId = (UUID) screenController.getContext("selectedShowtimeId");
+            if (contextId != null) {
+                this.showtimeId = contextId;
+                screenController.setContext("selectedShowtimeId", null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         loadSeats();
@@ -88,7 +81,7 @@ public class BookTicketController {
         selectedSeats.clear();
         updateSelectedLabel();
         
-        java.util.concurrent.CompletableFuture.runAsync(() -> {
+        CompletableFuture.runAsync(() -> {
             try {
                 List<SeatStatusDTO> seats = showtimeService.getSeatsWithStatus(showtimeId);
 
@@ -97,11 +90,11 @@ public class BookTicketController {
                 seats.sort(Comparator.comparing((SeatStatusDTO d) -> d.seat().getRow())
                         .thenComparing(d -> d.seat().getNumber()));
 
-                javafx.application.Platform.runLater(() -> {
+                Platform.runLater(() -> {
                     try {
                         for (SeatStatusDTO dto : seats) {
                             Button btn = new Button(dto.seat().getRow() + dto.seat().getNumber());
-                            btn.getStyleClass().add("seat-button"); // Base class
+                            btn.getStyleClass().add("seat-button");
 
                             if (dto.isBooked()) {
                                 btn.setDisable(true);
@@ -150,54 +143,88 @@ public class BookTicketController {
     @FXML
     private void handleBookTicket() {
         if (selectedSeats.isEmpty()) {
-            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
-            alert.setContentText("Vui lòng chọn ghế!");
-            alert.showAndWait();
+        if (selectedSeats.isEmpty()) {
+            AlertHelper.showWarning("Cảnh báo", "Vui lòng chọn ghế!");
             return;
         }
-        
-        java.util.Map<String, Object> cart = new java.util.HashMap<>();
-        cart.put("showtimeId", showtimeId);
-        cart.put("movieName", currentMovie != null ? currentMovie.getName() : "Không xác định");
-        cart.put("auditoriumName", currentAuditorium != null ? currentAuditorium.getName() : "Không xác định");
-        cart.put("startTime", currentShowtime != null ? currentShowtime.getStartTime().toLocalTime() : "");
-        cart.put("endTime", currentShowtime != null ? currentShowtime.getEndTime().toLocalTime() : "");
-        cart.put("date", currentShowtime != null ? currentShowtime.getStartTime().toLocalDate() : "");
-        
-        String seatNames = selectedSeats.stream().map(s -> s.getRow() + s.getNumber()).sorted().collect(Collectors.joining(", "));
-        cart.put("seatNames", seatNames);
-        
-        List<UUID> seatIds = selectedSeats.stream().map(Seat::getId).collect(Collectors.toList());
-        cart.put("seatIds", seatIds);
-        
-        long price = selectedSeats.size() * 50000L; // Fixed price logic for now
-        cart.put("totalPrice", price);
-        
-        screenController.setContext("cart", cart);
-        screenController.activate("payPage");
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Xác nhận đặt vé");
+        alert.setHeaderText("Bạn muốn thanh toán ngay hay thanh toán sau?");
+        alert.setContentText("Chọn 'Thanh toán ngay' để chuyển đến trang thanh toán.\nChọn 'Thanh toán sau' để lưu vé vào danh sách vé đã đặt (Cart).");
+
+        ButtonType buttonPayNow = new ButtonType("Thanh toán ngay");
+        ButtonType buttonPayLater = new ButtonType("Thanh toán sau");
+        ButtonType buttonCancel = new ButtonType("Hủy", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(buttonPayNow, buttonPayLater, buttonCancel);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == buttonCancel) {
+            return;
+        }
+
+        try {
+             List<UUID> seatIds = selectedSeats.stream().map(Seat::getId).collect(Collectors.toList());
+             BookingRequest req = new BookingRequest(showtimeId, seatIds);
+
+             List<Ticket> tickets = ticketService.bookTickets(req);
+             
+             if (result.get() == buttonPayLater) {
+                 AlertHelper.showInfo("Thông báo", "Đặt vé thành công! Vé đã được lưu vào 'Vé đã đặt'.");
+                 screenController.activate("bookedTicket");
+             } else {
+                 // Pay Now
+                 Map<String, Object> cart = new HashMap<>();
+                 cart.put("showtimeId", showtimeId);
+                 cart.put("movieName", currentMovie != null ? currentMovie.getName() : "Không xác định");
+                 cart.put("auditoriumName", currentAuditorium != null ? currentAuditorium.getName() : "Không xác định");
+                 cart.put("startTime", currentShowtime != null ? currentShowtime.getStartTime().toLocalTime() : "");
+                 cart.put("endTime", currentShowtime != null ? currentShowtime.getEndTime().toLocalTime() : "");
+                 cart.put("date", currentShowtime != null ? currentShowtime.getStartTime().toLocalDate() : "");
+                 
+                 String seatNames = selectedSeats.stream().map(s -> s.getRow() + s.getNumber()).sorted().collect(Collectors.joining(", "));
+                 cart.put("seatNames", seatNames);
+                 
+                 // Pass ticketIds for payment
+                 List<UUID> ticketIds = tickets.stream().map(Ticket::getId).collect(Collectors.toList());
+                 cart.put("ticketIds", ticketIds);
+                 
+                 long price = tickets.stream().mapToLong(Ticket::getPrice).sum();
+                 cart.put("totalPrice", price);
+                 
+                 screenController.setContext("cart", cart);
+                 screenController.activate("payPage");
+             }
+
+        } catch (Exception e) {
+             e.printStackTrace();
+             AlertHelper.showError("Lỗi", "Đặt vé thất bại: " + e.getMessage());
+        }
     }
 
     private void loadDetails() {
-        java.util.concurrent.CompletableFuture.runAsync(() -> {
+        CompletableFuture.runAsync(() -> {
             try {
-                List<com.github.jimtrung.theater.model.Showtime> all = showtimeService.getAllShowtimes();
+                List<Showtime> all = showtimeService.getAllShowtimes();
                 currentShowtime = all.stream().filter(s -> s.getId().equals(showtimeId)).findFirst().orElse(null);
                 
                 if (currentShowtime != null) {
                     currentMovie = movieService.getMovieById(currentShowtime.getMovieId());
                     currentAuditorium = auditoriumService.getAuditoriumById(currentShowtime.getAuditoriumId());
                     
-                     javafx.application.Platform.runLater(() -> {
+                     Platform.runLater(() -> {
                          if (currentMovie != null) {
                              ticketMovieName.setText(currentMovie.getName());
                              try {
-                                 moviePoster.setImage(new javafx.scene.image.Image(java.util.Objects.requireNonNull(getClass().getResourceAsStream("/images/movies/" + currentMovie.getId() + ".jpg"))));
+                                 moviePoster.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/movies/" + currentMovie.getId() + ".jpg"))));
                              } catch (Exception e) {
                                  try {
-                                     moviePoster.setImage(new javafx.scene.image.Image(java.util.Objects.requireNonNull(getClass().getResourceAsStream("/images/movies/not_found.png"))));
+                                     moviePoster.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/movies/not_found.png"))));
                                  } catch (Exception ex) {
                                     try {
-                                        moviePoster.setImage(new javafx.scene.image.Image(java.util.Objects.requireNonNull(getClass().getResourceAsStream("/images/cat.jpg"))));
+                                        moviePoster.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/cat.jpg"))));
                                     } catch (Exception _) {}
                                  } 
                              }

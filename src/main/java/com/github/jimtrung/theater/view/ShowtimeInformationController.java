@@ -13,12 +13,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import com.github.jimtrung.theater.util.AlertHelper;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
 
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
@@ -32,7 +31,7 @@ public class ShowtimeInformationController {
     private ShowtimeService showtimeService;
     private MovieService movieService;
     private AuditoriumService auditoriumService;
-    private ShowtimeListController showtimeListController;
+
 
     private UUID uuid;
     private Showtime currentShowtime;
@@ -67,13 +66,7 @@ public class ShowtimeInformationController {
         this.auditoriumService = auditoriumService;
     }
 
-    public void setShowtimeListController(ShowtimeListController showtimeListController) {
-        this.showtimeListController = showtimeListController;
-    }
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
 
     public void handleOnOpen() {
         User user = null;
@@ -84,6 +77,12 @@ public class ShowtimeInformationController {
         if (user == null || user.getRole() != UserRole.administrator) {
              screenController.activate("home");
              return;
+        }
+
+        try {
+            this.uuid = (UUID) screenController.getContext("selectedShowtimeId");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         loadMovies();
@@ -100,10 +99,8 @@ public class ShowtimeInformationController {
                 OffsetDateTime startLocal = currentShowtime.getStartTime().withOffsetSameInstant(offset);
                 OffsetDateTime endLocal = currentShowtime.getEndTime().withOffsetSameInstant(offset);
 
-                // Set Date
                 showtimeDatePicker.setValue(startLocal.toLocalDate());
 
-                // Set Time
                 DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
                 
                 startTimePicker.setValue(startLocal.format(timeFormatter));
@@ -131,7 +128,7 @@ public class ShowtimeInformationController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Lỗi tải dữ liệu suất chiếu: " + e.getMessage());
+            AlertHelper.showError("Lỗi", "Lỗi tải dữ liệu suất chiếu: " + e.getMessage());
         }
     }
 
@@ -223,13 +220,14 @@ public class ShowtimeInformationController {
     public void handleDeleteButton() {
         try {
             showtimeService.deleteShowtimeById(uuid);
-            if (showtimeListController != null) {
-                showtimeListController.refreshData();
+            ShowtimeListController listController = (ShowtimeListController) screenController.getController("showtimeList");
+            if (listController != null) {
+                listController.refreshData();
             }
             screenController.activate("showtimeList");
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Lỗi xóa suất chiếu: " + e.getMessage());
+            AlertHelper.showError("Lỗi", "Lỗi xóa suất chiếu: " + e.getMessage());
         }
     }
 
@@ -240,7 +238,7 @@ public class ShowtimeInformationController {
                 showtimeDatePicker.getValue() == null || 
                 startTimePicker.getValue() == null || endTimePicker.getValue() == null) {
                 
-                showAlert("Vui lòng điền đầy đủ thông tin!");
+                AlertHelper.showError("Lỗi", "Vui lòng điền đầy đủ thông tin!");
                 return;
             }
 
@@ -248,7 +246,7 @@ public class ShowtimeInformationController {
             LocalTime endTime = LocalTime.parse(endTimePicker.getValue());
             
             if (!endTime.isAfter(startTime)) {
-                showAlert("Thời gian kết thúc phải sau thời gian bắt đầu!");
+                AlertHelper.showError("Lỗi", "Thời gian kết thúc phải sau thời gian bắt đầu!");
                 return;
             }
 
@@ -264,22 +262,16 @@ public class ShowtimeInformationController {
 
             showtimeService.updateShowtime(uuid, currentShowtime);
             
-            if (showtimeListController != null) {
-                showtimeListController.refreshData();
+            ShowtimeListController listController = (ShowtimeListController) screenController.getController("showtimeList");
+            if (listController != null) {
+                listController.refreshData();
             }
             
             screenController.activate("showtimeList");
             
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Lỗi cập nhật suất chiếu: " + e.getMessage());
+            AlertHelper.showError("Lỗi", "Lỗi cập nhật suất chiếu: " + e.getMessage());
         }
-    }
-
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Lỗi");
-        alert.setContentText(message);
-        alert.show();
     }
 }

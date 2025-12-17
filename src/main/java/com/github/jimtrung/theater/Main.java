@@ -59,7 +59,7 @@ public class Main extends Application {
         profileController.setScreenController(screenController);
         profileController.setAuthService(authService);
 
-        // HomePageManager
+        // Admin - HomePageManager
         FXMLLoader homePageManagerLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/admin/home_page_manager.fxml")));
         screenController.addScreen("homePageManager", homePageManagerLoader);
         HomePageManagerController homePageManagerController = homePageManagerLoader.getController();
@@ -101,18 +101,21 @@ public class Main extends Application {
         screenController.addScreen("bookTicket", bookTicketLoader);
         BookTicketController bookTicketController = bookTicketLoader.getController();
         bookTicketController.setScreenController(screenController);
-        bookTicketController.setAuthService(authService);
         bookTicketController.setShowtimeService(showtimeService);
         bookTicketController.setMovieService(movieService);
         bookTicketController.setAuditoriumService(auditoriumService);
+        bookTicketController.setTicketService(ticketService);
 
         // Booked Ticket
         FXMLLoader bookedTicketLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/booked_ticket.fxml")));
         screenController.addScreen("bookedTicket", bookedTicketLoader);
         BookedTicketController bookedTicketController = bookedTicketLoader.getController();
         bookedTicketController.setScreenController(screenController);
+        bookedTicketController.setTicketService(ticketService);
+        bookedTicketController.setShowtimeService(showtimeService);
+        bookedTicketController.setMovieService(movieService);
+        bookedTicketController.setAuditoriumService(auditoriumService);
         bookedTicketController.setAuthService(authService);
-        bookedTicketController.setAuthTokenUtil(authTokenUtil);
 
         // Pay Page
         FXMLLoader payPageLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/pay_page.fxml")));
@@ -215,11 +218,6 @@ public class Main extends Application {
         stage.setTitle("National Cinema Center");
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/styles.css")).toExternalForm());
         stage.setScene(scene);
-
-        // Late bindings
-        addMovieController.setMovieListController(movieListController);
-        addAuditoriumController.setAuditoriumListController(auditoriumListController);
-        addShowtimeController.setShowtimeListController(showtimeListController);
 
         stage.show();
     }

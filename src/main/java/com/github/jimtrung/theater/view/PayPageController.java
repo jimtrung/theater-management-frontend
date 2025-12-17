@@ -1,19 +1,24 @@
 package com.github.jimtrung.theater.view;
 
 import com.github.jimtrung.theater.dto.BillRequest;
+import com.github.jimtrung.theater.dto.BookingRequest;
+import com.github.jimtrung.theater.model.Ticket;
 import com.github.jimtrung.theater.model.User;
 import com.github.jimtrung.theater.service.AuthService;
 import com.github.jimtrung.theater.service.BillService;
 import com.github.jimtrung.theater.service.TicketService;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import com.github.jimtrung.theater.util.AlertHelper;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.control.Alert;
+
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import javafx.application.Platform;
+import java.util.stream.Collectors;
 
 public class PayPageController {
     private ScreenController screenController;
@@ -36,6 +41,7 @@ public class PayPageController {
 
     public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) { this.authTokenUtil = authTokenUtil; }
     public void setBillService(BillService billService) { this.billService = billService; }
+
     @FXML private Label ticketMovieName, ticketAuditoriumName, ticketStartTime, ticketEndTime, ticketShowDate, ticketSeatName, ticketPrice;
     @FXML private ImageView ticketQRCode;
 
@@ -45,8 +51,8 @@ public class PayPageController {
             return;
         }
         
-        // Load data from context
         try {
+            @SuppressWarnings("unchecked")
             Map<String, Object> cart = (Map<String, Object>) screenController.getContext("cart");
              if (cart != null) {
                  ticketMovieName.setText((String) cart.get("movieName"));
@@ -64,19 +70,29 @@ public class PayPageController {
     public void confirmPayment() {
         try {
              @SuppressWarnings("unchecked")
-             java.util.Map<String, Object> cart = (java.util.Map<String, Object>) screenController.getContext("cart");
+             Map<String, Object> cart = (Map<String, Object>) screenController.getContext("cart");
              if (cart == null) return;
 
-             java.util.UUID showtimeId = (java.util.UUID) cart.get("showtimeId");
+             UUID showtimeId = (UUID) cart.get("showtimeId");
              @SuppressWarnings("unchecked")
-             java.util.List<java.util.UUID> seatIds = (java.util.List<java.util.UUID>) cart.get("seatIds    ");
+             List<UUID> seatIds = (List<UUID>) cart.get("seatIds");
              
-             com.github.jimtrung.theater.dto.BookingRequest req = new com.github.jimtrung.theater.dto.BookingRequest(showtimeId, seatIds);
-
-             // Run booking asynchronously
+             // Run booking/payment asynchronously
              CompletableFuture.runAsync(() -> {
                  try {
-                     ticketService.bookTickets(req);
+
+                     if (cart.containsKey("ticketIds")) {
+                         // Pay for existing pending tickets
+                         @SuppressWarnings("unchecked")
+                         List<UUID> ticketIds = (List<UUID>) cart.get("ticketIds");
+                         ticketService.payTickets(ticketIds);
+                     } else {
+                        // Fallback: Book then pay (should not be reached if BookTicketController is used)
+                        BookingRequest req = new BookingRequest(showtimeId, seatIds);
+                        List<Ticket> booked = ticketService.bookTickets(req);
+                        List<UUID> ids = booked.stream().map(Ticket::getId).collect(Collectors.toList());
+                        ticketService.payTickets(ids);
+                     }
                      User user = (User) authService.getUser() ;
                      BillRequest billRequest = new BillRequest(user.getEmail(), ticketMovieName.getText(),
                              "7/10" , ticketShowDate.getText(), ticketStartTime.getText() ,
@@ -85,31 +101,26 @@ public class PayPageController {
                      billService.createBill(user.getId(), billRequest);
                      
                      Platform.runLater(() -> {
-                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                         alert.setContentText("Đặt vé thành công!Hãy kiểm tra email của bạn");
-                         alert.showAndWait();
+                         AlertHelper.showInfo("Thông báo", "Thanh toán thành công! Vé đã được gửi đến email của bạn.");
                          screenController.activate("home");
                      });
                  } catch (Exception e) {
                      e.printStackTrace();
                      Platform.runLater(() -> {
-                         Alert alert = new Alert(Alert.AlertType.ERROR);
-                         alert.setContentText("Lỗi: " + e.getMessage());
-                         alert.showAndWait();
+                         AlertHelper.showError("Lỗi", "Lỗi: " + e.getMessage());
                      });
                  }
              });
 
         } catch (Exception e) {
              e.printStackTrace();
-             javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
-             alert.setContentText("Lỗi: " + e.getMessage());
-             alert.showAndWait();
+             e.printStackTrace();
+             AlertHelper.showError("Lỗi", "Lỗi: " + e.getMessage());
         }
     }
 
     @FXML
     private void handleBackButton() {
-        screenController.activate("bookTicket");
+        screenController.goBack();   
     }    
 }

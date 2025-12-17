@@ -14,31 +14,33 @@
            stylesheets="@/styles/styles.css"
            styleClass="root-gradient">
 
-  <Group>
-    <VBox styleClass="card-modern" alignment="CENTER" spacing="20" prefWidth="500" prefHeight="500">
-      <padding>
-        <Insets top="40" right="48" bottom="40" left="48"/>
-      </padding>
+  <ScrollPane fitToWidth="true" fitToHeight="true" styleClass="transparent-scroll-pane">
+    <VBox alignment="CENTER" fillWidth="false" minHeight="0" minWidth="0">
+      <VBox styleClass="card-modern" alignment="CENTER" spacing="20" prefWidth="500" maxWidth="500" prefHeight="500">
+        <padding>
+          <Insets top="40" right="48" bottom="40" left="48"/>
+        </padding>
 
-      <Label text="TRUNG TÂM CHIẾU PHIM QUỐC GIA" styleClass="auth-branding"/>
-      <Label text="Quản Lý Rạp Chiếu Phim" styleClass="title"/>
-      <Label text="Chào mừng đến với Trung Tâm Chiếu Phim Quốc Gia" styleClass="welcome-subtitle"/>
+        <Label text="TRUNG TÂM CHIẾU PHIM QUỐC GIA" styleClass="auth-branding"/>
+        <Label text="Quản Lý Rạp Chiếu Phim" styleClass="title"/>
+        <Label text="Chào mừng đến với Trung Tâm Chiếu Phim Quốc Gia" styleClass="welcome-subtitle"/>
 
-      <VBox spacing="12" alignment="CENTER" maxWidth="400">
-        <VBox.margin>
-          <Insets top="12"/>
-        </VBox.margin>
+        <VBox spacing="12" alignment="CENTER" maxWidth="400">
+          <VBox.margin>
+            <Insets top="12"/>
+          </VBox.margin>
 
-        <Button fx:id="signinButton"
-                text="Đăng Nhập"
-                styleClass="button-primary,auth-button"
-                onAction="#handleSignInButton"/>
+          <Button fx:id="signinButton"
+                  text="Đăng Nhập"
+                  styleClass="button-primary,auth-button"
+                  onAction="#handleSignInButton"/>
 
-        <Button fx:id="signupButton"
-                text="Đăng Ký"
-                styleClass="button-secondary,auth-button"
-                onAction="#handleSignUpButton"/>
+          <Button fx:id="signupButton"
+                  text="Đăng Ký"
+                  styleClass="button-secondary,auth-button"
+                  onAction="#handleSignUpButton"/>
+        </VBox>
       </VBox>
     </VBox>
-  </Group>
+  </ScrollPane>
 </StackPane>
