@@ -115,6 +115,7 @@ public class Main extends Application {
         bookedTicketController.setShowtimeService(showtimeService);
         bookedTicketController.setMovieService(movieService);
         bookedTicketController.setAuditoriumService(auditoriumService);
+        bookedTicketController.setAuthService(authService);
 
         // Pay Page
         FXMLLoader payPageLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/pay_page.fxml")));

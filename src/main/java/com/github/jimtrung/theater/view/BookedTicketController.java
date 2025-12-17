@@ -10,6 +10,7 @@ import com.github.jimtrung.theater.service.AuditoriumService;
 import com.github.jimtrung.theater.service.MovieService;
 import com.github.jimtrung.theater.service.ShowtimeService;
 import com.github.jimtrung.theater.service.TicketService;
+import com.github.jimtrung.theater.service.AuthService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -41,6 +42,10 @@ public class BookedTicketController {
     public void setShowtimeService(ShowtimeService s) { this.showtimeService = s; }
     public void setMovieService(MovieService s) { this.movieService = s; }
     public void setAuditoriumService(AuditoriumService s) { this.auditoriumService = s; }
+    public void setAuthService(AuthService s) { 
+        if (userHeaderController != null) userHeaderController.setAuthService(s);
+    }
+
 
     private final Map<UUID, CheckBox> checkBoxes = new HashMap<>();
     private final List<Ticket> loadedTickets = new ArrayList<>();

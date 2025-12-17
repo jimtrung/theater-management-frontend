@@ -13,6 +13,7 @@
             stylesheets="@/styles/styles.css">
 
   <center>
+    <ScrollPane fitToWidth="true" styleClass="transparent-scroll-pane">
     <StackPane>
       <VBox spacing="10" alignment="CENTER">
         <Label text="Thanh Toán Vé" styleClass="title"/>
@@ -94,6 +95,7 @@
         </GridPane>
       </VBox>
     </StackPane>
+    </ScrollPane>
   </center>
 
 </BorderPane>
