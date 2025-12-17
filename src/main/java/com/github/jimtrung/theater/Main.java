@@ -22,7 +22,7 @@ public class Main extends Application {
         AuditoriumService auditoriumService = new AuditoriumService(authTokenUtil);
         ShowtimeService showtimeService = new ShowtimeService(authTokenUtil);
         TicketService ticketService = new TicketService(authTokenUtil);
-
+        BillService billService = new BillService(authTokenUtil);
         try {
             String accessToken = authService.refresh();
             authTokenUtil.saveAccessToken(accessToken);
@@ -121,6 +121,8 @@ public class Main extends Application {
         payPageController.setScreenController(screenController);
         payPageController.setAuthService(authService);
         payPageController.setTicketService(ticketService);
+        payPageController.setBillService(billService);
+        payPageController.setAuthTokenUtil(authTokenUtil);
 
         // Price
         FXMLLoader priceLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/price.fxml")));

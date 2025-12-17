@@ -1,12 +1,17 @@
 package com.github.jimtrung.theater.view;
 
+import com.github.jimtrung.theater.dto.BillRequest;
+import com.github.jimtrung.theater.model.User;
 import com.github.jimtrung.theater.service.AuthService;
+import com.github.jimtrung.theater.service.BillService;
 import com.github.jimtrung.theater.service.TicketService;
+import com.github.jimtrung.theater.util.AuthTokenUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import javafx.application.Platform;
 
@@ -14,6 +19,8 @@ public class PayPageController {
     private ScreenController screenController;
     private AuthService authService;
     private TicketService ticketService;
+    private BillService billService;
+    private AuthTokenUtil authTokenUtil;
 
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
@@ -27,6 +34,8 @@ public class PayPageController {
         this.ticketService = ticketService;
     }
 
+    public void setAuthTokenUtil(AuthTokenUtil authTokenUtil) { this.authTokenUtil = authTokenUtil; }
+    public void setBillService(BillService billService) { this.billService = billService; }
     @FXML private Label ticketMovieName, ticketAuditoriumName, ticketStartTime, ticketEndTime, ticketShowDate, ticketSeatName, ticketPrice;
     @FXML private ImageView ticketQRCode;
 
@@ -60,7 +69,7 @@ public class PayPageController {
 
              java.util.UUID showtimeId = (java.util.UUID) cart.get("showtimeId");
              @SuppressWarnings("unchecked")
-             java.util.List<java.util.UUID> seatIds = (java.util.List<java.util.UUID>) cart.get("seatIds");
+             java.util.List<java.util.UUID> seatIds = (java.util.List<java.util.UUID>) cart.get("seatIds    ");
              
              com.github.jimtrung.theater.dto.BookingRequest req = new com.github.jimtrung.theater.dto.BookingRequest(showtimeId, seatIds);
 
@@ -68,10 +77,16 @@ public class PayPageController {
              CompletableFuture.runAsync(() -> {
                  try {
                      ticketService.bookTickets(req);
+                     User user = (User) authService.getUser() ;
+                     BillRequest billRequest = new BillRequest(user.getEmail(), ticketMovieName.getText(),
+                             "7/10" , ticketShowDate.getText(), ticketStartTime.getText() ,
+                             "NCC" , ticketSeatName.getText() , ticketAuditoriumName.getText(),
+                             "Không có đồ đi kèm", UUID.randomUUID().toString(), ticketPrice.getText() , "Online");;
+                     billService.createBill(user.getId(), billRequest);
                      
                      Platform.runLater(() -> {
                          Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                         alert.setContentText("Đặt vé thành công!");
+                         alert.setContentText("Đặt vé thành công!Hãy kiểm tra email của bạn");
                          alert.showAndWait();
                          screenController.activate("home");
                      });
