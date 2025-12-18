@@ -33,6 +33,7 @@
       </top>
 
       <center>
+        <ScrollPane fitToWidth="true" styleClass="transparent-scroll-pane">
         <GridPane hgap="20" vgap="20">
           <padding>
             <Insets top="20" right="20" bottom="20" left="20"/>
@@ -77,6 +78,7 @@
             </VBox>
           </children>
         </GridPane>
+        </ScrollPane>
       </center>
     </BorderPane>
   </children>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+
+<BorderPane xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.github.jimtrung.theater.view.PromotionController"
+            stylesheets="@/styles/styles.css">
+
+    <top>
+        <fx:include fx:id="userHeader" source="../component/header.fxml"/>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+            <VBox spacing="25" alignment="TOP_CENTER">
+                <padding>
+                    <Insets top="30" right="40" bottom="30" left="40"/>
+                </padding>
+
+                <Label text="Khuyến Mãi &amp; Ưu Đãi" styleClass="title"/>
+
+                <HBox spacing="15" alignment="CENTER_RIGHT" maxWidth="1400">
+                    <children>
+                        <Label text="Sắp xếp theo:" style="-fx-font-size: 14px; -fx-text-fill: white;"/>
+                        <ComboBox fx:id="sortComboBox" prefWidth="200" promptText="Chọn thứ tự" onAction="#handleSort">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Mới nhất đến cũ nhất" />
+                                    <String fx:value="Cũ nhất đến mới nhất" />
+                                    <String fx:value="Đang diễn ra" />
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                    </children>
+                </HBox>
+
+                <FlowPane fx:id="promotionGrid" hgap="20" vgap="25" alignment="CENTER" maxWidth="1400"/>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

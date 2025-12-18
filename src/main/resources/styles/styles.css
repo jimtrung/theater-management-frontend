@@ -452,8 +452,7 @@
   -fx-border-color: -color-primary-accent;
 }
 
-.seat-partially-booked {
-}
+.seat-partially-booked {}
 
 .seat-booked {
   -fx-background-color: -color-secondary-bg;
@@ -481,65 +480,27 @@
 }
 
 .movie-card:hover {
-  -fx-background-color: #252D3D; /* Slightly lighter than card-bg */
+  -fx-background-color: #252D3D;
+  /* Slightly lighter than card-bg */
   -fx-effect: dropshadow(three-pass-box, rgba(59, 130, 246, 0.3), 15, 0, 0, 5);
   -fx-border-color: -color-primary-accent;
   -fx-scale-x: 1.02;
   -fx-scale-y: 1.02;
 }
 
-.title {
-    -fx-font-size: 32px;
-    -fx-font-weight: bold;
+.transparent-scroll-pane {
+  -fx-background-color: transparent;
+  -fx-control-inner-background: transparent;
+  -fx-background-insets: 0;
+  -fx-padding: 0;
+  -fx-border-width: 0;
 }
 
-.section-title {
-    -fx-font-size: 22px;
-    -fx-font-weight: bold;
+.transparent-scroll-pane>.viewport {
+  -fx-background-color: transparent;
 }
 
-.content-text {
-    -fx-font-size: 16px;
-    -fx-text-fill: #444;
+.transparent-scroll-pane:focused {
+  -fx-background-color: transparent;
+  -fx-background-insets: 0;
 }
-
-.highlight-number {
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-}
-.tab-button {
-    -fx-background-color: #1c1f26;
-    -fx-text-fill: white;
-    -fx-padding: 8 25;
-    -fx-background-radius: 20;
-    -fx-border-radius: 20;
-}
-
-.tab-button:hover {
-    -fx-background-color: #2a2e38;
-}
-
-.tab-button.active {
-    -fx-background-color: #e63946;
-}
-
-.title {
-    -fx-font-size: 30px;
-    -fx-font-weight: bold;
-}
-
-.section-title {
-    -fx-font-size: 22px;
-    -fx-font-weight: bold;
-}
-
-
-
-.content-paragraph {
-    -fx-text-fill: #d6d6d6;
-    -fx-font-size: 14.5px;
-    -fx-line-spacing: 5px;
-    -fx-text-alignment: justify;
-}
-
-

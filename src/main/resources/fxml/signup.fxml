@@ -14,74 +14,76 @@
            stylesheets="@/styles/styles.css"
            styleClass="root-gradient">
 
-  <Group>
-    <VBox styleClass="card-modern" alignment="CENTER" spacing="16" prefWidth="500" prefHeight="700">
-      <padding>
-        <Insets top="80" right="80" bottom="80" left="80"/>
-      </padding>
+  <ScrollPane fitToWidth="true" fitToHeight="true" styleClass="transparent-scroll-pane">
+    <VBox alignment="CENTER" fillWidth="false" minHeight="0" minWidth="0">
+      <VBox styleClass="card-modern" alignment="CENTER" spacing="16" prefWidth="500" maxWidth="500" prefHeight="700">
+        <padding>
+          <Insets top="80" right="80" bottom="80" left="80"/>
+        </padding>
 
-      <Label text="TRUNG TÂM CHIẾU PHIM QUỐC GIA" styleClass="auth-branding"/>
+        <Label text="TRUNG TÂM CHIẾU PHIM QUỐC GIA" styleClass="auth-branding"/>
 
-      <Label text="Tạo Tài Khoản" styleClass="title"/>
+        <Label text="Tạo Tài Khoản" styleClass="title"/>
 
-      <Label text="Tham gia Rạp Chiếu Phim Quốc Gia" alignment="CENTER">
-        <VBox.margin>
-          <Insets bottom="16"/>
-        </VBox.margin>
-      </Label>
+        <Label text="Tham gia Rạp Chiếu Phim Quốc Gia" alignment="CENTER">
+          <VBox.margin>
+            <Insets bottom="16"/>
+          </VBox.margin>
+        </Label>
 
-      <VBox spacing="6" maxWidth="400">
-        <Label text="Tên đăng nhập" styleClass="form-label"/>
-        <TextField fx:id="usernameField" promptText="" styleClass="text-field-large"/>
-        <Label fx:id="usernameErrorLabel" text="" styleClass="error-label" minHeight="20.0" visible="false"/>
-      </VBox>
+        <VBox spacing="6" maxWidth="400">
+          <Label text="Tên đăng nhập" styleClass="form-label"/>
+          <TextField fx:id="usernameField" promptText="" styleClass="text-field-large"/>
+          <Label fx:id="usernameErrorLabel" text="" styleClass="error-label" minHeight="20.0" visible="false"/>
+        </VBox>
 
-      <VBox spacing="6" maxWidth="400">
-        <Label text="Email" styleClass="form-label"/>
-        <TextField fx:id="emailField" promptText="" styleClass="text-field-large"/>
-        <Label fx:id="emailErrorLabel" text="" styleClass="error-label" minHeight="20.0" visible="false"/>
-      </VBox>
+        <VBox spacing="6" maxWidth="400">
+          <Label text="Email" styleClass="form-label"/>
+          <TextField fx:id="emailField" promptText="" styleClass="text-field-large"/>
+          <Label fx:id="emailErrorLabel" text="" styleClass="error-label" minHeight="20.0" visible="false"/>
+        </VBox>
 
-      <VBox spacing="6" maxWidth="400">
-        <Label text="Mật khẩu" styleClass="form-label"/>
-        <StackPane>
-          <PasswordField fx:id="passwordField" promptText="" styleClass="text-field-large"/>
-          <TextField fx:id="visiblePasswordField" visible="false" managed="false" promptText="" styleClass="text-field-large"/>
-        </StackPane>
-        <Label fx:id="passwordErrorLabel" text="" styleClass="error-label" minHeight="20.0" visible="false"/>
-      </VBox>
+        <VBox spacing="6" maxWidth="400">
+          <Label text="Mật khẩu" styleClass="form-label"/>
+          <StackPane>
+            <PasswordField fx:id="passwordField" promptText="" styleClass="text-field-large"/>
+            <TextField fx:id="visiblePasswordField" visible="false" managed="false" promptText="" styleClass="text-field-large"/>
+          </StackPane>
+          <Label fx:id="passwordErrorLabel" text="" styleClass="error-label" minHeight="20.0" visible="false"/>
+        </VBox>
 
-      <VBox spacing="6" maxWidth="400">
-        <Label text="Xác nhận mật khẩu" styleClass="form-label"/>
-        <StackPane>
-          <PasswordField fx:id="confirmPasswordField" promptText="" styleClass="text-field-large"/>
-          <TextField fx:id="visibleConfirmPasswordField"
-                     visible="false"
-                     managed="false"
-                     promptText=""
-                     styleClass="text-field-large"/>
-        </StackPane>
-      </VBox>
+        <VBox spacing="6" maxWidth="400">
+          <Label text="Xác nhận mật khẩu" styleClass="form-label"/>
+          <StackPane>
+            <PasswordField fx:id="confirmPasswordField" promptText="" styleClass="text-field-large"/>
+            <TextField fx:id="visibleConfirmPasswordField"
+                       visible="false"
+                       managed="false"
+                       promptText=""
+                       styleClass="text-field-large"/>
+          </StackPane>
+        </VBox>
 
-      <HBox alignment="CENTER_LEFT" maxWidth="400">
-        <CheckBox fx:id="showPasswordCheckBox" text="Hiển thị mật khẩu" onAction="#TogglePasswordVisibility"/>
-      </HBox>
+        <HBox alignment="CENTER_LEFT" maxWidth="400">
+          <CheckBox fx:id="showPasswordCheckBox" text="Hiển thị mật khẩu" onAction="#TogglePasswordVisibility"/>
+        </HBox>
 
-      <VBox spacing="12" alignment="CENTER">
-        <Button fx:id="signUpButton"
-                defaultButton="true"
-                text="Đăng Ký"
-                styleClass="button-primary"
-                onAction="#handleSignUpButton"
-                prefWidth="300"/>
+        <VBox spacing="12" alignment="CENTER">
+          <Button fx:id="signUpButton"
+                  defaultButton="true"
+                  text="Đăng Ký"
+                  styleClass="button-primary"
+                  onAction="#handleSignUpButton"
+                  prefWidth="300"/>
 
-        <Button fx:id="backButton"
-                text="Quay Lại"
-                styleClass="button-secondary"
-                onAction="#handleBackButton"
-                prefWidth="300"/>
+          <Button fx:id="backButton"
+                  text="Quay Lại"
+                  styleClass="button-secondary"
+                  onAction="#handleBackButton"
+                  prefWidth="300"/>
+        </VBox>
       </VBox>
     </VBox>
-  </Group>
+  </ScrollPane>
 
 </StackPane>

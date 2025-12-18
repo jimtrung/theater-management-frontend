@@ -22,7 +22,8 @@ public class Main extends Application {
         AuditoriumService auditoriumService = new AuditoriumService(authTokenUtil);
         ShowtimeService showtimeService = new ShowtimeService(authTokenUtil);
         TicketService ticketService = new TicketService(authTokenUtil);
-
+        BillService billService = new BillService(authTokenUtil);
+        PromotionService promotionService = new PromotionService(authTokenUtil);
         try {
             String accessToken = authService.refresh();
             authTokenUtil.saveAccessToken(accessToken);
@@ -115,6 +116,7 @@ public class Main extends Application {
         bookedTicketController.setShowtimeService(showtimeService);
         bookedTicketController.setMovieService(movieService);
         bookedTicketController.setAuditoriumService(auditoriumService);
+        bookedTicketController.setAuthService(authService);
 
         // Pay Page
         FXMLLoader payPageLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/pay_page.fxml")));
@@ -123,6 +125,8 @@ public class Main extends Application {
         payPageController.setScreenController(screenController);
         payPageController.setAuthService(authService);
         payPageController.setTicketService(ticketService);
+        payPageController.setBillService(billService);
+        payPageController.setAuthTokenUtil(authTokenUtil);
 
         // Price
         FXMLLoader priceLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/price.fxml")));
@@ -147,12 +151,13 @@ public class Main extends Application {
         showtimePageController.setShowtimeService(showtimeService);
         showtimePageController.setMovieService(movieService);
 
-        // Event List
-        FXMLLoader eventListLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/event_list.fxml")));
-        screenController.addScreen("eventList", eventListLoader);
-        EventListController eventListController = eventListLoader.getController();
-        eventListController.setScreenController(screenController);
-        eventListController.setAuthService(authService);
+        // Promotion
+        FXMLLoader promotionLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/promotion.fxml")));
+        screenController.addScreen("eventList", promotionLoader);
+        PromotionController promotionController = promotionLoader.getController();
+        promotionController.setScreenController(screenController);
+        promotionController.setPromotionService(promotionService);
+        promotionController.setAuthService(authService);
         
         // Admin - Showtime Information
         FXMLLoader showtimeInfoLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/admin/showtime_information.fxml")));

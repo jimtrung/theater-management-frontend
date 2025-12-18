@@ -15,7 +15,8 @@
             fx:controller="com.github.jimtrung.theater.view.BookTicketController"
             stylesheets="@/styles/styles.css"
             fitToWidth="true"
-            fitToHeight="true">
+            fitToHeight="true"
+            styleClass="transparent-scroll-pane">
 
   <VBox alignment="CENTER" spacing="20">
 
