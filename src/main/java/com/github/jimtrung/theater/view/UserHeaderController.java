@@ -72,9 +72,7 @@ public class UserHeaderController {
     }
 
     @FXML
-    private void handleAboutButton() {
-        // TODO: Implement about page
-    }
+    private void handleAboutButton() { if (screenController != null) screenController.activate("Intro"); }
 
     @FXML
     private void handleSignUpButton() {

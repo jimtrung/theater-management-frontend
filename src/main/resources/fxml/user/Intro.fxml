@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.github.jimtrung.theater.view.IntroController"
+            stylesheets="@/styles/styles.css">
+
+    <!-- ===== HEADER ===== -->
+    <top>
+        <fx:include fx:id="userHeader" source="../component/header.fxml"/>
+    </top>
+
+    <!-- ===== CONTENT ===== -->
+    <center>
+        <ScrollPane fitToWidth="true">
+            <VBox alignment="TOP_CENTER">
+
+                <VBox fx:id="rootBox"
+                      alignment="TOP_CENTER"
+                      maxWidth="1100"
+                      spacing="30">
+
+                    <padding>
+                        <Insets top="30" right="20" bottom="50" left="20"/>
+                    </padding>
+
+                    <!-- ===== TITLE ===== -->
+                    <Label text="GIỚI THIỆU" styleClass="title"/>
+
+                    <!-- ===== TAB BUTTONS ===== -->
+                    <HBox spacing="20" alignment="CENTER">
+                        <Button fx:id="btnSystem"
+                                text="Bộ máy tổ chức"
+                                onAction="#showSystem"
+                                styleClass="tab-button active"/>
+
+                        <Button fx:id="btnRoom"
+                                text="Phòng chiếu - Dịch vụ"
+                                onAction="#showRoom"
+                                styleClass="tab-button"/>
+
+                        <Button fx:id="btnService"
+                                text="Hệ thống thiết bị"
+                                onAction="#showService"
+                                styleClass="tab-button"/>
+
+                    </HBox>
+
+                    <!-- ===== CONTENT AREA (KHÔNG DÙNG STACKPANE) ===== -->
+                    <VBox maxWidth="1000" spacing="25">
+
+                        <!-- ===== SYSTEM ===== -->
+                        <VBox fx:id="SystemPane"
+                              spacing="20"
+                              alignment="TOP_CENTER">
+
+                            <Label text="Sơ đồ bộ máy tổ chức"
+                                   styleClass="section-title"/>
+
+                            <ImageView fitWidth="900" preserveRatio="true">
+                                <Image url="@/images/bomaytochuc.png"/>
+                            </ImageView>
+                        </VBox>
+
+                        <!-- ===== ROOM ===== -->
+                        <VBox fx:id="RoomPane"
+                              spacing="15"
+                              alignment="TOP_LEFT"
+                              visible="false"
+                              managed="false">
+
+                            <Label text="Phòng chiếu"
+                                   styleClass="section-title"/>
+
+                            <HBox spacing="20" alignment="CENTER">
+                                <ImageView fitWidth="480" preserveRatio="true">
+                                    <Image url="@/images/rap.jpg"/>
+                                </ImageView>
+
+                                <ImageView fitWidth="480" preserveRatio="true">
+                                    <Image url="@/images/rap3.jpg"/>
+                                </ImageView>
+                            </HBox>
+
+                            <Label wrapText="true"
+                                   maxWidth="970"
+                                   styleClass="content-paragraph"
+                                   text="Khu chiếu phim 3 tầng với 14 phòng chiếu, âm thanh, ánh sáng chất lượng cao, Trung tâm Chiếu phim Quốc gia trình chiếu được các thể loại phim: 2D, 3D, không gian rộng rãi, bắt mắt. Các phòng chiếu phim của Trung tâm có tổng cộng 2.365 chỗ ngồi với hơn 60 suất chiếu/ ngày. Phòng lớn nhất 402 chỗ, phòng nhỏ nhất 98 chỗ.Hàng năm, Trung tâm Chiếu phim Quốc gia được đón tiếp nhiều đoàn khách tập thể đến xem phim từ các Trường Mẫu giáo, Tiểu học, THCS, THPT, đơn vị, công ty . . . quy mô phục vụ lên tới hơn 2000 khách/lượt. Các đối tác thân thiết của Trung tâm xem phim thường xuyên tại đây như trường Tiểu học Đoàn Thị Điểm, trường THCS Đoàn Thị Điểm, trường liên cấp Vinschool, trường Tiểu học Newton Goldmark, trường Tiểu học I-sắc Niu-tơn...
+"/>
+                            <Label text="Dịch Vụ"
+                                   styleClass="section-title"/>
+
+                            <HBox spacing="20" alignment="CENTER">
+                                <ImageView fitWidth="960" preserveRatio="true">
+                                    <Image url="/images/dichvu.jpg"/>
+                                </ImageView>
+                            </HBox>
+                            <Label wrapText="true"
+                                   maxWidth="970"
+                                   styleClass="content-paragraph"
+                                   text="Khu trưng bày điện ảnh – Biểu diễn nghệ thuật – Tổ chức sự kiện là khối nhà 5 tầng, mặt tiền nằm phía đường Láng Hạ. Tầng 1, 3, 4 có khả năng phục vụ lên tới hơn 1000 chỗ là nơi chuyên tổ chức các sự kiện, hội nghị, hội thảo, họp báo, tiệc cưới, tri ân khách hàng, sinh nhật... Tầng 2 Nhà hát với sức chứa hơn 300 chỗ là nơi khán giả có thể thưởng thức các chương trình nghệ thuật tạp kỹ đặc sắc và các sự kiện, hội nghị, họp báo... Vào ngày 20/5/2025, Nhà hát chính thức ra mắt với tên gọi mới Nhà hát Ngôi sao, đánh dấu mốc 10 năm thành lập Nhà hát."/>
+                        </VBox>
+
+                        <!-- ===== SERVICE ===== -->
+                        <VBox fx:id="ServicePane"
+                              spacing="20"
+                              alignment="TOP_CENTER"
+                              visible="false"
+                              managed="false">
+
+                            <!-- ===== Ảnh 1 ===== -->
+
+                            <Label text="1. Thiết bị phát phim: Đầu phát HD HiMedia Q10 Pro"
+                                   styleClass="section-title"/>
+
+                            <ImageView fitWidth="520" preserveRatio="true">
+                                <Image url="@/images/dau-phat-hd.jpg"/>
+                            </ImageView>
+
+                            <!-- ĐOẠN CHỮ GỘP -->
+                            <Label wrapText="true"
+                                   maxWidth="800"
+                                   styleClass="content-paragraph"
+                                   text="Hầu hết tại các rạp chiếu phim hiện nay thường sử dụng máy tính (workstation) cấu hình cao,
+được trang bị card đồ họa chuyên dụng nhằm đảm bảo chất lượng hình ảnh khi trình chiếu.
+Trong khi đó, tại gia đình, người dùng phổ biến sử dụng đầu phát HD, đầu Bluray hoặc Mini PC."/>
+
+                            <!-- ===== Ảnh 2 ===== -->
+                            <Label text="2. Thiết bị máy chiếu: Christie CP2220"
+                                   styleClass="section-title"/>
+
+                            <ImageView fitWidth="520" preserveRatio="true">
+                                <Image url="@/images/may-chieu-christie CP2220.jpg"/>
+                            </ImageView>
+
+                            <!-- ĐOẠN CHỮ GỘP -->
+                            <Label wrapText="true"
+                                   maxWidth="800"
+                                   styleClass="content-paragraph"
+                                   text="Tại các rạp chiếu phim ở Việt Nam cũng như thế giới chủ yếu là của hãng Barco và Christie vì chỉ có 2 hãng máy chiếu này mới chiếu được phim kỹ thuật số nhưng giá thành máy chiếu rất cao, còn tại các phòng phim quán café hay gia đình chúng ta thường sử dụng máy chiếu gia đình công nghệ DLP hoặc LED, Laser của các hãng như Sony, Pana, Optoma, BenQ…. Nhưng chất lượng hình ảnh cũng như độ chuyên nghiệp không thể sánh được với máy chiếu rạp.
+"/>
+                            <!-- ===== Ảnh 3 ===== -->
+                            <Label text="3. Màn chiếu"
+                                   styleClass="section-title"/>
+
+                            <ImageView fitWidth="520" preserveRatio="true">
+                                <Image url="@/images/man-chieu.jpg"/>
+                            </ImageView>
+
+                            <!-- ĐOẠN CHỮ GỘP -->
+                            <Label wrapText="true"
+                                   maxWidth="800"
+                                   styleClass="content-paragraph"
+                                   text="Là thiết bị không thể thiếu trong  các rạp do kích thước màn chiếu lớn lên thường sử dụng màn chiếu khung với độ Gain > 2.0, nhưng tại các gia đình tôi khuyên các bạn lên dùng màn chiếu điện loại Tab-tension để được chất lượng hình ảnh tốt nhất, chú ý màn chiếu hiện tại có rất nhiều loại  thường sử dụng tại các rạp là màn phẳng, màn chiếu cong thường sử dụng với công nghệ 3D mô phỏng dùng  3 máy chiếu , đối với rạp phim tại gia đình quý khách lắp đặt màn chiếu phẳng để được khung hình đúng tỷ lệ của máy chiếu."/>
+
+
+                            <!-- ===== Ảnh 4 ===== -->
+                            <Label text="4. Loa 3-way dòng: JBL L96"
+                                   styleClass="section-title"/>
+
+                            <ImageView fitWidth="520" preserveRatio="true">
+                                <Image url="@/images/loa-3-way.jpg"/>
+                            </ImageView>
+
+                            <!-- ĐOẠN CHỮ GỘP -->
+                            <Label wrapText="true"
+                                   maxWidth="800"
+                                   styleClass="content-paragraph"
+                                   text="Được sử dụng cho rạp phim có quy mô vừa hoặc lớn và được lắp đặt vị trí sau màn chiếu còn tại gia đình thường là loa đứng cột  2–way tại gia đình thì tuỳ thuộc vào ngân sách để có thể chọn lựa được hệ thống loa ưng ý."/>
+
+                            <!-- ===== Ảnh 5 ===== -->
+                            <Label text="5. Bộ Lưu điện UPS"
+                                   styleClass="section-title"/>
+
+                            <ImageView fitWidth="520" preserveRatio="true">
+                                <Image url="@/images/bo-luu-dien-ups.png"/>
+                            </ImageView>
+
+                            <!-- ĐOẠN CHỮ GỘP -->
+                            <Label wrapText="true"
+                                   maxWidth="800"
+                                   styleClass="content-paragraph"
+                                   text="Là bộ lưu trữ điện dự phòng nhằm đảm bảo không làm gián đoạn khi đang xem phim và phần nào giúp tuổi thọ của thiết bị nâng cao các rạp chiếu điều này là bắt buộc, nhưng tại gia đình thì  các gia chủ thường bỏ qua do tốn kém chi phí."/>
+
+                        </VBox>
+
+
+                    </VBox>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

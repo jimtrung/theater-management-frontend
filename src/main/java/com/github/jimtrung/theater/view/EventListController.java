@@ -29,9 +29,6 @@ public class EventListController {
         if (userHeaderController != null) userHeaderController.handleOnOpen();
         if (eventFlowPane != null) {
             eventFlowPane.getChildren().clear();
-            Label placeholder = new Label("Sự kiện đang được cập nhật...");
-            placeholder.setStyle("-fx-text-fill: white; -fx-font-size: 18px;");
-            eventFlowPane.getChildren().add(placeholder);
         }
     }
 }

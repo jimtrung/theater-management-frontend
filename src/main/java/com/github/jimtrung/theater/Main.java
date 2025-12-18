@@ -131,6 +131,13 @@ public class Main extends Application {
         priceController.setScreenController(screenController);
         priceController.setAuthService(authService);
 
+        //GioiThieu
+        FXMLLoader IntroLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/Intro.fxml")));
+        screenController.addScreen("Intro", IntroLoader);
+        IntroController IntroController = IntroLoader.getController();
+        IntroController.setScreenController(screenController);
+        IntroController.setAuthService(authService);
+
         // Showtime Page
         FXMLLoader showtimePageLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/showtime_page.fxml")));
         screenController.addScreen("showtimePage", showtimePageLoader);
