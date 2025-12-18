@@ -43,7 +43,7 @@ public class AuditoriumInformationController {
         if (listController != null) {
             listController.getAuditoriumTable().getSelectionModel().clearSelection();
         }
-        screenController.removeScreen("auditoriumInformation");
+        // screenController.removeScreen("auditoriumInformation"); // FIXED: Do not remove screen
         screenController.activate("auditoriumList");
     }
 

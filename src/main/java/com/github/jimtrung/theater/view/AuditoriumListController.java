@@ -47,20 +47,20 @@ public class AuditoriumListController {
         noteColumn.setCellValueFactory(new PropertyValueFactory<>("note"));
 
         auditoriumList = FXCollections.observableArrayList();
-        
+
         javafx.collections.transformation.SortedList<Auditorium> sortedData = new javafx.collections.transformation.SortedList<>(auditoriumList);
         sortedData.comparatorProperty().bind(auditoriumTable.comparatorProperty());
-        
+
         auditoriumTable.setItems(sortedData);
 
         auditoriumTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 Auditorium auditorium = (Auditorium) newSelection;
                 uuid = auditorium.getId();
+                handleClickItem(uuid);
             }
-            handleClickItem(uuid);
         });
-        
+
         refreshData();
     }
 
