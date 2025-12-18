@@ -144,11 +144,13 @@ public class Main extends Application {
         showtimePageController.setMovieService(movieService);
 
         // Event List
+        PromotionService promotionService = new PromotionService(authTokenUtil);
         FXMLLoader eventListLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/event_list.fxml")));
         screenController.addScreen("eventList", eventListLoader);
         EventListController eventListController = eventListLoader.getController();
         eventListController.setScreenController(screenController);
         eventListController.setAuthService(authService);
+        eventListController.setPromotionService(promotionService);
         
         // Admin - Showtime Information
         FXMLLoader showtimeInfoLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/admin/showtime_information.fxml")));
