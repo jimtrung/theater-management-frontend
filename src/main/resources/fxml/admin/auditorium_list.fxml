@@ -11,7 +11,8 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.github.jimtrung.theater.view.AuditoriumListController"
             stylesheets="@/styles/styles.css"
-            maxWidth="500">
+            prefWidth="440" maxWidth="440"
+            prefHeight="550" maxHeight="550">
 
   <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
 

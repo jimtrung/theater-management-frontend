@@ -11,7 +11,8 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.github.jimtrung.theater.view.MovieListController"
             stylesheets="@/styles/styles.css"
-            maxWidth="1000">
+            prefWidth="1040" maxWidth="1040"
+            prefHeight="550" maxHeight="550">
 
   <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
 
