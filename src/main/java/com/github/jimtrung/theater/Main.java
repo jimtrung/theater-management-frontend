@@ -23,6 +23,7 @@ public class Main extends Application {
         ShowtimeService showtimeService = new ShowtimeService(authTokenUtil);
         TicketService ticketService = new TicketService(authTokenUtil);
         BillService billService = new BillService(authTokenUtil);
+        PromotionService promotionService = new PromotionService(authTokenUtil);
         try {
             String accessToken = authService.refresh();
             authTokenUtil.saveAccessToken(accessToken);
@@ -143,12 +144,12 @@ public class Main extends Application {
         showtimePageController.setShowtimeService(showtimeService);
         showtimePageController.setMovieService(movieService);
 
-        // Event List
-        FXMLLoader eventListLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/event_list.fxml")));
-        screenController.addScreen("eventList", eventListLoader);
-        EventListController eventListController = eventListLoader.getController();
-        eventListController.setScreenController(screenController);
-        eventListController.setAuthService(authService);
+        // Promotion
+        FXMLLoader promotionLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/promotion.fxml")));
+        screenController.addScreen("eventList", promotionLoader);
+        PromotionController promotionController = promotionLoader.getController();
+        promotionController.setScreenController(screenController);
+        promotionController.setPromotionService(promotionService);
         
         // Admin - Showtime Information
         FXMLLoader showtimeInfoLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/admin/showtime_information.fxml")));
