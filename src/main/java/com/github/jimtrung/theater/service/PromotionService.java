@@ -4,7 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.github.jimtrung.theater.dto.PromotionRequest;
+
+import com.github.jimtrung.theater.model.Promotion;
 import com.github.jimtrung.theater.util.AuthTokenUtil;
 
 import java.net.URI;
@@ -21,16 +22,12 @@ public class PromotionService {
 
     public PromotionService(AuthTokenUtil authTokenUtil) {
         this.authTokenUtil = authTokenUtil;
-        // Khởi tạo ObjectMapper dùng chung để tối ưu hiệu suất
         this.objectMapper = new ObjectMapper();
         this.objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
         this.objectMapper.registerModule(new JavaTimeModule());
     }
 
-    /**
-     * Lấy toàn bộ danh sách khuyến mãi từ Backend
-     */
-    public List<PromotionRequest> getAllPromotions() throws Exception {
+    public List<Promotion> getAllPromotions() throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/promotions"))
                 .header("Content-Type", "application/json")
@@ -51,15 +48,12 @@ public class PromotionService {
             return Collections.emptyList();
         }
 
-        List<PromotionRequest> promotions = objectMapper.readValue(responseBody, new TypeReference<List<PromotionRequest>>() {});
+        List<Promotion> promotions = objectMapper.readValue(responseBody, new TypeReference<List<Promotion>>() {});
         System.out.println("[DEBUG] - getAllPromotions - Parsed promotions count: " + promotions.size());
         return promotions;
     }
 
-    /**
-     * Lấy danh sách các khuyến mãi đang còn hiệu lực
-     */
-    public List<PromotionRequest> getActivePromotions() throws Exception {
+    public List<Promotion> getActivePromotions() throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/promotions/active"))
                 .header("Content-Type", "application/json")
@@ -79,6 +73,6 @@ public class PromotionService {
             return Collections.emptyList();
         }
 
-        return objectMapper.readValue(responseBody, new TypeReference<List<PromotionRequest>>() {});
+        return objectMapper.readValue(responseBody, new TypeReference<List<Promotion>>() {});
     }
 }

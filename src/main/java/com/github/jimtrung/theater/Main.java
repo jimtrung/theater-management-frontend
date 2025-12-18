@@ -150,6 +150,7 @@ public class Main extends Application {
         PromotionController promotionController = promotionLoader.getController();
         promotionController.setScreenController(screenController);
         promotionController.setPromotionService(promotionService);
+        promotionController.setAuthService(authService);
         
         // Admin - Showtime Information
         FXMLLoader showtimeInfoLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/admin/showtime_information.fxml")));

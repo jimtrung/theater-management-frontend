@@ -42,12 +42,6 @@
                 </HBox>
 
                 <FlowPane fx:id="promotionGrid" hgap="20" vgap="25" alignment="CENTER" maxWidth="1400"/>
-
-                <HBox spacing="20" alignment="CENTER">
-                    <Button fx:id="btnPrev" text="⟵ Trước" styleClass="button-primary" onAction="#handlePrevPage"/>
-                    <Label fx:id="pageLabel" text="Trang 1" style="-fx-text-fill: white;"/>
-                    <Button fx:id="btnNext" text="Sau ⟶" styleClass="button-primary" onAction="#handleNextPage"/>
-                </HBox>
             </VBox>
         </ScrollPane>
     </center>
