@@ -24,6 +24,7 @@ public class Main extends Application {
         TicketService ticketService = new TicketService(authTokenUtil);
         BillService billService = new BillService(authTokenUtil);
         PromotionService promotionService = new PromotionService(authTokenUtil);
+        UserService userService = new UserService(authTokenUtil);
         try {
             String accessToken = authService.refresh();
             authTokenUtil.saveAccessToken(accessToken);
@@ -66,6 +67,12 @@ public class Main extends Application {
         HomePageManagerController homePageManagerController = homePageManagerLoader.getController();
         homePageManagerController.setScreenController(screenController);
         homePageManagerController.setAuthService(authService);
+
+        homePageManagerController.setMovieService(movieService);
+        homePageManagerController.setAuditoriumService(auditoriumService);
+        homePageManagerController.setShowtimeService(showtimeService);
+        homePageManagerController.setTicketService(ticketService);
+        homePageManagerController.setUserService(userService);
 
         // HomePageUser
         FXMLLoader homePageUserLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/fxml/user/home_page_user.fxml")));

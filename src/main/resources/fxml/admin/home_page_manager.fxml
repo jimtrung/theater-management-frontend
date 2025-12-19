@@ -51,18 +51,21 @@
 
                 <BorderPane prefHeight="400">
                   <center>
-                    <ImageView fx:id="cinemaImage" fitHeight="400" preserveRatio="true" pickOnBounds="true"/>
+                      <ImageView fx:id="cinemaImage" fitHeight="400" preserveRatio="true" pickOnBounds="true">
+                          <Image url="@/images/hehehe.jpg"/>
+                      </ImageView>
                   </center>
                 </BorderPane>
 
-                <Label text="Rạp Chiếu Phim Quốc Gia"/>
+                  <Label text="Rạp Chiếu Phim Quốc Gia"
+                         style="-fx-font-size: 24px;" />
 
-                <Label wrapText="true"
+                  <Label wrapText="true" style="-fx-font-size: 16px;"
                        text="Rạp Chiếu Phim Quốc Gia là trung tâm điện ảnh lớn nhất tại Việt Nam, nơi trình chiếu các bộ phim quốc tế và trong nước chất lượng cao. Với trang thiết bị hiện đại, âm thanh và hình ảnh sống động, rạp mang đến trải nghiệm điện ảnh đỉnh cao cho khán giả mọi lứa tuổi."/>
               </children>
             </VBox>
 
-            <VBox spacing="10" GridPane.columnIndex="1" styleClass="card">
+            <VBox spacing="5" GridPane.columnIndex="1" styleClass="card">
               <children>
                 <Label text="Thống kê hệ thống" styleClass="heading"/>
 
@@ -70,10 +73,16 @@
                 <Label fx:id="movieCountText" text="- Phim:" styleClass="form-label"/>
                 <Label fx:id="auditoriumCountText" text="- Phòng:" styleClass="form-label"/>
                 <Label fx:id="showtimeCountText" text="- Suất chiếu:" styleClass="form-label"/>
-                <Label fx:id="ticketCountText" text="- Vé:" styleClass="form-label"/>
-                <Label fx:id="revenueText" text="- Tổng doanh thu dự kiến:" styleClass="form-label"/>
+                <Label fx:id="paidTicketCountText" text="- Vé đã thanh toán:" styleClass="form-label"/>
+                <Label fx:id="pendingTicketCountText" text="- Vé chưa thanh toán:" styleClass="form-label"/>
+                <Label fx:id="revenueText" text="- Tổng doanh thu từ bán vé:" styleClass="form-label"/>
 
-                <Pane fx:id="chartGrid" prefWidth="450" prefHeight="450"/>
+                  <Pane fx:id="chartGrid" prefWidth="500" prefHeight="385">
+                      <VBox.margin>
+                          <Insets top="15"/>
+                      </VBox.margin>
+                  </Pane>
+
               </children>
             </VBox>
           </children>

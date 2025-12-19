@@ -35,7 +35,7 @@
   -fx-font-weight: bold;
   -fx-text-fill: -color-text-primary;
   -fx-alignment: center;
-  -fx-padding: 0 0 20 0;
+  -fx-padding: 0 0 0 0;
 }
 
 .heading {
@@ -73,14 +73,14 @@
   -fx-background-radius: 16px;
   -fx-border-radius: 16px;
   -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 30, 0, 0, 10);
-  -fx-padding: 40px;
+  -fx-padding: 30px;
 }
 
 .auth-branding {
   -fx-font-size: 16px;
   -fx-font-weight: bold;
   -fx-text-fill: -color-primary-accent;
-  -fx-padding: 0 0 20 0;
+  -fx-padding: 0 0 0 0;
   -fx-alignment: center;
 }
 
@@ -248,6 +248,12 @@
 .table-row-cell:selected {
   -fx-background-color: -color-primary-accent;
   -fx-text-fill: white;
+}
+
+.error-label {
+    -fx-text-fill: #e53935;     /* đỏ đậm */
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
 }
 
 .list-view {

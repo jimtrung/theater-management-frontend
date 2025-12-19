@@ -149,7 +149,11 @@ public class AddMovieController {
             movie.setDescription(movieDescriptionField.getText().trim());
             movie.setLanguage(movieLanguageComboBox.getValue());
             movie.setDirector(movieDirectorField.getText().trim());
-            
+
+            if (moviePremiereDatePicker.getValue() == null) {
+                AlertHelper.showError("Lỗi nhập liệu", "Vui lòng chọn ngày công chiếu");
+                return;
+            }
             LocalDate date = moviePremiereDatePicker.getValue();
             movie.setPremiere(date.atStartOfDay().atOffset(ZoneOffset.UTC));
             

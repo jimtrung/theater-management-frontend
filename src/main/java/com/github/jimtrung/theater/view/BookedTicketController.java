@@ -235,8 +235,62 @@ public class BookedTicketController {
         });
     }
 
+//    @FXML
+//    private void handleDelete() {
+//        AlertHelper.showInfo("Thông báo", "Tính năng xóa vé chưa được hỗ trợ.");
+//    }
+
     @FXML
     private void handleDelete() {
-        AlertHelper.showInfo("Thông báo", "Tính năng xóa vé chưa được hỗ trợ.");
+
+        // Lấy danh sách vé được chọn
+        List<Ticket> selectedTickets = new ArrayList<>();
+
+        for (Map.Entry<UUID, CheckBox> entry : checkBoxes.entrySet()) {
+            if (entry.getValue().isSelected()) {
+                loadedTickets.stream()
+                        .filter(t -> t.getId().equals(entry.getKey()))
+                        .findFirst()
+                        .ifPresent(selectedTickets::add);
+            }
+        }
+
+        // Không chọn vé nào
+        if (selectedTickets.isEmpty()) {
+            AlertHelper.showWarning("Cảnh báo", "Vui lòng chọn vé để xóa!");
+            return;
+        }
+
+        // Xác nhận xóa
+        boolean confirmed = AlertHelper.showConfirm(
+                "Xác nhận",
+                "Bạn có chắc chắn muốn xóa " + selectedTickets.size() + " vé đã chọn không?"
+        );
+
+        if (!confirmed) return;
+
+        // Chạy async
+        CompletableFuture.runAsync(() -> {
+            try {
+                List<UUID> ticketIds = selectedTickets
+                        .stream()
+                        .map(Ticket::getId)
+                        .toList();
+
+                ticketService.deleteTickets(ticketIds);
+
+                Platform.runLater(() -> {
+                    AlertHelper.showInfo("Thành công", "Đã xóa vé thành công!");
+                    loadTickets(); // reload UI
+                });
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Platform.runLater(() ->
+                        AlertHelper.showError("Lỗi", "Không thể xóa vé. Vui lòng thử lại!")
+                );
+            }
+        });
     }
+
 }

@@ -12,7 +12,7 @@
            stylesheets="@/styles/styles.css"
            fx:controller="com.github.jimtrung.theater.view.ShowtimeListController"
            prefWidth="840" maxWidth="840"
-           prefHeight="550" maxHeight="550">
+           prefHeight="700" maxHeight="700">
 
   <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
 

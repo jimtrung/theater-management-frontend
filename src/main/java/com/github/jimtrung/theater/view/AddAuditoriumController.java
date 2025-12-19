@@ -56,32 +56,71 @@ public class AddAuditoriumController {
 
     @FXML
     public void handleAddAuditoriumButton() {
-        // Lấy giữ liệu từ .fxml
+
+        String name = auditoriumNameField.getText().trim();
+        String type = auditoriumTypeField.getText().trim();
+        String capacityText = auditoriumCapacityField.getText().trim();
+        String note = auditoriumNoteField.getText().trim();
+
+        // ===== 1. Check rỗng =====
+        if (name.isEmpty() || type.isEmpty() || capacityText.isEmpty()) {
+            AlertHelper.showError(
+                    "Lỗi nhập liệu",
+                    "Vui lòng nhập đầy đủ thông tin (Tên, Loại, Sức chứa)"
+            );
+            return;
+        }
+
+        // ===== 2. Check số =====
+        int capacity;
+        try {
+            capacity = Integer.parseInt(capacityText);
+        } catch (NumberFormatException e) {
+            AlertHelper.showError(
+                    "Lỗi nhập liệu",
+                    "Sức chứa phải là một số nguyên hợp lệ"
+            );
+            return;
+        }
+
+        // ===== 3. Check số dương =====
+        if (capacity <= 0) {
+            AlertHelper.showError(
+                    "Lỗi nhập liệu",
+                    "Sức chứa phải lớn hơn 0"
+            );
+            return;
+        }
+
+        // ===== 4. Hợp lệ → tạo object =====
         Auditorium auditorium = new Auditorium();
-        auditorium.setName(auditoriumNameField.getText().trim());
-        auditorium.setType(auditoriumTypeField.getText().trim());
-        auditorium.setNote(auditoriumNoteField.getText().trim());
-        auditorium.setCapacity(Integer.valueOf(auditoriumCapacityField.getText().trim()));
+        auditorium.setName(name);
+        auditorium.setType(type);
+        auditorium.setCapacity(capacity);
+        auditorium.setNote(note);
         auditorium.setCreatedAt(OffsetDateTime.now());
         auditorium.setUpdatedAt(OffsetDateTime.now());
-        
-        // Kiểm tra xem nếu có field nào chưa nhập thì alert
+
         try {
-            if (NullCheckerUtil.hasNullField(auditorium)) {
-                AlertHelper.showError("Lỗi nhập liệu", "Vui lòng nhập đầy đủ thông tin");
+            auditoriumService.insertAuditorium(auditorium);
+
+            AuditoriumListController listController =
+                    (AuditoriumListController) screenController.getController("auditoriumList");
+
+            if (listController != null) {
+                listController.refreshData();
             }
-            else {
-                auditoriumService.insertAuditorium(auditorium);
-                AuditoriumListController listController = (AuditoriumListController) screenController.getController("auditoriumList");
-                if (listController != null) {
-                    listController.refreshData();
-                }
-                screenController.activate("auditoriumList");
-            }
-        }
-        catch (Exception e) {
+
+            screenController.activate("auditoriumList");
+
+        } catch (Exception e) {
             e.printStackTrace();
+            AlertHelper.showError(
+                    "Lỗi hệ thống",
+                    "Không thể thêm phòng chiếu, vui lòng thử lại"
+            );
         }
     }
 
 }
+

@@ -16,7 +16,7 @@
 
   <ScrollPane fitToWidth="true" fitToHeight="true" styleClass="transparent-scroll-pane">
     <VBox alignment="CENTER" fillWidth="false" minHeight="0" minWidth="0">
-      <VBox styleClass="card-modern" alignment="CENTER" spacing="20" prefWidth="450" maxWidth="450" prefHeight="600">
+      <VBox styleClass="card-modern" alignment="CENTER" spacing="10" prefWidth="450" maxWidth="450" prefHeight="500">
         <padding>
           <Insets top="80" right="80" bottom="80" left="80"/>
         </padding>
@@ -31,13 +31,13 @@
           </VBox.margin>
         </Label>
 
-        <VBox spacing="6" maxWidth="400">
+        <VBox spacing="0" maxWidth="400">
           <Label text="Tên đăng nhập" styleClass="form-label"/>
           <TextField fx:id="usernameField" promptText="" styleClass="text-field-large"/>
           <Label fx:id="usernameErrorLabel" text="" styleClass="error-label" minHeight="20.0" visible="false"/>
         </VBox>
 
-        <VBox spacing="6" maxWidth="400">
+        <VBox spacing="0" maxWidth="400">
           <Label text="Mật khẩu" styleClass="form-label"/>
           <StackPane>
             <PasswordField fx:id="passwordField" promptText="" styleClass="text-field-large"/>

@@ -74,4 +74,44 @@ public class TicketService {
             throw new RuntimeException("Payment failed: " + response.body());
         }
     }
+
+    public List<Ticket> getAllTickets(String status) throws Exception {
+        String url = "http://localhost:8080/tickets";
+        if (status != null) {
+            url += "?status=" + status;
+        }
+
+        HttpRequest req = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Authorization", "Bearer " + authTokenUtil.loadAccessToken())
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(req, HttpResponse.BodyHandlers.ofString());
+        if (response.statusCode() != 200) {
+            throw new RuntimeException("Failed to load tickets: " + response.body());
+        }
+
+        return mapper.readValue(
+                response.body(),
+                mapper.getTypeFactory().constructCollectionType(List.class, Ticket.class)
+        );
+    }
+
+    public void deleteTickets(List<UUID> ticketIds) throws Exception {
+        String requestBody = mapper.writeValueAsString(ticketIds);
+
+        HttpRequest req = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/tickets/delete"))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + authTokenUtil.loadAccessToken())
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+
+        HttpResponse<String> response = client.send(req, HttpResponse.BodyHandlers.ofString());
+        if (response.statusCode() != 200) {
+            throw new RuntimeException("Failed to delete tickets: " + response.body());
+        }
+    }
+
 }

@@ -34,4 +34,15 @@ public class AlertHelper {
         alert.setContentText(message);
         return alert.showAndWait();
     }
+
+    public static boolean showConfirm(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == ButtonType.OK;
+    }
+
 }

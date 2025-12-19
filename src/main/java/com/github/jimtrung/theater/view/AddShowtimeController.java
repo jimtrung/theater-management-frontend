@@ -172,10 +172,32 @@ public class AddShowtimeController {
     @FXML
     private void handleAddShowtimeButton() {
         try {
+            // ===== CHECK ĐẦU VÀO =====
+            if (selectedMovie == null) {
+                AlertHelper.showError("Lỗi", "Vui lòng chọn phim!");
+                return;
+            }
+
+            if (selectedAuditorium == null) {
+                AlertHelper.showError("Lỗi", "Vui lòng chọn phòng chiếu!");
+                return;
+            }
+
+            if (showtimeDatePicker.getValue() == null) {
+                AlertHelper.showError("Lỗi", "Vui lòng chọn ngày chiếu!");
+                return;
+            }
+
+            if (startTimePicker.getValue() == null || endTimePicker.getValue() == null) {
+                AlertHelper.showError("Lỗi", "Vui lòng chọn thời gian bắt đầu và kết thúc!");
+                return;
+            }
+
             ZoneOffset offset = ZoneOffset.ofHours(7);
             LocalTime startTime = LocalTime.parse(startTimePicker.getValue());
             LocalTime endTime = LocalTime.parse(endTimePicker.getValue());
-            
+
+            // ===== CHECK LOGIC THỜI GIAN =====
             if (!endTime.isAfter(startTime)) {
                 AlertHelper.showError("Lỗi", "Thời gian kết thúc phải sau thời gian bắt đầu!");
                 return;
@@ -185,38 +207,50 @@ public class AddShowtimeController {
                 AlertHelper.showError("Lỗi", "Ngày chiếu không được ở trong quá khứ!");
                 return;
             }
-            if (showtimeDatePicker.getValue().isEqual(java.time.LocalDate.now())) {
-                if (startTime.isBefore(LocalTime.now())) {
-                    AlertHelper.showError("Lỗi", "Thời gian bắt đầu đã qua!");
-                    return;
-                }
+
+            if (showtimeDatePicker.getValue().isEqual(java.time.LocalDate.now())
+                    && startTime.isBefore(LocalTime.now())) {
+                AlertHelper.showError("Lỗi", "Thời gian bắt đầu đã qua!");
+                return;
             }
 
-            OffsetDateTime startOdt = OffsetDateTime.of(showtimeDatePicker.getValue(), startTime, offset);
-            OffsetDateTime endOdt = OffsetDateTime.of(showtimeDatePicker.getValue(), endTime, offset);
+            // ===== TẠO OFFSET DATETIME =====
+            OffsetDateTime startOdt = OffsetDateTime.of(
+                    showtimeDatePicker.getValue(), startTime, offset);
 
+            OffsetDateTime endOdt = OffsetDateTime.of(
+                    showtimeDatePicker.getValue(), endTime, offset);
+
+            // ===== TẠO SHOWTIME =====
             Showtime showtime = new Showtime();
             showtime.setMovieId(selectedMovie.getId());
             showtime.setAuditoriumId(selectedAuditorium.getId());
             showtime.setStartTime(startOdt);
             showtime.setEndTime(endOdt);
 
-            if (NullCheckerUtil.hasNullField(showtime)) {
-                AlertHelper.showError("Lỗi", "Vui lòng điền đầy đủ thông tin!");
-                return;
-            }
+            // ===== CHECK NULL LẦN CUỐI (AN TOÀN) =====
+//            if (NullCheckerUtil.hasNullField(showtime)) {
+//                AlertHelper.showError("Lỗi", "Vui lòng điền đầy đủ thông tin!");
+//                return;
+//            }
 
+            // ===== INSERT =====
             showtimeService.insertShowtime(showtime);
-            ShowtimeListController listController = (ShowtimeListController) screenController.getController("showtimeList");
+
+            ShowtimeListController listController =
+                    (ShowtimeListController) screenController.getController("showtimeList");
             if (listController != null) {
                 listController.refreshData();
             }
+
             screenController.activate("showtimeList");
+
         } catch (Exception e) {
             e.printStackTrace();
             AlertHelper.showError("Lỗi", "Lỗi thêm suất chiếu: " + e.getMessage());
         }
     }
+
 
     private void clearFields() {
         searchMovieField.clear();
